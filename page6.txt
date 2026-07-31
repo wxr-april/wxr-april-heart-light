@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>高三年级班级名册 - 安溪第三中学</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100vh;
+            background: #F0EBE4;
+            font-family: "宋体", "SimSun", "Microsoft YaHei", serif;
+            font-size: 14px;
+            color: #222;
+            line-height: 1.8;
+        }
+
+        a {
+            color: #1a3a6a;
+            text-decoration: none;
+        }
+        a:hover {
+            color: #C00;
+            text-decoration: underline;
+        }
+
+        .site-wrapper {
+            width: 100%;
+            min-height: 100vh;
+            background: #FFFDF8;
+            padding: 0 12px 16px 12px;
+        }
+
+        /* ===== 顶部 ===== */
+        .site-header {
+            padding: 18px 0 10px 0;
+            border-bottom: 3px solid #1a3a6a;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .site-header .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .site-header .logo-area .logo-icon {
+            font-size: 36px;
+            color: #1a3a6a;
+            font-weight: 700;
+            font-family: "Times New Roman", serif;
+            border: 2px solid #1a3a6a;
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #F0EDE8;
+            flex-shrink: 0;
+        }
+
+        .site-header .logo-area .school-name {
+            font-size: 26px;
+            font-weight: 700;
+            color: #1a3a6a;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+            letter-spacing: 2px;
+        }
+
+        .site-header .logo-area .school-name .sub {
+            font-size: 12px;
+            font-weight: 400;
+            color: #999;
+            letter-spacing: 1px;
+            display: block;
+            margin-top: 2px;
+        }
+
+        .site-header .search-box {
+            background: #FFF;
+            border: 1px solid #CCC;
+            padding: 4px 6px;
+            display: flex;
+            align-items: center;
+            border-radius: 3px;
+            flex-shrink: 0;
+        }
+
+        .site-header .search-box input {
+            border: none;
+            outline: none;
+            width: 200px;
+            height: 28px;
+            font-size: 13px;
+            font-family: "宋体", sans-serif;
+            color: #333;
+            background: transparent;
+            padding: 0 6px;
+        }
+
+        .site-header .search-box button {
+            border: 1px solid #AAA;
+            background: #E5E0D8;
+            color: #333;
+            padding: 0 14px;
+            font-size: 13px;
+            cursor: pointer;
+            font-family: "微软雅黑", sans-serif;
+            height: 28px;
+            border-radius: 2px;
+        }
+        .site-header .search-box button:hover {
+            background: #D5D0C8;
+        }
+
+        /* ===== 导航栏 ===== */
+        .site-nav {
+            background: #1a3a6a;
+            padding: 0 0;
+            margin: 10px 0 16px 0;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            min-height: 40px;
+            border-radius: 2px;
+            width: 100%;
+        }
+
+        .site-nav a {
+            color: #FFF;
+            padding: 0 22px;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+            cursor: pointer;
+            height: 40px;
+            line-height: 40px;
+            display: inline-block;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.2s;
+            white-space: nowrap;
+            flex: 1 0 auto;
+            text-align: center;
+        }
+
+        .site-nav a:hover {
+            background: none;
+            text-decoration: none;
+            color: #FFF;
+            border-bottom-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .site-nav a.active {
+            border-bottom-color: #FFF;
+        }
+
+        /* ===== 公告条 ===== */
+        .notice-bar {
+            background: #FFFDE6;
+            border: 1px solid #E5D5B0;
+            padding: 6px 12px;
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 16px;
+            border-radius: 2px;
+        }
+        .notice-bar strong {
+            color: #C00;
+        }
+
+        /* ===== 内容区 ===== */
+        .content-area {
+            min-height: 400px;
+            width: 100%;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a3a6a;
+            border-bottom: 2px solid #1a3a6a;
+            padding-bottom: 6px;
+            margin-bottom: 14px;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+        }
+
+        .roster-container {
+            background: #FDFBF8;
+            border: 1px solid #E8E0D8;
+            border-radius: 2px;
+            padding: 16px 12px;
+        }
+
+        .roster-container .roster-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #1a3a6a;
+            padding-bottom: 6px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .roster-container .roster-header .title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a3a6a;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+        }
+
+        .class-block {
+            border: 1px solid #E8E0D8;
+            border-radius: 2px;
+            margin-bottom: 12px;
+            background: #FFF;
+        }
+
+        .class-block .class-title {
+            background: #F8F6F2;
+            padding: 4px 12px;
+            font-weight: 700;
+            color: #1a3a6a;
+            font-size: 14px;
+            border-bottom: 1px solid #E8E0D8;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+        }
+
+        .class-block .student-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 0px;
+            padding: 4px 8px;
+        }
+
+        .class-block .student-grid .student-item {
+            padding: 2px 4px;
+            font-size: 12px;
+            color: #333;
+            border-bottom: 1px solid #F5F3EF;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .class-block .student-grid .student-item .num {
+            color: #999;
+            font-size: 10px;
+            margin-right: 2px;
+        }
+
+        .class-block .student-grid .student-item.empty {
+            background: #FDF8F2;
+            color: #C00;
+            font-weight: 700;
+            font-size: 12px;
+            border-bottom: 1px solid #F5F3EF;
+        }
+
+        .class-block .student-grid .student-item.empty .num {
+            color: #999;
+            font-weight: 400;
+        }
+
+        .class-block .student-grid .student-item.empty .empty-tag {
+            color: #C00;
+            font-weight: 700;
+        }
+
+        .class-block .student-grid .student-item.empty .archive-note {
+            font-size: 10px;
+            color: #999;
+            font-weight: 400;
+            margin-left: 2px;
+        }
+
+        .class-block .student-grid .student-item:nth-child(6n) {
+            border-bottom: none;
+        }
+
+        /* ===== 页脚 ===== */
+        .site-footer {
+            border-top: 1px solid #E8E0D8;
+            padding: 16px 0 10px 0;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+            line-height: 1.8;
+            width: 100%;
+        }
+        .site-footer a {
+            color: #666;
+        }
+        .site-footer .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .site-footer .copyright {
+            color: #BBB;
+            font-size: 11px;
+            margin-top: 4px;
+            text-align: center;
+            width: 100%;
+        }
+
+        @media (max-width: 1024px) {
+            .class-block .student-grid {
+                grid-template-columns: repeat(5, 1fr);
+            }
+            .class-block .student-grid .student-item:nth-child(6n) {
+                border-bottom: 1px solid #F5F3EF;
+            }
+            .class-block .student-grid .student-item:nth-child(5n) {
+                border-bottom: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .site-wrapper {
+                padding: 0 8px 12px 8px;
+            }
+            .site-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            .site-header .search-box {
+                width: 100%;
+            }
+            .site-header .search-box input {
+                width: 100%;
+            }
+            .site-header .logo-area .school-name {
+                font-size: 20px;
+            }
+            .site-header .logo-area .logo-icon {
+                width: 44px;
+                height: 44px;
+                font-size: 28px;
+            }
+            .site-nav {
+                padding: 4px 0;
+                min-height: auto;
+                gap: 2px;
+                justify-content: flex-start;
+            }
+            .site-nav a {
+                padding: 4px 12px;
+                height: auto;
+                line-height: 1.6;
+                font-size: 13px;
+                border-bottom: none;
+                flex: 0 1 auto;
+                text-align: left;
+            }
+            .site-nav a.active {
+                border-bottom: none;
+                background: rgba(255, 255, 255, 0.15);
+                border-radius: 2px;
+            }
+            .class-block .student-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            .class-block .student-grid .student-item:nth-child(5n) {
+                border-bottom: 1px solid #F5F3EF;
+            }
+            .class-block .student-grid .student-item:nth-child(4n) {
+                border-bottom: none;
+            }
+            .class-block .student-grid .student-item {
+                font-size: 11px;
+                padding: 2px 2px;
+            }
+            .roster-container {
+                padding: 10px 4px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .site-wrapper {
+                padding: 0 4px 10px 4px;
+            }
+            .site-header .logo-area .school-name {
+                font-size: 17px;
+            }
+            .site-header .logo-area .logo-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 20px;
+            }
+            .site-nav a {
+                font-size: 12px;
+                padding: 3px 8px;
+            }
+            .class-block .student-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .class-block .student-grid .student-item:nth-child(4n) {
+                border-bottom: 1px solid #F5F3EF;
+            }
+            .class-block .student-grid .student-item:nth-child(3n) {
+                border-bottom: none;
+            }
+            .class-block .student-grid .student-item {
+                font-size: 10px;
+                padding: 1px 2px;
+            }
+            .class-block .student-grid .student-item .num {
+                font-size: 9px;
+            }
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 16px;
+            color: #1a3a6a;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .back-link:hover {
+            color: #C00;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="site-wrapper">
+
+        <!-- ===== 顶部 ===== -->
+        <div class="site-header">
+            <div class="logo-area">
+                <div class="logo-icon">三中</div>
+                <div class="school-name">
+                    安溪第三中学
+                    <span class="sub">Anxi No.3 Middle School</span>
+                </div>
+            </div>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="站内搜索..." />
+                <button id="searchBtn">搜索</button>
+            </div>
+        </div>
+
+        <!-- ===== 导航 ===== -->
+        <div class="site-nav">
+            <a href="page4.html#page-home">首页</a>
+            <a href="page4.html#page-intro">学校概况</a>
+            <a href="page4.html#page-news">新闻中心</a>
+            <a href="page4.html#page-teaching">教学科研</a>
+            <a href="page4.html#page-moral">德育天地</a>
+            <a href="page4.html#page-admission">招生考试</a>
+            <a href="page4.html#page-gaokao">高考喜报</a>
+            <a href="page4.html#page-contact">联系我们</a>
+        </div>
+
+        <!-- ===== 公告条 ===== -->
+        <div class="notice-bar">
+            <strong>📢 公告：</strong> 高三年级第三次模拟考试已于4月1日顺利完成。2026年高考体检工作已圆满结束。
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- 名册内容 -->
+        <!-- ========================================================= -->
+        <div class="content-area">
+            <div class="section-title">高三年级学生名册</div>
+
+            <div class="roster-container">
+                <div class="roster-header">
+                    <div class="title">2025-2026学年 高三年级班级名单</div>
+                </div>
+
+                <!-- ========================================================= -->
+                <!-- 高三1班 43人 -->
+                <!-- ========================================================= -->
+                <div class="class-block">
+                    <div class="class-title">高三1班（43人）</div>
+                    <div class="student-grid">
+                        <div class="student-item"><span class="num">01</span>陈思远</div>
+                        <div class="student-item"><span class="num">02</span>林雨桐</div>
+                        <div class="student-item"><span class="num">03</span>王泽凯</div>
+                        <div class="student-item"><span class="num">04</span>苏晓婷</div>
+                        <div class="student-item"><span class="num">05</span>黄志鹏</div>
+                        <div class="student-item"><span class="num">06</span>刘佳敏</div>
+                        <div class="student-item"><span class="num">07</span>吴宇轩</div>
+                        <div class="student-item"><span class="num">08</span>周雨桐</div>
+                        <div class="student-item"><span class="num">09</span>郑子涵</div>
+                        <div class="student-item"><span class="num">10</span>孙浩宇</div>
+                        <div class="student-item"><span class="num">11</span>林诗涵</div>
+                        <div class="student-item"><span class="num">12</span>黄俊杰</div>
+                        <div class="student-item"><span class="num">13</span>杨雨欣</div>
+                        <div class="student-item"><span class="num">14</span>陈子轩</div>
+                        <div class="student-item"><span class="num">15</span>赵雅婷</div>
+                        <div class="student-item"><span class="num">16</span>许志远</div>
+                        <div class="student-item"><span class="num">17</span>沈欣怡</div>
+                        <div class="student-item"><span class="num">18</span>林俊豪</div>
+                        <div class="student-item"><span class="num">19</span>陈嘉琪</div>
+                        <div class="student-item"><span class="num">20</span>吴宇鹏</div>
+                        <div class="student-item"><span class="num">21</span>郑欣妍</div>
+                        <div class="student-item"><span class="num">22</span>林泽凯</div>
+                        <div class="student-item"><span class="num">23</span>陈思涵</div>
+                        <div class="student-item"><span class="num">24</span>黄雨彤</div>
+                        <div class="student-item"><span class="num">25</span>吴子涵</div>
+                        <div class="student-item"><span class="num">26</span>李欣怡</div>
+                        <div class="student-item"><span class="num">27</span>张俊豪</div>
+                        <div class="student-item"><span class="num">28</span>陈雨桐</div>
+                        <div class="student-item"><span class="num">29</span>林浩宇</div>
+                        <div class="student-item"><span class="num">30</span>王诗雨</div>
+                        <div class="student-item"><span class="num">31</span>陈雨涵</div>
+                        <div class="student-item"><span class="num">32</span>林志鹏</div>
+                        <div class="student-item"><span class="num">33</span>吴佳颖</div>
+                        <div class="student-item"><span class="num">34</span>黄子豪</div>
+                        <div class="student-item"><span class="num">35</span>周雨欣</div>
+                        <div class="student-item"><span class="num">36</span>林梓豪</div>
+                        <div class="student-item"><span class="num">37</span>陈诗琪</div>
+                        <div class="student-item"><span class="num">38</span>林伟杰</div>
+                        <div class="student-item"><span class="num">39</span>郑欣怡</div>
+                        <div class="student-item"><span class="num">40</span>陈俊杰</div>
+                        <div class="student-item"><span class="num">41</span>林雨薇</div>
+                        <div class="student-item"><span class="num">42</span>黄俊豪</div>
+                        <div class="student-item"><span class="num">43</span>吴雨桐</div>
+                    </div>
+                </div>
+
+                <!-- ========================================================= -->
+                <!-- 高三2班 40人 -->
+                <!-- ========================================================= -->
+                <div class="class-block">
+                    <div class="class-title">高三2班（40人）</div>
+                    <div class="student-grid">
+                        <div class="student-item"><span class="num">01</span>林雅婷</div>
+                        <div class="student-item"><span class="num">02</span>陈泽宇</div>
+                        <div class="student-item"><span class="num">03</span>林欣彤</div>
+                        <div class="student-item"><span class="num">04</span>郑子豪</div>
+                        <div class="student-item"><span class="num">05</span>陈雨彤</div>
+                        <div class="student-item"><span class="num">06</span>林煜翔</div>
+                        <div class="student-item"><span class="num">07</span>吴诗涵</div>
+                        <div class="student-item"><span class="num">08</span>黄紫嫣</div>
+                        <div class="student-item"><span class="num">09</span>陈浩宇</div>
+                        <div class="student-item"><span class="num">10</span>郑子轩</div>
+                        <div class="student-item"><span class="num">11</span>林嘉欣</div>
+                        <div class="student-item"><span class="num">12</span>陈宇翔</div>
+                        <div class="student-item"><span class="num">13</span>林梦瑶</div>
+                        <div class="student-item"><span class="num">14</span>郑俊豪</div>
+                        <div class="student-item"><span class="num">15</span>陈思琦</div>
+                        <div class="student-item"><span class="num">16</span>林昕怡</div>
+                        <div class="student-item"><span class="num">17</span>吴诗琪</div>
+                        <div class="student-item"><span class="num">18</span>林俊豪</div>
+                        <div class="student-item"><span class="num">19</span>陈雨菲</div>
+                        <div class="student-item"><span class="num">20</span>黄子涵</div>
+                        <div class="student-item"><span class="num">21</span>郑雨晴</div>
+                        <div class="student-item"><span class="num">22</span>林浩杰</div>
+                        <div class="student-item"><span class="num">23</span>陈嘉怡</div>
+                        <div class="student-item"><span class="num">24</span>吴宇豪</div>
+                        <div class="student-item"><span class="num">25</span>林雅文</div>
+                        <div class="student-item"><span class="num">26</span>郑子文</div>
+                        <div class="student-item"><span class="num">27</span>林欣怡</div>
+                        <div class="student-item"><span class="num">28</span>陈志鹏</div>
+                        <div class="student-item"><span class="num">29</span>黄雨欣</div>
+                        <div class="student-item"><span class="num">30</span>吴俊杰</div>
+                        <div class="student-item"><span class="num">31</span>林诗雨</div>
+                        <div class="student-item"><span class="num">32</span>陈子涵</div>
+                        <div class="student-item"><span class="num">33</span>林嘉豪</div>
+                        <div class="student-item"><span class="num">34</span>吴雨欣</div>
+                        <div class="student-item"><span class="num">35</span>黄诗涵</div>
+                        <div class="student-item"><span class="num">36</span>郑子豪</div>
+                        <div class="student-item"><span class="num">37</span>林雅文</div>
+                        <div class="student-item"><span class="num">38</span>陈俊豪</div>
+                        <div class="student-item"><span class="num">39</span>吴诗瑶</div>
+                        <div class="student-item"><span class="num">40</span>黄宇轩</div>
+                    </div>
+                </div>
+
+                <!-- ========================================================= -->
+                <!-- 高三3班 46人 -->
+                <!-- ========================================================= -->
+                <div class="class-block">
+                    <div class="class-title">高三3班（46人）</div>
+                    <div class="student-grid">
+                        <div class="student-item"><span class="num">01</span>林雨欣</div>
+                        <div class="student-item"><span class="num">02</span>陈欣怡</div>
+                        <div class="student-item"><span class="num">03</span>林志豪</div>
+                        <div class="student-item"><span class="num">04</span>吴佳慧</div>
+                        <div class="student-item"><span class="num">05</span>黄俊贤</div>
+                        <div class="student-item"><span class="num">06</span>郑雅婷</div>
+                        <div class="student-item"><span class="num">07</span>林煜城</div>
+                        <div class="student-item"><span class="num">08</span>陈思琪</div>
+                        <div class="student-item"><span class="num">09</span>林浩天</div>
+                        <div class="student-item"><span class="num">10</span>吴雨彤</div>
+                        <div class="student-item"><span class="num">11</span>黄子轩</div>
+                        <div class="student-item"><span class="num">12</span>周欣怡</div>
+                        <div class="student-item"><span class="num">13</span>陈泽豪</div>
+                        <div class="student-item"><span class="num">14</span>林芷琪</div>
+                        <div class="student-item"><span class="num">15</span>郑宇鹏</div>
+                        <div class="student-item"><span class="num">16</span>吴静怡</div>
+                        <div class="student-item"><span class="num">17</span>黄俊彦</div>
+                        <div class="student-item"><span class="num">18</span>林欣瑶</div>
+                        <div class="student-item"><span class="num">19</span>陈宏宇</div>
+                        <div class="student-item"><span class="num">20</span>张雨琪</div>
+                        <div class="student-item"><span class="num">21</span>林志强</div>
+                        <div class="student-item"><span class="num">22</span>吴语桐</div>
+                        <div class="student-item"><span class="num">23</span>郑子涵</div>
+                        <div class="student-item"><span class="num">24</span>林静雯</div>
+                        <div class="student-item"><span class="num">25</span>陈俊佑</div>
+                        <div class="student-item"><span class="num">26</span>黄雨桐</div>
+                        <div class="student-item"><span class="num">27</span>林宇晨</div>
+                        <div class="student-item"><span class="num">28</span>陈雅静</div>
+                        <div class="student-item"><span class="num">29</span>张伟杰</div>
+                        <div class="student-item"><span class="num">30</span>林诗雨</div>
+                        <div class="student-item"><span class="num">31</span>郑梦瑶</div>
+                        <div class="student-item"><span class="num">32</span>吴浩宇</div>
+                        <div class="student-item"><span class="num">33</span>黄雨婷</div>
+                        <div class="student-item"><span class="num">34</span>林泽洋</div>
+                        <div class="student-item"><span class="num">35</span>陈思彤</div>
+                        <div class="student-item"><span class="num">36</span>张俊哲</div>
+                        <div class="student-item"><span class="num">37</span>林欣悦</div>
+                        <div class="student-item"><span class="num">38</span>陈子豪</div>
+                        <div class="student-item"><span class="num">39</span>吴雨欣</div>
+                        <div class="student-item"><span class="num">40</span>黄俊豪</div>
+                        <div class="student-item"><span class="num">41</span>林诗涵</div>
+                        <div class="student-item"><span class="num">42</span>郑宇豪</div>
+                        <div class="student-item"><span class="num">43</span>陈欣彤</div>
+                        <div class="student-item"><span class="num">44</span>林志鹏</div>
+                        <div class="student-item"><span class="num">45</span>吴雅萍</div>
+                        <div class="student-item"><span class="num">46</span>黄宇翔</div>
+                    </div>
+                </div>
+
+                <!-- ========================================================= -->
+                <!-- 高三4班 39人 -->
+                <!-- ========================================================= -->
+                <div class="class-block">
+                    <div class="class-title">高三4班（39人）</div>
+                    <div class="student-grid">
+                        <div class="student-item"><span class="num">01</span>林梦瑶</div>
+                        <div class="student-item"><span class="num">02</span>陈俊杰</div>
+                        <div class="student-item"><span class="num">03</span>张雨涵</div>
+                        <div class="student-item"><span class="num">04</span>林炜翔</div>
+                        <div class="student-item"><span class="num">05</span>郑欣妍</div>
+                        <div class="student-item"><span class="num">06</span>吴梓豪</div>
+                        <div class="student-item"><span class="num">07</span>黄梦婷</div>
+                        <div class="student-item"><span class="num">08</span>林逸轩</div>
+                        <div class="student-item"><span class="num">09</span>陈婉莹</div>
+                        <div class="student-item"><span class="num">10</span>张宇轩</div>
+                        <div class="student-item"><span class="num">11</span>林珈伊</div>
+                        <div class="student-item"><span class="num">12</span>郑铭杰</div>
+                        <div class="student-item"><span class="num">13</span>吴书瑶</div>
+                        <div class="student-item"><span class="num">14</span>黄煜宸</div>
+                        <div class="student-item"><span class="num">15</span>林熙蕾</div>
+                        <div class="student-item"><span class="num">16</span>陈曜宇</div>
+                        <div class="student-item"><span class="num">17</span>张雅茹</div>
+                        <div class="student-item"><span class="num">18</span>林宇恒</div>
+                        <div class="student-item"><span class="num">19</span>吴语嫣</div>
+                        <div class="student-item"><span class="num">20</span>郑元昊</div>
+                        <div class="student-item"><span class="num">21</span>林若汐</div>
+                        <div class="student-item"><span class="num">22</span>陈泽睿</div>
+                        <div class="student-item"><span class="num">23</span>黄诗涵</div>
+                        <div class="student-item"><span class="num">24</span>林楷瑞</div>
+                        <div class="student-item"><span class="num">25</span>郑欣妍</div>
+                        <div class="student-item"><span class="num">26</span>吴翊豪</div>
+                        <div class="student-item"><span class="num">27</span>黄子琪</div>
+                        <div class="student-item"><span class="num">28</span>林思颖</div>
+                        <div class="student-item"><span class="num">29</span>陈俊睿</div>
+                        <div class="student-item"><span class="num">30</span>张雅婷</div>
+                        <div class="student-item"><span class="num">31</span>林珮瑜</div>
+                        <div class="student-item"><span class="num">32</span>郑景文</div>
+                        <div class="student-item"><span class="num">33</span>吴紫菱</div>
+                        <div class="student-item"><span class="num">34</span>黄柏豪</div>
+                        <div class="student-item"><span class="num">35</span>林雨洁</div>
+                        <div class="student-item"><span class="num">36</span>陈奕帆</div>
+                        <div class="student-item"><span class="num">37</span>张芯瑜</div>
+                        <div class="student-item"><span class="num">38</span>林冠廷</div>
+                        <div class="student-item"><span class="num">39</span>吴若瑄</div>
+                    </div>
+                </div>
+
+                <!-- ========================================================= -->
+                <!-- 高三5班 48人 -->
+                <!-- ========================================================= -->
+                <div class="class-block">
+                    <div class="class-title">高三5班（48人）</div>
+                    <div class="student-grid">
+                        <div class="student-item"><span class="num">01</span>郑博文</div>
+                        <div class="student-item"><span class="num">02</span>林品蓁</div>
+                        <div class="student-item"><span class="num">03</span>陈思翰</div>
+                        <div class="student-item"><span class="num">04</span>黄品茹</div>
+                        <div class="student-item"><span class="num">05</span>林秉宏</div>
+                        <div class="student-item"><span class="num">06</span>郑雅涵</div>
+                        <div class="student-item"><span class="num">07</span>吴翊瑄</div>
+                        <div class="student-item"><span class="num">08</span>黄子洋</div>
+                        <div class="student-item"><span class="num">09</span>林紫涵</div>
+                        <div class="student-item"><span class="num">10</span>陈昱翔</div>
+                        <div class="student-item"><span class="num">11</span>张妤安</div>
+                        <div class="student-item"><span class="num">12</span>林品妤</div>
+                        <div class="student-item"><span class="num">13</span>郑宇哲</div>
+                        <div class="student-item"><span class="num">14</span>吴佳颖</div>
+                        <div class="student-item"><span class="num">15</span>黄翊翔</div>
+                        <div class="student-item"><span class="num">16</span>林郁婷</div>
+                        <div class="student-item"><span class="num">17</span>陈侑庭</div>
+                        <div class="student-item"><span class="num">18</span>张庭瑄</div>
+                        <div class="student-item"><span class="num">19</span>林呈翰</div>
+                        <div class="student-item"><span class="num">20</span>郑苡萱</div>
+                        <div class="student-item"><span class="num">21</span>吴宸宇</div>
+                        <div class="student-item"><span class="num">22</span>黄品臻</div>
+                        <div class="student-item"><span class="num">23</span>林妤安</div>
+                        <div class="student-item"><span class="num">24</span>陈品廷</div>
+                        <div class="student-item"><span class="num">25</span>张晏翎</div>
+                        <div class="student-item"><span class="num">26</span>林奕辰</div>
+                        <div class="student-item"><span class="num">27</span>郑湘怡</div>
+                        <div class="student-item"><span class="num">28</span>吴柏翰</div>
+                        <div class="student-item"><span class="num">29</span>黄珮慈</div>
+                        <div class="student-item"><span class="num">30</span>林宥廷</div>
+                        <div class="student-item"><span class="num">31</span>陈苡柔</div>
+                        <div class="student-item"><span class="num">32</span>张祐霖</div>
+                        <div class="student-item"><span class="num">33</span>林品彤</div>
+                        <div class="student-item"><span class="num">34</span>郑秉宏</div>
+                        <div class="student-item"><span class="num">35</span>吴旻恩</div>
+                        <div class="student-item"><span class="num">36</span>黄亭瑜</div>
+                        <div class="student-item"><span class="num">37</span>林芃君</div>
+                        <div class="student-item"><span class="num">38</span>陈品升</div>
+                        <div class="student-item"><span class="num">39</span>张可欣</div>
+                        <div class="student-item"><span class="num">40</span>林宗翰</div>
+                        <div class="student-item"><span class="num">41</span>郑宇彤</div>
+                        <div class="student-item"><span class="num">42</span>吴翊嘉</div>
+                        <div class="student-item"><span class="num">43</span>黄品瑜</div>
+                        <div class="student-item"><span class="num">44</span>林承翰</div>
+                        <div class="student-item"><span class="num">45</span>陈妍希</div>
+                        <div class="student-item"><span class="num">46</span>张宇辰</div>
+                        <div class="student-item"><span class="num">47</span>林柏廷</div>
+                        <div class="student-item"><span class="num">48</span>郑品臻</div>
+                    </div>
+                </div>
+
+                <!-- ========================================================= -->
+                <!-- 高三6班 42人 -->
+                <!-- ========================================================= -->
+                <div class="class-block">
+                    <div class="class-title">高三6班（42人）</div>
+                    <div class="student-grid">
+                        <div class="student-item"><span class="num">01</span>吴苡萱</div>
+                        <div class="student-item"><span class="num">02</span>黄宥臻</div>
+                        <div class="student-item"><span class="num">03</span>林妤甄</div>
+                        <div class="student-item"><span class="num">04</span>陈品翰</div>
+                        <div class="student-item"><span class="num">05</span>张可欣</div>
+                        <div class="student-item"><span class="num">06</span>林宥安</div>
+                        <div class="student-item"><span class="num">07</span>郑秉翰</div>
+                        <div class="student-item"><span class="num">08</span>吴品翰</div>
+                        <div class="student-item"><span class="num">09</span>黄苡安</div>
+                        <div class="student-item"><span class="num">10</span>林姿妤</div>
+                        <div class="student-item"><span class="num">11</span>陈品睿</div>
+                        <div class="student-item"><span class="num">12</span>张宥廷</div>
+                        <div class="student-item"><span class="num">13</span>林苡棠</div>
+                        <div class="student-item"><span class="num">14</span>郑承翰</div>
+                        <div class="student-item"><span class="num">15</span>吴品妤</div>
+                        <div class="student-item"><span class="num">16</span>黄宥廷</div>
+                        <div class="student-item"><span class="num">17</span>林品萱</div>
+                        <div class="student-item"><span class="num">18</span>陈奕丞</div>
+                        <div class="student-item"><span class="num">19</span>张苡柔</div>
+                        <div class="student-item"><span class="num">20</span>林宥辰</div>
+                        <div class="student-item"><span class="num">21</span>郑品萱</div>
+                        <div class="student-item"><span class="num">22</span>吴承翰</div>
+                        <div class="student-item"><span class="num">23</span>黄品蓁</div>
+                        <div class="student-item"><span class="num">24</span>林苡柔</div>
+                        <div class="student-item"><span class="num">25</span>陈品彤</div>
+                        <div class="student-item"><span class="num">26</span>张宥丞</div>
+                        <div class="student-item"><span class="num">27</span>林品臻</div>
+                        <div class="student-item"><span class="num">28</span>郑宥廷</div>
+                        <div class="student-item"><span class="num">29</span>吴苡安</div>
+                        <div class="student-item"><span class="num">30</span>黄品翰</div>
+                        <div class="student-item"><span class="num">31</span>林品升</div>
+                        <div class="student-item"><span class="num">32</span>陈宥安</div>
+                        <div class="student-item"><span class="num">33</span>张品蓁</div>
+                        <div class="student-item"><span class="num">34</span>林苡萱</div>
+                        <div class="student-item"><span class="num">35</span>郑品柔</div>
+                        <div class="student-item"><span class="num">36</span>吴品睿</div>
+                        <div class="student-item"><span class="num">37</span>黄宥丞</div>
+                        <div class="student-item"><span class="num">38</span>林苡彤</div>
+                        <div class="student-item"><span class="num">39</span>陈品妤</div>
+                        <div class="student-item"><span class="num">40</span>张品萱</div>
+                        <div class="student-item"><span class="num">41</span>林承翰</div>
+                        <div class="student-item"><span class="num">42</span>郑品蓁</div>
+                    </div>
+                </div>
+
+                <!-- ========================================================= -->
+                <!-- 高三7班 44人（含23号空位） -->
+                <!-- ========================================================= -->
+                <div class="class-block">
+                    <div class="class-title">高三7班（44人）</div>
+                    <div class="student-grid">
+                        <div class="student-item"><span class="num">01</span>吴宥廷</div>
+                        <div class="student-item"><span class="num">02</span>黄苡柔</div>
+                        <div class="student-item"><span class="num">03</span>林品翰</div>
+                        <div class="student-item"><span class="num">04</span>陈宥彤</div>
+                        <div class="student-item"><span class="num">05</span>张品睿</div>
+                        <div class="student-item"><span class="num">06</span>林苡安</div>
+                        <div class="student-item"><span class="num">07</span>郑品彤</div>
+                        <div class="student-item"><span class="num">08</span>吴宥安</div>
+                        <div class="student-item"><span class="num">09</span>黄品萱</div>
+                        <div class="student-item"><span class="num">10</span>林苡臻</div>
+                        <div class="student-item"><span class="num">11</span>陈品蓁</div>
+                        <div class="student-item"><span class="num">12</span>张苡彤</div>
+                        <div class="student-item"><span class="num">13</span>郑品妤</div>
+                        <div class="student-item"><span class="num">14</span>吴宥丞</div>
+                        <div class="student-item"><span class="num">15</span>黄品睿</div>
+                        <div class="student-item"><span class="num">16</span>林宥安</div>
+                        <div class="student-item"><span class="num">17</span>陈品臻</div>
+                        <div class="student-item"><span class="num">18</span>张宥彤</div>
+                        <div class="student-item"><span class="num">19</span>林苡庭</div>
+                        <div class="student-item"><span class="num">20</span>郑品升</div>
+                        <div class="student-item"><span class="num">21</span>吴宥蓁</div>
+                        <div class="student-item"><span class="num">22</span>黄苡珈</div>
+                        <!-- 23号空位 -->
+                        <div class="student-item empty">
+                            <span class="num">23</span>
+                            <span class="empty-tag">资料封存</span>
+                            <span class="archive-note">档案已移交</span>
+                        </div>
+                        <div class="student-item"><span class="num">24</span>林品丞</div>
+                        <div class="student-item"><span class="num">25</span>陈宥萱</div>
+                        <div class="student-item"><span class="num">26</span>张苡安</div>
+                        <div class="student-item"><span class="num">27</span>林品蓁</div>
+                        <div class="student-item"><span class="num">28</span>郑宥彤</div>
+                        <div class="student-item"><span class="num">29</span>吴品安</div>
+                        <div class="student-item"><span class="num">30</span>黄苡桐</div>
+                        <div class="student-item"><span class="num">31</span>林宥臻</div>
+                        <div class="student-item"><span class="num">32</span>陈品柔</div>
+                        <div class="student-item"><span class="num">33</span>张宥安</div>
+                        <div class="student-item"><span class="num">34</span>林苡彤</div>
+                        <div class="student-item"><span class="num">35</span>郑品萱</div>
+                        <div class="student-item"><span class="num">36</span>吴宥菲</div>
+                        <div class="student-item"><span class="num">37</span>黄苡安</div>
+                        <div class="student-item"><span class="num">38</span>林宥彤</div>
+                        <div class="student-item"><span class="num">39</span>陈品庭</div>
+                        <div class="student-item"><span class="num">40</span>张宥臻</div>
+                        <div class="student-item"><span class="num">41</span>林品涵</div>
+                        <div class="student-item"><span class="num">42</span>郑苡柔</div>
+                        <div class="student-item"><span class="num">43</span>吴品丞</div>
+                        <div class="student-item"><span class="num">44</span>黄苡萱</div>
+                    </div>
+                </div>
+
+                <!-- ========================================================= -->
+                <!-- 高三8班 47人 -->
+                <!-- ========================================================= -->
+                <div class="class-block">
+                    <div class="class-title">高三8班（47人）</div>
+                    <div class="student-grid">
+                        <div class="student-item"><span class="num">01</span>林宥安</div>
+                        <div class="student-item"><span class="num">02</span>陈品臻</div>
+                        <div class="student-item"><span class="num">03</span>张宥彤</div>
+                        <div class="student-item"><span class="num">04</span>林苡安</div>
+                        <div class="student-item"><span class="num">05</span>郑品萱</div>
+                        <div class="student-item"><span class="num">06</span>吴苡柔</div>
+                        <div class="student-item"><span class="num">07</span>黄品蓁</div>
+                        <div class="student-item"><span class="num">08</span>林宥丞</div>
+                        <div class="student-item"><span class="num">09</span>陈品升</div>
+                        <div class="student-item"><span class="num">10</span>张苡安</div>
+                        <div class="student-item"><span class="num">11</span>林品翰</div>
+                        <div class="student-item"><span class="num">12</span>郑苡彤</div>
+                        <div class="student-item"><span class="num">13</span>吴宥安</div>
+                        <div class="student-item"><span class="num">14</span>黄品妤</div>
+                        <div class="student-item"><span class="num">15</span>林宥萱</div>
+                        <div class="student-item"><span class="num">16</span>陈品蓁</div>
+                        <div class="student-item"><span class="num">17</span>张苡柔</div>
+                        <div class="student-item"><span class="num">18</span>林品睿</div>
+                        <div class="student-item"><span class="num">19</span>郑宥安</div>
+                        <div class="student-item"><span class="num">20</span>吴苡彤</div>
+                        <div class="student-item"><span class="num">21</span>黄品萱</div>
+                        <div class="student-item"><span class="num">22</span>林宥臻</div>
+                        <div class="student-item"><span class="num">23</span>陈品升</div>
+                        <div class="student-item"><span class="num">24</span>张宥廷</div>
+                        <div class="student-item"><span class="num">25</span>林苡安</div>
+                        <div class="student-item"><span class="num">26</span>郑品丞</div>
+                        <div class="student-item"><span class="num">27</span>吴宥彤</div>
+                        <div class="student-item"><span class="num">28</span>黄苡柔</div>
+                        <div class="student-item"><span class="num">29</span>林品萱</div>
+                        <div class="student-item"><span class="num">30</span>陈宥安</div>
+                        <div class="student-item"><span class="num">31</span>张品蓁</div>
+                        <div class="student-item"><span class="num">32</span>林苡萱</div>
+                        <div class="student-item"><span class="num">33</span>郑品柔</div>
+                        <div class="student-item"><span class="num">34</span>吴宥蓁</div>
+                        <div class="student-item"><span class="num">35</span>黄品睿</div>
+                        <div class="student-item"><span class="num">36</span>林宥安</div>
+                        <div class="student-item"><span class="num">37</span>陈品翰</div>
+                        <div class="student-item"><span class="num">38</span>张苡安</div>
+                        <div class="student-item"><span class="num">39</span>林宥丞</div>
+                        <div class="student-item"><span class="num">40</span>郑苡蓁</div>
+                        <div class="student-item"><span class="num">41</span>吴品彤</div>
+                        <div class="student-item"><span class="num">42</span>黄宥安</div>
+                        <div class="student-item"><span class="num">43</span>林苡珈</div>
+                        <div class="student-item"><span class="num">44</span>陈品丞</div>
+                        <div class="student-item"><span class="num">45</span>张宥萱</div>
+                        <div class="student-item"><span class="num">46</span>林品臻</div>
+                        <div class="student-item"><span class="num">47</span>郑苡彤</div>
+                    </div>
+                </div>
+
+                <!-- ========================================================= -->
+                <!-- 高三9班 38人 -->
+                <!-- ========================================================= -->
+                <div class="class-block">
+                    <div class="class-title">高三9班（38人）</div>
+                    <div class="student-grid">
+                        <div class="student-item"><span class="num">01</span>吴品安</div>
+                        <div class="student-item"><span class="num">02</span>黄苡安</div>
+                        <div class="student-item"><span class="num">03</span>林宥廷</div>
+                        <div class="student-item"><span class="num">04</span>陈苡柔</div>
+                        <div class="student-item"><span class="num">05</span>张品升</div>
+                        <div class="student-item"><span class="num">06</span>林苡蓁</div>
+                        <div class="student-item"><span class="num">07</span>郑宥丞</div>
+                        <div class="student-item"><span class="num">08</span>吴苡安</div>
+                        <div class="student-item"><span class="num">09</span>黄品萱</div>
+                        <div class="student-item"><span class="num">10</span>林宥彤</div>
+                        <div class="student-item"><span class="num">11</span>陈品蓁</div>
+                        <div class="student-item"><span class="num">12</span>张苡珈</div>
+                        <div class="student-item"><span class="num">13</span>林品安</div>
+                        <div class="student-item"><span class="num">14</span>郑宥蓁</div>
+                        <div class="student-item"><span class="num">15</span>吴苡柔</div>
+                        <div class="student-item"><span class="num">16</span>黄品丞</div>
+                        <div class="student-item"><span class="num">17</span>林宥萱</div>
+                        <div class="student-item"><span class="num">18</span>陈苡安</div>
+                        <div class="student-item"><span class="num">19</span>张品臻</div>
+                        <div class="student-item"><span class="num">20</span>林苡彤</div>
+                        <div class="student-item"><span class="num">21</span>郑品萱</div>
+                        <div class="student-item"><span class="num">22</span>吴宥安</div>
+                        <div class="student-item"><span class="num">23</span>黄苡蓁</div>
+                        <div class="student-item"><span class="num">24</span>林品升</div>
+                        <div class="student-item"><span class="num">25</span>陈宥廷</div>
+                        <div class="student-item"><span class="num">26</span>张苡彤</div>
+                        <div class="student-item"><span class="num">27</span>林品睿</div>
+                        <div class="student-item"><span class="num">28</span>郑宥安</div>
+                        <div class="student-item"><span class="num">29</span>吴苡萱</div>
+                        <div class="student-item"><span class="num">30</span>黄品蓁</div>
+                        <div class="student-item"><span class="num">31</span>林宥柔</div>
+                        <div class="student-item"><span class="num">32</span>陈品安</div>
+                        <div class="student-item"><span class="num">33</span>张苡臻</div>
+                        <div class="student-item"><span class="num">34</span>林品翰</div>
+                        <div class="student-item"><span class="num">35</span>郑苡安</div>
+                        <div class="student-item"><span class="num">36</span>吴宥丞</div>
+                        <div class="student-item"><span class="num">37</span>黄苡彤</div>
+                        <div class="student-item"><span class="num">38</span>林品萱</div>
+                    </div>
+                </div>
+
+                <!-- ========================================================= -->
+                <!-- 高三10班 45人 -->
+                <!-- ========================================================= -->
+                <div class="class-block">
+                    <div class="class-title">高三10班（45人）</div>
+                    <div class="student-grid">
+                        <div class="student-item"><span class="num">01</span>陈宥蓁</div>
+                        <div class="student-item"><span class="num">02</span>张苡柔</div>
+                        <div class="student-item"><span class="num">03</span>林品丞</div>
+                        <div class="student-item"><span class="num">04</span>郑宥廷</div>
+                        <div class="student-item"><span class="num">05</span>吴苡安</div>
+                        <div class="student-item"><span class="num">06</span>黄品升</div>
+                        <div class="student-item"><span class="num">07</span>林宥彤</div>
+                        <div class="student-item"><span class="num">08</span>陈苡萱</div>
+                        <div class="student-item"><span class="num">09</span>张品安</div>
+                        <div class="student-item"><span class="num">10</span>林苡柔</div>
+                        <div class="student-item"><span class="num">11</span>郑品臻</div>
+                        <div class="student-item"><span class="num">12</span>吴宥萱</div>
+                        <div class="student-item"><span class="num">13</span>黄苡安</div>
+                        <div class="student-item"><span class="num">14</span>林品蓁</div>
+                        <div class="student-item"><span class="num">15</span>陈宥安</div>
+                        <div class="student-item"><span class="num">16</span>张苡彤</div>
+                        <div class="student-item"><span class="num">17</span>林宥臻</div>
+                        <div class="student-item"><span class="num">18</span>郑品柔</div>
+                        <div class="student-item"><span class="num">19</span>吴苡珈</div>
+                        <div class="student-item"><span class="num">20</span>黄宥安</div>
+                        <div class="student-item"><span class="num">21</span>林品彤</div>
+                        <div class="student-item"><span class="num">22</span>陈苡臻</div>
+                        <div class="student-item"><span class="num">23</span>张宥萱</div>
+                        <div class="student-item"><span class="num">24</span>林品安</div>
+                        <div class="student-item"><span class="num">25</span>郑苡柔</div>
+                        <div class="student-item"><span class="num">26</span>吴宥廷</div>
+                        <div class="student-item"><span class="num">27</span>黄苡萱</div>
+                        <div class="student-item"><span class="num">28</span>林品丞</div>
+                        <div class="student-item"><span class="num">29</span>陈宥蓁</div>
+                        <div class="student-item"><span class="num">30</span>张苡安</div>
+                        <div class="student-item"><span class="num">31</span>林品升</div>
+                        <div class="student-item"><span class="num">32</span>郑宥彤</div>
+                        <div class="student-item"><span class="num">33</span>吴苡彤</div>
+                        <div class="student-item"><span class="num">34</span>黄品臻</div>
+                        <div class="student-item"><span class="num">35</span>林宥安</div>
+                        <div class="student-item"><span class="num">36</span>陈品萱</div>
+                        <div class="student-item"><span class="num">37</span>张苡蓁</div>
+                        <div class="student-item"><span class="num">38</span>林宥柔</div>
+                        <div class="student-item"><span class="num">39</span>郑品安</div>
+                        <div class="student-item"><span class="num">40</span>吴苡安</div>
+                        <div class="student-item"><span class="num">41</span>黄品睿</div>
+                        <div class="student-item"><span class="num">42</span>林宥丞</div>
+                        <div class="student-item"><span class="num">43</span>陈苡彤</div>
+                        <div class="student-item"><span class="num">44</span>张宥安</div>
+                        <div class="student-item"><span class="num">45</span>林品蓁</div>
+                    </div>
+                </div>
+
+                <!-- ========================================================= -->
+                <!-- 高三11班 41人 -->
+                <!-- ========================================================= -->
+                <div class="class-block">
+                    <div class="class-title">高三11班（41人）</div>
+                    <div class="student-grid">
+                        <div class="student-item"><span class="num">01</span>郑宥萱</div>
+                        <div class="student-item"><span class="num">02</span>吴苡臻</div>
+                        <div class="student-item"><span class="num">03</span>黄品翰</div>
+                        <div class="student-item"><span class="num">04</span>林宥廷</div>
+                        <div class="student-item"><span class="num">05</span>陈苡安</div>
+                        <div class="student-item"><span class="num">06</span>张品柔</div>
+                        <div class="student-item"><span class="num">07</span>林苡萱</div>
+                        <div class="student-item"><span class="num">08</span>郑品臻</div>
+                        <div class="student-item"><span class="num">09</span>吴宥安</div>
+                        <div class="student-item"><span class="num">10</span>黄苡柔</div>
+                        <div class="student-item"><span class="num">11</span>林品安</div>
+                        <div class="student-item"><span class="num">12</span>陈宥彤</div>
+                        <div class="student-item"><span class="num">13</span>张苡萱</div>
+                        <div class="student-item"><span class="num">14</span>林宥蓁</div>
+                        <div class="student-item"><span class="num">15</span>郑品睿</div>
+                        <div class="student-item"><span class="num">16</span>吴苡安</div>
+                        <div class="student-item"><span class="num">17</span>黄品蓁</div>
+                        <div class="student-item"><span class="num">18</span>林宥安</div>
+                        <div class="student-item"><span class="num">19</span>陈苡珈</div>
+                        <div class="student-item"><span class="num">20</span>张品萱</div>
+                        <div class="student-item"><span class="num">21</span>林苡蓁</div>
+                        <div class="student-item"><span class="num">22</span>郑宥安</div>
+                        <div class="student-item"><span class="num">23</span>吴品升</div>
+                        <div class="student-item"><span class="num">24</span>黄苡彤</div>
+                        <div class="student-item"><span class="num">25</span>林宥萱</div>
+                        <div class="student-item"><span class="num">26</span>陈品安</div>
+                        <div class="student-item"><span class="num">27</span>张苡柔</div>
+                        <div class="student-item"><span class="num">28</span>林宥蓁</div>
+                        <div class="student-item"><span class="num">29</span>郑品臻</div>
+                        <div class="student-item"><span class="num">30</span>吴苡安</div>
+                        <div class="student-item"><span class="num">31</span>黄品丞</div>
+                        <div class="student-item"><span class="num">32</span>林宥廷</div>
+                        <div class="student-item"><span class="num">33</span>陈苡萱</div>
+                        <div class="student-item"><span class="num">34</span>张品蓁</div>
+                        <div class="student-item"><span class="num">35</span>林宥彤</div>
+                        <div class="student-item"><span class="num">36</span>郑品柔</div>
+                        <div class="student-item"><span class="num">37</span>吴苡臻</div>
+                        <div class="student-item"><span class="num">38</span>黄品安</div>
+                        <div class="student-item"><span class="num">39</span>林宥丞</div>
+                        <div class="student-item"><span class="num">40</span>陈苡安</div>
+                        <div class="student-item"><span class="num">41</span>张宥蓁</div>
+                    </div>
+                </div>
+
+                <!-- ========================================================= -->
+                <!-- 高三12班 50人 -->
+                <!-- ========================================================= -->
+                <div class="class-block">
+                    <div class="class-title">高三12班（50人）</div>
+                    <div class="student-grid">
+                        <div class="student-item"><span class="num">01</span>林品臻</div>
+                        <div class="student-item"><span class="num">02</span>郑苡彤</div>
+                        <div class="student-item"><span class="num">03</span>吴品萱</div>
+                        <div class="student-item"><span class="num">04</span>黄苡安</div>
+                        <div class="student-item"><span class="num">05</span>林宥安</div>
+                        <div class="student-item"><span class="num">06</span>陈品翰</div>
+                        <div class="student-item"><span class="num">07</span>张苡珈</div>
+                        <div class="student-item"><span class="num">08</span>林品彤</div>
+                        <div class="student-item"><span class="num">09</span>郑宥柔</div>
+                        <div class="student-item"><span class="num">10</span>吴苡蓁</div>
+                        <div class="student-item"><span class="num">11</span>黄品睿</div>
+                        <div class="student-item"><span class="num">12</span>林宥萱</div>
+                        <div class="student-item"><span class="num">13</span>陈品升</div>
+                        <div class="student-item"><span class="num">14</span>张苡彤</div>
+                        <div class="student-item"><span class="num">15</span>林宥臻</div>
+                        <div class="student-item"><span class="num">16</span>郑品安</div>
+                        <div class="student-item"><span class="num">17</span>吴苡萱</div>
+                        <div class="student-item"><span class="num">18</span>黄品蓁</div>
+                        <div class="student-item"><span class="num">19</span>林宥安</div>
+                        <div class="student-item"><span class="num">20</span>陈苡柔</div>
+                        <div class="student-item"><span class="num">21</span>张品安</div>
+                        <div class="student-item"><span class="num">22</span>林品蓁</div>
+                        <div class="student-item"><span class="num">23</span>郑苡安</div>
+                        <div class="student-item"><span class="num">24</span>吴宥丞</div>
+                        <div class="student-item"><span class="num">25</span>黄苡臻</div>
+                        <div class="student-item"><span class="num">26</span>林品萱</div>
+                        <div class="student-item"><span class="num">27</span>陈宥彤</div>
+                        <div class="student-item"><span class="num">28</span>张苡柔</div>
+                        <div class="student-item"><span class="num">29</span>林宥安</div>
+                        <div class="student-item"><span class="num">30</span>郑品臻</div>
+                        <div class="student-item"><span class="num">31</span>吴苡彤</div>
+                        <div class="student-item"><span class="num">32</span>黄品升</div>
+                        <div class="student-item"><span class="num">33</span>林宥蓁</div>
+                        <div class="student-item"><span class="num">34</span>陈苡萱</div>
+                        <div class="student-item"><span class="num">35</span>张品丞</div>
+                        <div class="student-item"><span class="num">36</span>林宥廷</div>
+                        <div class="student-item"><span class="num">37</span>郑苡柔</div>
+                        <div class="student-item"><span class="num">38</span>吴品臻</div>
+                        <div class="student-item"><span class="num">39</span>黄苡安</div>
+                        <div class="student-item"><span class="num">40</span>林宥丞</div>
+                        <div class="student-item"><span class="num">41</span>陈品安</div>
+                        <div class="student-item"><span class="num">42</span>张苡蓁</div>
+                        <div class="student-item"><span class="num">43</span>林宥萱</div>
+                        <div class="student-item"><span class="num">44</span>郑品彤</div>
+                        <div class="student-item"><span class="num">45</span>吴苡安</div>
+                        <div class="student-item"><span class="num">46</span>黄品睿</div>
+                        <div class="student-item"><span class="num">47</span>林宥彤</div>
+                        <div class="student-item"><span class="num">48</span>陈苡安</div>
+                        <div class="student-item"><span class="num">49</span>张品蓁</div>
+                        <div class="student-item"><span class="num">50</span>林苡柔</div>
+                    </div>
+                </div>
+
+                <div style="margin-top:12px; font-size:12px; color:#999; text-align:right; border-top:1px solid #EEE; padding-top:8px;">
+                    * 共12个班级，合计522人。本名单于2026年4月更新。高三7班23号座位资料封存，已移交档案室。
+                </div>
+
+                <a href="page4.html" class="back-link">← 返回学校官网</a>
+            </div>
+
+        </div>
+
+        <!-- ===== 页脚 ===== -->
+        <div class="site-footer">
+            <div class="footer-links">
+                <a href="page4.html#page-home">首页</a>
+                <a href="page4.html#page-intro">学校概况</a>
+                <a href="page4.html#page-contact">联系我们</a>
+                <a href="#">网站地图</a>
+                <a href="#">隐私政策</a>
+            </div>
+            <div class="copyright">
+                Copyright © 2008-2026 安溪第三中学 版权所有 闽ICP备20080123号<br />
+                本站由安溪三中信息中心维护
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        var searchInput = document.getElementById('searchInput');
+        var searchBtn = document.getElementById('searchBtn');
+
+        function doSearch() {
+            var q = searchInput.value.trim();
+            if (!q) {
+                alert('请输入搜索关键词');
+                return;
+            }
+            var lowerQ = q.toLowerCase();
+
+            if (lowerQ === '林野') {
+                window.location.href = 'page6.html';
+                return;
+            }
+            if (lowerQ === '23' || lowerQ === '档案室') {
+                window.location.href = 'page7.html';
+                return;
+            }
+            alert('未找到相关结果');
+        }
+
+        searchBtn.addEventListener('click', doSearch);
+        searchInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                doSearch();
+            }
+        });
+
+        console.log('✦ 安溪第三中学 · 高三班级名册 ✦');
+        console.log('—— 共12个班，合计522人，高三7班23号资料封存 ——');
+    </script>
+
+</body>
+</html>

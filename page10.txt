@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>安溪县数字档案馆 - 首页</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100vh;
+            background: #F2F0EC;
+            font-family: "微软雅黑", "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+            font-size: 14px;
+            color: #222;
+            line-height: 1.8;
+        }
+
+        a {
+            color: #2B4F6E;
+            text-decoration: none;
+        }
+        a:hover {
+            color: #8A3A2A;
+            text-decoration: underline;
+        }
+
+        .site-wrapper {
+            width: 100%;
+            min-height: 100vh;
+            background: #F2F0EC;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .gov-bar {
+            width: 100%;
+            background: #2B4F6E;
+            padding: 4px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+            border-bottom: 2px solid #1A3A52;
+        }
+
+        .gov-bar .left {
+            color: rgba(255, 255, 255, 0.45);
+            font-size: 12px;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        .gov-bar .left .org {
+            color: rgba(255, 255, 255, 0.65);
+            font-weight: 500;
+        }
+
+        .gov-bar .right a {
+            color: rgba(255, 255, 255, 0.35);
+            font-size: 12px;
+            margin-left: 16px;
+            font-family: "微软雅黑", sans-serif;
+        }
+        .gov-bar .right a:hover {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+        }
+
+        .header {
+            width: 100%;
+            background: #FFFFFF;
+            border-bottom: 2px solid #2B4F6E;
+            padding: 12px 24px 8px 24px;
+            flex-shrink: 0;
+        }
+
+        .header .inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .header .logo h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2B4F6E;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+            letter-spacing: 1px;
+        }
+
+        .header .logo h1 .en {
+            font-weight: 300;
+            font-size: 13px;
+            color: #999;
+            letter-spacing: 1px;
+            margin-left: 8px;
+        }
+
+        .header .logo .sub {
+            font-size: 12px;
+            color: #888;
+            letter-spacing: 1px;
+            margin-top: 1px;
+        }
+
+        .header .search-box {
+            display: flex;
+            align-items: center;
+            background: #FFF;
+            border: 1px solid #CCC;
+            border-radius: 3px;
+            padding: 2px 4px 2px 10px;
+            flex-shrink: 0;
+        }
+
+        .header .search-box input {
+            border: none;
+            outline: none;
+            padding: 5px 0;
+            font-size: 13px;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+            color: #333;
+            width: 200px;
+            background: transparent;
+        }
+
+        .header .search-box input::placeholder {
+            color: #BBB;
+        }
+
+        .header .search-box button {
+            border: none;
+            background: #2B4F6E;
+            color: #FFF;
+            padding: 5px 18px;
+            font-size: 13px;
+            cursor: pointer;
+            font-family: "微软雅黑", sans-serif;
+            border-radius: 2px;
+            font-weight: 500;
+        }
+        .header .search-box button:hover {
+            background: #1A3A52;
+        }
+
+        .nav {
+            width: 100%;
+            background: #FFFFFF;
+            border-bottom: 1px solid #E0DCD6;
+            padding: 0 24px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .nav a {
+            padding: 10px 20px;
+            font-size: 14px;
+            color: #444;
+            font-weight: 500;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .nav a:hover {
+            color: #2B4F6E;
+            border-bottom-color: #2B4F6E;
+            text-decoration: none;
+        }
+        .nav a.active {
+            color: #2B4F6E;
+            border-bottom-color: #2B4F6E;
+        }
+
+        .content {
+            flex: 1;
+            display: flex;
+            padding: 14px 24px 20px 24px;
+            gap: 24px;
+            width: 100%;
+        }
+
+        .sidebar-years {
+            width: 100px;
+            flex-shrink: 0;
+            display: none; /* 默认隐藏，只有报纸库页面才显示 */
+        }
+
+        .sidebar-years .year-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #2B4F6E;
+            border-bottom: 2px solid #2B4F6E;
+            padding-bottom: 4px;
+            margin-bottom: 8px;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        .sidebar-years .year-btn {
+            display: block;
+            width: 100%;
+            padding: 4px 0;
+            margin-bottom: 2px;
+            border: none;
+            background: transparent;
+            color: #555;
+            font-size: 13px;
+            font-family: "微软雅黑", sans-serif;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s;
+            border-bottom: 1px solid transparent;
+        }
+        .sidebar-years .year-btn:hover {
+            color: #2B4F6E;
+            border-bottom-color: #2B4F6E;
+            text-decoration: none;
+        }
+        .sidebar-years .year-btn.active {
+            color: #2B4F6E;
+            font-weight: 600;
+            border-bottom-color: #2B4F6E;
+        }
+
+        .sidebar-years .year-btn .count {
+            color: #BBB;
+            font-size: 11px;
+            font-family: "微软雅黑", sans-serif;
+            margin-left: 4px;
+        }
+        .sidebar-years .year-btn.active .count {
+            color: #999;
+        }
+
+        .main-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .page-container .page {
+            display: none;
+            width: 100%;
+        }
+        .page-container .page.active {
+            display: block;
+        }
+
+        .home-intro {
+            background: #FFF;
+            border: 1px solid #D5D0C8;
+            border-radius: 2px;
+            padding: 18px 24px 20px 24px;
+        }
+
+        .home-intro .home-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2B4F6E;
+            border-bottom: 2px solid #2B4F6E;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+        }
+
+        .home-intro p {
+            font-size: 14px;
+            color: #444;
+            line-height: 2.2;
+            text-indent: 2em;
+            margin-bottom: 8px;
+        }
+
+        .home-intro p:last-child {
+            margin-bottom: 0;
+        }
+
+        .catalog-list {
+            background: #FFF;
+            border: 1px solid #D5D0C8;
+            border-radius: 2px;
+            padding: 16px 20px 18px 20px;
+        }
+
+        .catalog-list .catalog-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2B4F6E;
+            border-bottom: 2px solid #2B4F6E;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+        }
+
+        .catalog-list .catalog-item {
+            padding: 5px 0;
+            border-bottom: 1px solid #F0EDE8;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
+            font-size: 13px;
+        }
+        .catalog-list .catalog-item:last-child {
+            border-bottom: none;
+        }
+
+        .catalog-list .catalog-item .cat-name {
+            color: #333;
+        }
+        .catalog-list .catalog-item .cat-name a {
+            color: #2B4F6E;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .catalog-list .catalog-item .cat-name a:hover {
+            color: #8A3A2A;
+            text-decoration: underline;
+        }
+        .catalog-list .catalog-item .cat-date {
+            color: #999;
+            font-size: 12px;
+            font-family: "微软雅黑", sans-serif;
+        }
+
+        .gazetteer-content {
+            background: #FFF;
+            border: 1px solid #D5D0C8;
+            border-radius: 2px;
+            padding: 16px 20px 18px 20px;
+        }
+
+        .gazetteer-content .gz-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2B4F6E;
+            border-bottom: 2px solid #2B4F6E;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+        }
+
+        .gazetteer-content .gz-body {
+            font-size: 14px;
+            line-height: 2.1;
+            color: #333;
+            text-align: justify;
+        }
+
+        .gazetteer-content .gz-body p {
+            text-indent: 2em;
+            margin-bottom: 6px;
+        }
+
+        .gazetteer-content .gz-body .gz-sign {
+            text-align: right;
+            text-indent: 0;
+            color: #999;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        .newspaper-container {
+            background: #FFF;
+            border: 1px solid #D5D0C8;
+            border-radius: 2px;
+            padding: 16px 16px 14px 16px;
+            min-height: 400px;
+        }
+
+        .newspaper-container .lock-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 260px;
+            padding: 40px 20px;
+            text-align: center;
+            background: #FAF8F5;
+            border: 1px solid #E8E0D8;
+            border-radius: 2px;
+        }
+
+        .newspaper-container .lock-screen .lock-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2B4F6E;
+            margin-bottom: 4px;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        .newspaper-container .lock-screen .lock-desc {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 16px;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+        }
+
+        .newspaper-container .lock-screen .lock-input-group {
+            display: flex;
+            gap: 8px;
+            max-width: 360px;
+            width: 100%;
+        }
+
+        .newspaper-container .lock-screen .lock-input-group input {
+            flex: 1;
+            padding: 8px 14px;
+            border: 1px solid #CCC;
+            border-radius: 2px;
+            font-size: 14px;
+            font-family: "Consolas", "Microsoft YaHei", monospace;
+            outline: none;
+            transition: border-color 0.3s;
+            background: #FFF;
+            color: #333;
+            letter-spacing: 0.5px;
+        }
+
+        .newspaper-container .lock-screen .lock-input-group input:focus {
+            border-color: #2B4F6E;
+        }
+
+        .newspaper-container .lock-screen .lock-input-group button {
+            padding: 8px 24px;
+            background: #2B4F6E;
+            color: #FFF;
+            border: none;
+            border-radius: 2px;
+            font-size: 13px;
+            cursor: pointer;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+            font-weight: 500;
+            white-space: nowrap;
+            transition: background 0.2s;
+        }
+
+        .newspaper-container .lock-screen .lock-input-group button:hover {
+            background: #1A3A52;
+        }
+
+        .newspaper-container .lock-screen .lock-error {
+            font-size: 13px;
+            color: #C00;
+            margin-top: 10px;
+            min-height: 20px;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+        }
+
+        .newspaper-container .newspaper {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+        .newspaper-container .newspaper.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(4px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .newspaper-container .newspaper .np-wrapper {
+            max-width: 100%;
+            font-family: "宋体", "SimSun", "Times New Roman", serif;
+            padding: 4px 2px;
+        }
+
+        .newspaper-container .newspaper .np-head {
+            text-align: center;
+            border-bottom: 3px double #222;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+        }
+
+        .newspaper-container .newspaper .np-head .np-name {
+            font-size: 32px;
+            font-weight: 700;
+            font-family: "黑体", "SimHei", "Microsoft YaHei", sans-serif;
+            letter-spacing: 8px;
+            color: #1a1a1a;
+        }
+
+        .newspaper-container .newspaper .np-head .np-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #666;
+            font-family: "宋体", "SimSun", serif;
+            border-top: 1px solid #CCC;
+            padding-top: 4px;
+            margin-top: 4px;
+        }
+
+        .newspaper-container .newspaper .np-body {
+            font-size: 13px;
+            line-height: 2;
+            color: #222;
+            text-align: justify;
+            font-family: "宋体", "SimSun", serif;
+        }
+
+        .newspaper-container .newspaper .np-body .np-article {
+            margin-bottom: 14px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #EEE;
+        }
+        .newspaper-container .newspaper .np-body .np-article:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .newspaper-container .newspaper .np-body .np-article .art-title {
+            font-size: 16px;
+            font-weight: 700;
+            font-family: "黑体", "SimHei", sans-serif;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+            text-align: left;
+        }
+
+        .newspaper-container .newspaper .np-body .np-article p {
+            text-indent: 2em;
+            margin-bottom: 4px;
+        }
+
+        .newspaper-container .newspaper .np-body .np-article .art-sign {
+            text-align: right;
+            text-indent: 0;
+            font-size: 12px;
+            color: #999;
+            margin-top: 4px;
+        }
+
+        .newspaper-container .newspaper .np-foot {
+            border-top: 1px solid #CCC;
+            margin-top: 10px;
+            padding-top: 6px;
+            font-size: 11px;
+            color: #999;
+            text-align: center;
+            font-family: "宋体", "SimSun", serif;
+        }
+
+        .contact-content {
+            background: #FFF;
+            border: 1px solid #D5D0C8;
+            border-radius: 2px;
+            padding: 16px 20px 18px 20px;
+        }
+
+        .contact-content .contact-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2B4F6E;
+            border-bottom: 2px solid #2B4F6E;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+        }
+
+        .contact-content .contact-info {
+            font-size: 14px;
+            line-height: 2.2;
+            color: #555;
+        }
+        .contact-content .contact-info .row {
+            padding: 4px 0;
+            border-bottom: 1px solid #F5F3EF;
+        }
+        .contact-content .contact-info .row:last-child {
+            border-bottom: none;
+        }
+        .contact-content .contact-info .label {
+            color: #999;
+            display: inline-block;
+            width: 80px;
+        }
+        .contact-content .contact-info .value {
+            color: #333;
+            font-weight: 500;
+        }
+
+        .footer {
+            width: 100%;
+            border-top: 1px solid #D5D0C8;
+            padding: 12px 24px 16px 24px;
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+            line-height: 1.8;
+            background: #FFFFFF;
+            flex-shrink: 0;
+        }
+        .footer a {
+            color: #666;
+            cursor: pointer;
+        }
+        .footer .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .footer .copyright {
+            color: #BBB;
+            font-size: 11px;
+            margin-top: 2px;
+        }
+        .footer .copyright .org-name {
+            color: #2B4F6E;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .gov-bar {
+                padding: 4px 14px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 2px;
+            }
+            .gov-bar .right a {
+                margin-left: 0;
+                margin-right: 12px;
+                font-size: 11px;
+            }
+            .header {
+                padding: 10px 14px 6px 14px;
+            }
+            .header .logo h1 {
+                font-size: 20px;
+            }
+            .header .logo h1 .en {
+                font-size: 12px;
+                display: block;
+                margin-left: 0;
+            }
+            .header .search-box input {
+                width: 120px;
+                font-size: 12px;
+            }
+            .content {
+                flex-direction: column;
+                padding: 10px 12px 14px 12px;
+                gap: 12px;
+            }
+            .sidebar-years {
+                width: 100%;
+                display: none;
+                flex-wrap: wrap;
+                gap: 4px 12px;
+            }
+            .sidebar-years .year-title {
+                width: 100%;
+                margin-bottom: 2px;
+            }
+            .sidebar-years .year-btn {
+                width: auto;
+                padding: 2px 0;
+                font-size: 12px;
+                border-bottom: 1px solid transparent;
+            }
+            .sidebar-years .year-btn .count {
+                display: none;
+            }
+            .nav {
+                padding: 0 10px;
+                overflow-x: auto;
+                white-space: nowrap;
+                flex-wrap: nowrap;
+            }
+            .nav a {
+                padding: 8px 12px;
+                font-size: 13px;
+            }
+            .newspaper-container .newspaper .np-head .np-name {
+                font-size: 24px;
+                letter-spacing: 4px;
+            }
+            .newspaper-container {
+                padding: 12px 10px 10px 10px;
+            }
+            .newspaper-container .newspaper .np-body .np-article .art-title {
+                font-size: 15px;
+            }
+            .newspaper-container .newspaper .np-body {
+                font-size: 13px;
+            }
+            .catalog-list,
+            .gazetteer-content,
+            .contact-content,
+            .home-intro {
+                padding: 12px 14px 12px 14px;
+            }
+            .catalog-list .catalog-title,
+            .gazetteer-content .gz-title,
+            .contact-content .contact-title,
+            .home-intro .home-title {
+                font-size: 16px;
+            }
+            .footer {
+                padding: 10px 14px 12px 14px;
+                font-size: 11px;
+            }
+            .newspaper-container .lock-screen .lock-input-group {
+                flex-direction: column;
+                max-width: 100%;
+            }
+            .newspaper-container .lock-screen .lock-input-group button {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header .logo h1 {
+                font-size: 17px;
+            }
+            .header .search-box input {
+                width: 80px;
+                font-size: 11px;
+                padding: 4px 0;
+            }
+            .header .search-box button {
+                font-size: 11px;
+                padding: 4px 12px;
+            }
+            .content {
+                padding: 6px 4px 10px 4px;
+            }
+            .newspaper-container .newspaper .np-head .np-name {
+                font-size: 18px;
+                letter-spacing: 2px;
+            }
+            .newspaper-container .newspaper .np-body .np-article .art-title {
+                font-size: 14px;
+            }
+            .newspaper-container .newspaper .np-body {
+                font-size: 12px;
+                line-height: 1.9;
+            }
+            .catalog-list .catalog-item {
+                font-size: 12px;
+            }
+            .catalog-list .catalog-item .cat-date {
+                font-size: 11px;
+                width: 100%;
+            }
+            .footer {
+                padding: 6px 8px 8px 8px;
+                font-size: 10px;
+            }
+            .contact-content .contact-info {
+                font-size: 13px;
+            }
+            .newspaper-container .lock-screen .lock-title {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="site-wrapper">
+
+        <!-- ===== 顶部工具条 ===== -->
+        <div class="gov-bar">
+            <div class="left">
+                <span class="org">安溪县档案局</span> · 数字档案查询平台
+            </div>
+            <div class="right">
+                <a href="#">设为首页</a>
+                <a href="#">加入收藏</a>
+                <a href="#">无障碍浏览</a>
+            </div>
+        </div>
+
+        <!-- ===== 头部 ===== -->
+        <div class="header">
+            <div class="inner">
+                <div class="logo">
+                    <h1>安溪县数字档案馆 <span class="en">Anxi Digital Archives</span></h1>
+                    <div class="sub">安溪县档案局主办 · 数字档案资源服务平台</div>
+                </div>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="检索档案、年份、人名..." />
+                    <button id="searchBtn">检索</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== 导航 ===== -->
+        <div class="nav" id="mainNav">
+            <a class="active" data-page="home">首页</a>
+            <a data-page="catalog">档案目录</a>
+            <a data-page="gazetteer">地方志</a>
+            <a data-page="newspaper">报纸库</a>
+            <a data-page="contact">联系我们</a>
+        </div>
+
+        <!-- ===== 内容 ===== -->
+        <div class="content">
+
+            <!-- 年份侧边栏：默认隐藏，仅报纸库页面显示 -->
+            <div class="sidebar-years" id="yearSidebar">
+                <div class="year-title">📅 按年份</div>
+                <button class="year-btn" data-year="1923">1923年 <span class="count">1</span></button>
+                <button class="year-btn" data-year="1956">1956年 <span class="count">1</span></button>
+                <button class="year-btn" data-year="1979">1979年 <span class="count">1</span></button>
+                <button class="year-btn" data-year="1998">1998年 <span class="count">1</span></button>
+                <button class="year-btn" data-year="2012">2012年 <span class="count">1</span></button>
+                <button class="year-btn" data-year="2026">2026年 <span class="count">1</span></button>
+            </div>
+
+            <div class="main-content">
+
+                <div class="page-container" id="pageContainer">
+
+                    <!-- ===== 首页 ===== -->
+                    <div class="page active" id="page-home">
+                        <div class="home-intro">
+                            <div class="home-title">📄 馆藏简介</div>
+                            <p>安溪县数字档案馆于2008年正式上线，是安溪县档案局面向社会公众提供数字档案查询服务的官方平台。本馆馆藏涵盖1920年至今的各类地方报纸、县志、人口登记、土地契税、教育档案、商会史料、宗教记录、宗族谱牒、民间契约、碑刻拓片等数字资源，共计约12万册（件），是研究安溪地方历史、民俗文化、社会发展的重要文献基地。</p>
+                            <p>本馆依托先进的数字扫描与OCR识别技术，将大量珍贵历史文献进行数字化保存。截至目前，已完成对安溪县内主要寺院、道观、宗祠等场所现存碑刻、匾额、钟铭等文物文字资料的数字化采集与整理工作，其中尤以青元山道观所藏明代铜油灯铭文、清代木刻经版、民国时期道教法器等方面的记录较为完整，共计收录条目四百余件，时间跨度从明万历年间一直延续至二十世纪中叶。</p>
+                            <p>本馆面向社会免费开放查询服务，支持按年份、人名、地名、关键词等多种方式检索。所藏档案以原始文献扫描件为主，部分年代较近的档案亦提供可检索的电子文本。欢迎社会各界人士前来查阅，也欢迎热心市民向本馆捐赠或提供相关档案线索。</p>
+                            <p>本馆重视地方历史文献的系统性收集与保护工作，近年来先后完成了《安溪县志》历代刊本的数字化整理、安溪籍华侨华人档案汇编、安溪老照片数字化修复等专题项目。馆藏中尤以民国时期安溪县商会档案、解放初期土地改革文书、以及各乡镇宗族谱牒等材料最具地方特色，为研究安溪近代社会变迁、宗族组织、商业发展等提供了极为珍贵的第一手资料。</p>
+                            <p>在数字档案利用方面，本馆已建立完善的档案检索与调阅系统，读者可通过互联网远程查询馆藏目录，提交档案查阅申请。馆内同时设有电子阅览室，提供高清扫描件在线阅读、历史文献数据库检索等配套服务。本馆积极参与福建省档案数字化共建共享工程，与省内多家档案馆建立了数字资源互通机制，进一步拓展了档案信息的覆盖范围与服务能力。</p>
+                        </div>
+                    </div>
+
+                    <!-- ===== 档案目录 ===== -->
+                    <div class="page" id="page-catalog">
+                        <div class="catalog-list">
+                            <div class="catalog-title">📋 档案目录（共127件）</div>
+
+                            <div class="catalog-item">
+                                <span class="cat-name"><a onclick="switchPage('newspaper');setTimeout(function(){switchYear('1923');},100);">安溪乡志 · 陈砚秋</a></span>
+                                <span class="cat-date">1923年 · 人物志</span>
+                            </div>
+                            <div class="catalog-item">
+                                <span class="cat-name"><a onclick="switchPage('newspaper');setTimeout(function(){switchYear('1956');},100);">县纺织厂劳模王德福</a></span>
+                                <span class="cat-date">1956年 · 县报</span>
+                            </div>
+                            <div class="catalog-item">
+                                <span class="cat-name">安溪县1950年人口普查登记表</span>
+                                <span class="cat-date">1950年 · 人口</span>
+                            </div>
+                            <div class="catalog-item">
+                                <span class="cat-name">安溪县1953年土地改革档案</span>
+                                <span class="cat-date">1953年 · 土地</span>
+                            </div>
+                            <div class="catalog-item">
+                                <span class="cat-name"><a onclick="switchPage('newspaper');setTimeout(function(){switchYear('1979');},100);">知青赵秀兰高考录取</a></span>
+                                <span class="cat-date">1979年 · 教育</span>
+                            </div>
+                            <div class="catalog-item">
+                                <span class="cat-name">安溪县1975年农业学大寨专题报道</span>
+                                <span class="cat-date">1975年 · 县报</span>
+                            </div>
+                            <div class="catalog-item">
+                                <span class="cat-name">安溪县1980年乡镇企业名录</span>
+                                <span class="cat-date">1980年 · 经济</span>
+                            </div>
+                            <div class="catalog-item">
+                                <span class="cat-name">安溪县1985年教育事业发展统计</span>
+                                <span class="cat-date">1985年 · 教育</span>
+                            </div>
+                            <div class="catalog-item">
+                                <span class="cat-name">安溪县1990年第三次人口普查资料</span>
+                                <span class="cat-date">1990年 · 人口</span>
+                            </div>
+                            <div class="catalog-item">
+                                <span class="cat-name"><a onclick="switchPage('newspaper');setTimeout(function(){switchYear('1998');},100);">纺织厂下岗职工张建军</a></span>
+                                <span class="cat-date">1998年 · 县报</span>
+                            </div>
+                            <div class="catalog-item">
+                                <span class="cat-name">安溪县1999年水利工程建设报告</span>
+                                <span class="cat-date">1999年 · 水利</span>
+                            </div>
+                            <div class="catalog-item">
+                                <span class="cat-name">安溪县2000年交通道路规划方案</span>
+                                <span class="cat-date">2000年 · 交通</span>
+                            </div>
+                            <div class="catalog-item">
+                                <span class="cat-name"><a onclick="switchPage('newspaper');setTimeout(function(){switchYear('2012');},100);">单亲母亲李娟</a></span>
+                                <span class="cat-date">2012年 · 人口</span>
+                            </div>
+                            <div class="catalog-item">
+                                <span class="cat-name">安溪县2015年城乡建设统计年报</span>
+                                <span class="cat-date">2015年 · 城建</span>
+                            </div>
+                            <div class="catalog-item">
+                                <span class="cat-name">安溪县2018年脱贫攻坚档案汇编</span>
+                                <span class="cat-date">2018年 · 扶贫</span>
+                            </div>
+                            <div class="catalog-item">
+                                <span class="cat-name">安溪县2020年疫情防控档案</span>
+                                <span class="cat-date">2020年 · 卫生</span>
+                            </div>
+                            <div class="catalog-item" style="border-bottom:none;">
+                                <span class="cat-name"><a onclick="switchPage('newspaper');setTimeout(function(){switchYear('2026');},100);">高三学生林野失联事件</a></span>
+                                <span class="cat-date">2026年 · 档案</span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- ===== 地方志 ===== -->
+                    <div class="page" id="page-gazetteer">
+                        <div class="gazetteer-content">
+                            <div class="gz-title">📜 安溪县志 · 卷一</div>
+                            <div class="gz-body">
+                                <p>安溪，位于福建省东南部，晋江上游，置县于后周显德二年（公元955年），迄今已历千余年。县境内地势自西北向东南倾斜，群山环抱，溪流纵横，安溪之名即源于此——溪流两岸安详宁静，水清如镜，寓"安居乐业、溪流清远"之意。</p>
+                                <p>安溪素有"闽南茶都"之称，安溪铁观音茶自清代以来便名扬海内外，是中国十大名茶之一。安溪境内茶园广布，尤以感德、祥华、西坪、虎邱等乡镇所产铁观音最为著名。每年春、秋两季，茶香弥漫全县，外地茶商云集，市场交易极为活跃。除铁观音外，安溪亦产黄金桂、本山、毛蟹等乌龙茶品种，以及柿饼、麻粩、米粉等地方特产，皆远近闻名。</p>
+                                <p>安溪人文荟萃，历代人才辈出。明万历年间，安溪学子陈砚秋秋闱登榜，名动一时；清乾隆年间，李光地入阁为相，位列上书房大臣；近代以来，安溪更是著名的侨乡和台胞祖籍地之一，海内外安溪籍乡亲逾百万人，分布于东南亚、欧美等二十余个国家和地区。安溪籍华侨热心桑梓，捐资助学、修桥铺路，为家乡发展做出了重要贡献。</p>
+                                <p>安溪境内名胜古迹众多，有清水岩、安溪文庙、青元山道观、雁塔、东岳庙等。其中清水岩始建于北宋，依山而建，崖壁雕刻精美，是闽南著名佛教圣地；安溪文庙始建于宋，现存建筑为清代重修，规制完整，是全省保存较为完好的县级文庙之一；青元山道观始建于明万历三十八年，是安溪乃至闽南地区重要的道教活动场所，历经四百余年香火不断。道观依青元山势而建，三进院落层层递进，飞檐斗拱、雕梁画栋，主供三清道祖、玉皇大帝、天上圣母妈祖、保生大帝、文昌帝君等诸神。</p>
+                                <p>安溪物产丰富，除茶叶外，藤铁工艺亦是安溪的重要产业。安溪是全国著名的藤铁工艺之乡，藤铁工艺品远销海内外数十个国家和地区，年产值逾百亿元。此外，安溪的竹编、木雕、陶瓷等传统手工艺也历史悠久，技艺精湛。</p>
+                                <p>安溪民俗文化丰富多彩，有茶艺表演、高甲戏、布袋戏、南音、拍胸舞等。每年农历三月三、九月九，各地庙会、社戏不断，尤以清水岩庙会、青元山道观庙会最为盛大。安溪饮食文化也别具一格，以茶入菜、以茶佐餐，形成了独特的"茶宴"风格，湖头米粉、官桥豆干、龙涓肉羹等地方小吃亦深受食客喜爱。</p>
+                                <p class="gz-sign">—— 《安溪县志》卷一 · 总叙 · 据清乾隆二十二年刊本整理 ——</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ===== 报纸库（默认锁定） ===== -->
+                    <div class="page" id="page-newspaper">
+                        <div class="newspaper-container" id="newspaperContainer">
+                            <!-- 锁屏界面 -->
+                            <div class="lock-screen" id="lockScreen">
+                                <div class="lock-title">档案库访问受限</div>
+                                <div class="lock-desc">该档案库已加密，请输入档案编号</div>
+                                <div class="lock-input-group">
+                                    <input type="text" id="lockInput" placeholder="请输入档案编号" />
+                                    <button id="unlockBtn">确认</button>
+                                </div>
+                                <div class="lock-error" id="lockError"></div>
+                            </div>
+
+                            <!-- 报纸内容（初始隐藏） -->
+                            <div id="newspaperContent" style="display:none;">
+
+                                <!-- 1923年 -->
+                                <div class="newspaper active" data-year="1923">
+                                    <div class="np-wrapper">
+                                        <div class="np-head">
+                                            <div class="np-name">安 溪 县 报</div>
+                                            <div class="np-meta">
+                                                <span>民国十二年十二月 · 第七版</span>
+                                                <span>安溪县公署 · 地方新闻</span>
+                                            </div>
+                                        </div>
+                                        <div class="np-body">
+
+                                            <div class="np-article">
+                                                <div class="art-title">陈砚秋登榜 乡里传为佳话</div>
+                                                <p>本县青年陈砚秋，秋闱登榜，名动乡里。砚秋少时聪慧，读书过目不忘，十六岁即中秀才。此番秋闱，一举登科，为安溪学子争光。然砚秋性情孤僻，不喜交游，返乡后闭门半载，足不出户。有同窗登门拜访，亦不接见。</p>
+                                                <p>时至岁末，砚秋家中忽有异香传出，家人循香而至，见书房灯火荧然，砚秋已不知所踪。案上遗手札数页，字迹潦草，末句云：「灯谱已定，吾往矣。」家人寻遍四邻不见其人，仅存手抄灯谱一册。此事传开，乡人皆以为奇。</p>
+                                                <p class="art-sign">—— 记者 · 秋声</p>
+                                            </div>
+
+                                            <div class="np-article">
+                                                <div class="art-title">本县教育发展概况</div>
+                                                <p>近年来安溪县教育事业发展迅速，全县已设县立小学二十余所，县立中学一所，另有私塾数处。教育局表示，明年计划增设乡村小学三处，以惠及偏远山区学子。</p>
+                                            </div>
+
+                                            <div class="np-article" style="border-bottom:none;">
+                                                <div class="art-title">乡志编纂进展</div>
+                                                <p>县志编纂工作有序推进，目前已完成地理、建置、人物三卷初稿。据编纂处消息，明年起将启动物产、风俗、艺文等卷的采编工作，欢迎各界人士提供相关史料。</p>
+                                            </div>
+
+                                        </div>
+                                        <div class="np-foot">—— 安溪县档案馆藏 · 1923年县报合订本 ——</div>
+                                    </div>
+                                </div>
+
+                                <!-- 1956年 -->
+                                <div class="newspaper" data-year="1956">
+                                    <div class="np-wrapper">
+                                        <div class="np-head">
+                                            <div class="np-name">安 溪 日 报</div>
+                                            <div class="np-meta">
+                                                <span>1956年12月31日 · 第二版</span>
+                                                <span>本报记者 · 年终特稿</span>
+                                            </div>
+                                        </div>
+                                        <div class="np-body">
+
+                                            <div class="np-article">
+                                                <div class="art-title">纺织厂劳模王德福除夕坚守岗位</div>
+                                                <p>县纺织厂年度劳模王德福，入厂十年如一日，勤恳踏实，深受工友好评。其妻多年顽疾于年终痊愈，邻里皆谓奇事。除夕之夜，王德福主动申请留守厂区，将团圆机会让给其他工友。然次日工友接班，却遍寻不见其人。</p>
+                                                <p>厂方紧急组织搜寻，未果。据门卫回忆，除夕当晚未有人离开厂区，亦无任何异常记录。更为蹊跷的是，事后多数工友对其人印象逐渐模糊，记不清具体样貌。</p>
+                                                <p class="art-sign">—— 记者 · 林平</p>
+                                            </div>
+
+                                            <div class="np-article">
+                                                <div class="art-title">工会开展节前慰问活动</div>
+                                                <p>县总工会节前组织慰问团，走访各厂矿企业，为困难职工发放慰问金及生活物资。纺织厂、机械厂、食品厂等多家单位职工代表参加座谈会。</p>
+                                            </div>
+
+                                            <div class="np-article" style="border-bottom:none;">
+                                                <div class="art-title">老巷轶事</div>
+                                                <p>本县老巷历史悠久，巷内店铺林立，其中一家油灯铺开业逾三十年，掌柜姓陈，世代经营铜灯香油，为老巷知名老店。</p>
+                                                <p class="art-sign">—— 本报通讯员</p>
+                                            </div>
+
+                                        </div>
+                                        <div class="np-foot">—— 安溪县档案馆藏 · 1956年县报合订本 ——</div>
+                                    </div>
+                                </div>
+
+                                <!-- 1979年 -->
+                                <div class="newspaper" data-year="1979">
+                                    <div class="np-wrapper">
+                                        <div class="np-head">
+                                            <div class="np-name">安 溪 日 报</div>
+                                            <div class="np-meta">
+                                                <span>1979年9月15日 · 第三版</span>
+                                                <span>高考专题报道</span>
+                                            </div>
+                                        </div>
+                                        <div class="np-body">
+
+                                            <div class="np-article">
+                                                <div class="art-title">知青赵秀兰 金榜题名</div>
+                                                <p>本县知青赵秀兰，1979年参加全国统一高考，总分320分，超文科本科录取线，被省内师范院校录取。赵秀兰自幼好学，插队期间仍坚持自学，白天劳动，夜晚挑灯苦读，终于如愿考入大学。</p>
+                                                <p>然而入学不足一月，赵秀兰主动向校方提交退学申请，校方多次挽留未果。其室友反映，退学前夕赵秀兰曾独自外出，返回后神情恍惚。此后其家庭登记地址失效，历年回访均无此人记录。</p>
+                                                <p class="art-sign">—— 特约记者 · 陈立</p>
+                                            </div>
+
+                                            <div class="np-article">
+                                                <div class="art-title">本县高考录取人数创新高</div>
+                                                <p>1979年高考录取工作已全部结束，安溪县共被录取考生132人，其中本科线以上56人，创历史新高。</p>
+                                            </div>
+
+                                            <div class="np-article" style="border-bottom:none;">
+                                                <div class="art-title">老巷杂谈</div>
+                                                <p>老巷中段有一家油灯铺，掌柜姓陈，世代经营。近日有市民反映，曾见一名年轻女子在铺前驻足良久，后不知所踪。</p>
+                                            </div>
+
+                                        </div>
+                                        <div class="np-foot">—— 安溪县档案馆藏 · 1979年县报合订本 ——</div>
+                                    </div>
+                                </div>
+
+                                <!-- 1998年 -->
+                                <div class="newspaper" data-year="1998">
+                                    <div class="np-wrapper">
+                                        <div class="np-head">
+                                            <div class="np-name">安 溪 日 报</div>
+                                            <div class="np-meta">
+                                                <span>1998年12月28日 · 第一版</span>
+                                                <span>社会新闻</span>
+                                            </div>
+                                        </div>
+                                        <div class="np-body">
+
+                                            <div class="np-article">
+                                                <div class="art-title">下岗职工张建军 除夕前夜失联</div>
+                                                <p>县纺织厂下岗职工张建军，其子张伟今年高考总分642分，被省内重点高校工科专业录取。张建军多年供孩子读书，生活清贫。除夕前夜，张建军出门后未归，家中无人。</p>
+                                                <p>据邻居反映，张建军常年出入老巷陈记油灯铺，曾有人见其在老巷中段徘徊。张建军失踪后，其子张伟顺利完成学业，父子再无联系。警方已将张建军列为失踪人口。</p>
+                                                <p class="art-sign">—— 记者 · 苏杭</p>
+                                            </div>
+
+                                            <div class="np-article">
+                                                <div class="art-title">岁末年终 县领导走访慰问困难职工</div>
+                                                <p>县领导节前走访纺织厂、机械厂等单位，为困难职工送去慰问金及过年物资。</p>
+                                            </div>
+
+                                            <div class="np-article" style="border-bottom:none;">
+                                                <div class="art-title">老巷见闻</div>
+                                                <p>老巷中段油灯铺，陈记三代经营，街坊皆知。附近居民称，该铺子近年少有人出入。</p>
+                                            </div>
+
+                                        </div>
+                                        <div class="np-foot">—— 安溪县档案馆藏 · 1998年县报合订本 ——</div>
+                                    </div>
+                                </div>
+
+                                <!-- 2012年 -->
+                                <div class="newspaper" data-year="2012">
+                                    <div class="np-wrapper">
+                                        <div class="np-head">
+                                            <div class="np-name">安 溪 日 报</div>
+                                            <div class="np-meta">
+                                                <span>2012年10月20日 · 民生版</span>
+                                                <span>记者：林华</span>
+                                            </div>
+                                        </div>
+                                        <div class="np-body">
+
+                                            <div class="np-article">
+                                                <div class="art-title">单亲母亲李娟 失踪前曾去老巷</div>
+                                                <p>安溪县单亲母亲李娟，多年独自抚养女儿李彤。李彤今年高考总分613分，超文史类本科一批录取线。然而女儿入学后不久，李娟本人失联，邻居称其数月前行为异常。</p>
+                                                <p>据邻居反映，李娟曾带女儿长期往返厦门、福州就医。后经人介绍，前往老巷中段一家店铺。此后女儿病情好转，李娟却逐渐变得沉默寡言，最终于十月失联。李彤已由外祖抚养。</p>
+                                                <p class="art-sign">—— 记者 · 林华</p>
+                                            </div>
+
+                                            <div class="np-article">
+                                                <div class="art-title">县民政局开展困难家庭帮扶活动</div>
+                                                <p>县民政局组织各乡镇开展困难家庭走访活动，重点帮扶单亲家庭、因病致贫家庭等特殊群体。</p>
+                                            </div>
+
+                                            <div class="np-article" style="border-bottom:none;">
+                                                <div class="art-title">老巷店铺陆续歇业 老街记忆渐行渐远</div>
+                                                <p>随着城市发展，老巷多家老店陆续关门歇业，其中陈记油灯铺也已停业数月。</p>
+                                            </div>
+
+                                        </div>
+                                        <div class="np-foot">—— 安溪县档案馆藏 · 2012年县报合订本 ——</div>
+                                    </div>
+                                </div>
+
+                                <!-- 2026年 -->
+                                <div class="newspaper" data-year="2026">
+                                    <div class="np-wrapper">
+                                        <div class="np-head">
+                                            <div class="np-name">安 溪 日 报</div>
+                                            <div class="np-meta">
+                                                <span>2026年4月28日 · 第二版</span>
+                                                <span>社会新闻</span>
+                                            </div>
+                                        </div>
+                                        <div class="np-body">
+
+                                            <div class="np-article">
+                                                <div class="art-title">高三学生林野 模考后失联</div>
+                                                <p>安溪第三中学高三学生林野，于4月模考结束后离校失联，家属已报案。据班主任反映，林野平时性格内向，高三下学期成绩突飞猛进，多次模考名列前茅。</p>
+                                                <p>其宿舍遗留物品中有一盏旧式铜灯，来源不明。警方正在调查中，目前尚无有效线索。校方表示将全力配合警方调查，同时呼吁知情者提供线索。</p>
+                                                <p class="art-sign">—— 记者 · 林华</p>
+                                            </div>
+
+                                            <div class="np-article">
+                                                <div class="art-title">县教育局召开校园安全工作会议</div>
+                                                <p>县教育局召集全县中小学负责人召开校园安全工作会议，强调加强学生考勤管理，做好学生心理疏导工作。</p>
+                                            </div>
+
+                                            <div class="np-article" style="border-bottom:none;">
+                                                <div class="art-title">老巷最后一家老店关门</div>
+                                                <p>随着陈记油灯铺关张，老巷中段沿街店面已全部完成改造。老街坊纷纷表示，老巷的旧时光一去不复返了。</p>
+                                            </div>
+
+                                        </div>
+                                        <div class="np-foot">—— 安溪县档案馆 · 2026年档案整理记录 ——</div>
+                                    </div>
+                                </div>
+
+                            </div><!-- end newspaperContent -->
+                        </div>
+                    </div>
+
+                    <!-- ===== 联系我们 ===== -->
+                    <div class="page" id="page-contact">
+                        <div class="contact-content">
+                            <div class="contact-title">📞 联系我们</div>
+                            <div class="contact-info">
+                                <div class="row"><span class="label">单位名称</span><span class="value">安溪县档案馆</span></div>
+                                <div class="row"><span class="label">地　址</span><span class="value">福建省泉州市安溪县凤城镇档案馆路1号</span></div>
+                                <div class="row"><span class="label">联系电话</span><span class="value">0595-2322-9876</span></div>
+                                <div class="row"><span class="label">电子邮箱</span><span class="value">anxiarchives@163.com</span></div>
+                                <div class="row"><span class="label">开放时间</span><span class="value">周一至周五 8:00-12:00，14:30-17:30</span></div>
+                                <div class="row" style="border-bottom:none;"><span class="label">交通指引</span><span class="value">乘坐安溪公交1路、3路至"档案馆"站下车</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- end page-container -->
+
+            </div>
+
+        </div>
+
+        <!-- ===== 底部 ===== -->
+        <div class="footer">
+            <div class="footer-links">
+                <a onclick="switchPage('home');">首页</a>
+                <a onclick="switchPage('catalog');">档案目录</a>
+                <a onclick="switchPage('gazetteer');">地方志</a>
+                <a onclick="switchPage('newspaper');">报纸库</a>
+                <a onclick="switchPage('contact');">联系我们</a>
+            </div>
+            <div class="copyright">
+                主办：<span class="org-name">安溪县档案局</span> · 承办：安溪县档案馆信息中心<br />
+                Copyright © 2008-2026 安溪县数字档案馆 版权所有 闽ICP备20080123号
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // =============================================================
+        // 1. 年份切换
+        // =============================================================
+        var yearBtns = document.querySelectorAll('.year-btn');
+        var newspapers = document.querySelectorAll('.newspaper');
+
+        function switchYear(year) {
+            newspapers.forEach(function(n) {
+                n.classList.remove('active');
+            });
+            var target = document.querySelector('.newspaper[data-year="' + year + '"]');
+            if (target) {
+                target.classList.add('active');
+            }
+            yearBtns.forEach(function(btn) {
+                btn.classList.remove('active');
+                if (btn.dataset.year === year) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        yearBtns.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var newspaperPage = document.getElementById('page-newspaper');
+                var pages = document.querySelectorAll('.page');
+                pages.forEach(function(p) { p.classList.remove('active'); });
+                newspaperPage.classList.add('active');
+                document.querySelectorAll('.nav a').forEach(function(a) {
+                    a.classList.remove('active');
+                    if (a.dataset.page === 'newspaper') a.classList.add('active');
+                });
+                switchYear(this.dataset.year);
+            });
+        });
+
+        // =============================================================
+        // 2. 导航切换
+        // =============================================================
+        var navLinks = document.querySelectorAll('.nav a');
+        var pages = {
+            home: document.getElementById('page-home'),
+            catalog: document.getElementById('page-catalog'),
+            gazetteer: document.getElementById('page-gazetteer'),
+            newspaper: document.getElementById('page-newspaper'),
+            contact: document.getElementById('page-contact')
+        };
+        var yearSidebar = document.getElementById('yearSidebar');
+
+        function switchPage(pageId) {
+            Object.keys(pages).forEach(function(key) {
+                pages[key].classList.remove('active');
+            });
+            if (pages[pageId]) {
+                pages[pageId].classList.add('active');
+            }
+            navLinks.forEach(function(link) {
+                link.classList.remove('active');
+                if (link.dataset.page === pageId) {
+                    link.classList.add('active');
+                }
+            });
+
+            // 年份侧边栏只在报纸库页面显示
+            if (pageId === 'newspaper') {
+                yearSidebar.style.display = 'block';
+            } else {
+                yearSidebar.style.display = 'none';
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        navLinks.forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                var page = this.dataset.page;
+                if (page) {
+                    switchPage(page);
+                }
+            });
+        });
+
+        window.switchPage = switchPage;
+        window.switchYear = switchYear;
+
+        // =============================================================
+        // 3. 报纸库解锁
+        // =============================================================
+        var lockScreen = document.getElementById('lockScreen');
+        var newspaperContent = document.getElementById('newspaperContent');
+        var lockInput = document.getElementById('lockInput');
+        var unlockBtn = document.getElementById('unlockBtn');
+        var lockError = document.getElementById('lockError');
+        var correctPassword = 'JWC-2026-0426';
+
+        function unlockArchive() {
+            var input = lockInput.value.trim();
+            if (input === correctPassword) {
+                lockScreen.style.display = 'none';
+                newspaperContent.style.display = 'block';
+                // 默认显示1923年
+                switchYear('1923');
+                // 高亮1923年按钮
+                yearBtns.forEach(function(btn) {
+                    btn.classList.remove('active');
+                    if (btn.dataset.year === '1923') btn.classList.add('active');
+                });
+                lockError.textContent = '';
+                console.log('✦ 档案馆已解锁 ✦');
+            } else {
+                lockError.textContent = '✧ 编号错误，访问被拒绝 ✧';
+                lockInput.value = '';
+                lockInput.focus();
+            }
+        }
+
+        unlockBtn.addEventListener('click', unlockArchive);
+        lockInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                unlockArchive();
+            }
+        });
+
+        // =============================================================
+        // 4. 档案馆搜索框
+        // =============================================================
+        var searchInput = document.getElementById('searchInput');
+        var searchBtn = document.getElementById('searchBtn');
+
+        function doSearch() {
+            var q = searchInput.value.trim();
+            if (!q) {
+                alert('请输入检索关键词');
+                return;
+            }
+            var lowerQ = q.toLowerCase();
+
+            // 如果报纸库未解锁，先提示
+            if (lockScreen.style.display !== 'none') {
+                alert('请先解锁报纸库');
+                return;
+            }
+
+            if (lowerQ === '1923' || lowerQ === '陈砚秋') {
+                switchPage('newspaper');
+                switchYear('1923');
+                searchInput.value = '';
+                return;
+            }
+            if (lowerQ === '1956' || lowerQ === '王德福') {
+                switchPage('newspaper');
+                switchYear('1956');
+                searchInput.value = '';
+                return;
+            }
+            if (lowerQ === '1979' || lowerQ === '赵秀兰') {
+                switchPage('newspaper');
+                switchYear('1979');
+                searchInput.value = '';
+                return;
+            }
+            if (lowerQ === '1998' || lowerQ === '张建军' || lowerQ === '张伟') {
+                switchPage('newspaper');
+                switchYear('1998');
+                searchInput.value = '';
+                return;
+            }
+            if (lowerQ === '2012' || lowerQ === '李娟' || lowerQ === '李彤') {
+                switchPage('newspaper');
+                switchYear('2012');
+                searchInput.value = '';
+                return;
+            }
+            if (lowerQ === '2026' || lowerQ === '林野') {
+                switchPage('newspaper');
+                switchYear('2026');
+                searchInput.value = '';
+                return;
+            }
+
+            alert('未找到相关档案');
+        }
+
+        searchBtn.addEventListener('click', doSearch);
+        searchInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                doSearch();
+            }
+        });
+
+        // =============================================================
+        // 5. 控制台
+        // =============================================================
+        console.log('✦ 安溪县数字档案馆 ✦');
+        console.log('—— 报纸库密码：JWC-2026-0426 ——');
+        console.log('—— 年份侧边栏仅报纸库页面显示 ——');
+    </script>
+
+</body>
+</html>

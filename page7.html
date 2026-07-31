@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>关于学生资料封存的通知 - 安溪第三中学</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100vh;
+            background: #F0EBE4;
+            font-family: "宋体", "SimSun", "Microsoft YaHei", serif;
+            font-size: 14px;
+            color: #222;
+            line-height: 1.8;
+        }
+
+        a {
+            color: #1a3a6a;
+            text-decoration: none;
+        }
+        a:hover {
+            color: #C00;
+            text-decoration: underline;
+        }
+
+        .site-wrapper {
+            width: 100%;
+            min-height: 100vh;
+            background: #FFFDF8;
+            padding: 0 0 16px 0;
+        }
+
+        .site-header {
+            padding: 18px 20px 10px 20px;
+            border-bottom: 3px solid #1a3a6a;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .site-header .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .site-header .logo-area .logo-icon {
+            font-size: 36px;
+            color: #1a3a6a;
+            font-weight: 700;
+            font-family: "Times New Roman", serif;
+            border: 2px solid #1a3a6a;
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #F0EDE8;
+            flex-shrink: 0;
+        }
+
+        .site-header .logo-area .school-name {
+            font-size: 26px;
+            font-weight: 700;
+            color: #1a3a6a;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+            letter-spacing: 2px;
+        }
+
+        .site-header .logo-area .school-name .sub {
+            font-size: 12px;
+            font-weight: 400;
+            color: #999;
+            letter-spacing: 1px;
+            display: block;
+            margin-top: 2px;
+        }
+
+        .site-header .search-box {
+            background: #FFF;
+            border: 1px solid #CCC;
+            padding: 4px 6px;
+            display: flex;
+            align-items: center;
+            border-radius: 3px;
+            flex-shrink: 0;
+        }
+
+        .site-header .search-box input {
+            border: none;
+            outline: none;
+            width: 200px;
+            height: 28px;
+            font-size: 13px;
+            font-family: "宋体", sans-serif;
+            color: #333;
+            background: transparent;
+            padding: 0 6px;
+        }
+
+        .site-header .search-box button {
+            border: 1px solid #AAA;
+            background: #E5E0D8;
+            color: #333;
+            padding: 0 14px;
+            font-size: 13px;
+            cursor: pointer;
+            font-family: "微软雅黑", sans-serif;
+            height: 28px;
+            border-radius: 2px;
+        }
+        .site-header .search-box button:hover {
+            background: #D5D0C8;
+        }
+
+        .site-nav {
+            background: #1a3a6a;
+            padding: 0 20px;
+            margin: 10px 0 16px 0;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            min-height: 40px;
+            border-radius: 2px;
+            width: 100%;
+        }
+
+        .site-nav a {
+            color: #FFF;
+            padding: 0 22px;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+            cursor: pointer;
+            height: 40px;
+            line-height: 40px;
+            display: inline-block;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.2s;
+            white-space: nowrap;
+            flex: 1 0 auto;
+            text-align: center;
+        }
+
+        .site-nav a:hover {
+            background: none;
+            text-decoration: none;
+            color: #FFF;
+            border-bottom-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .site-nav a.active {
+            border-bottom-color: #FFF;
+        }
+
+        .notice-bar {
+            background: #FFFDE6;
+            border: 1px solid #E5D5B0;
+            padding: 6px 20px;
+            font-size: 13px;
+            color: #666;
+            margin: 0 0 16px 0;
+            border-radius: 2px;
+        }
+        .notice-bar strong {
+            color: #C00;
+        }
+
+        .content-area {
+            min-height: 400px;
+            width: 100%;
+            padding: 0 20px;
+        }
+
+        .doc-card {
+            background: #FFFDF8;
+            border: 1px solid #D5D0C8;
+            border-radius: 2px;
+            padding: 30px 32px 24px 32px;
+            width: 100%;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+            position: relative;
+        }
+
+        .doc-card .doc-header {
+            border-bottom: 2px solid #1a3a6a;
+            padding-bottom: 10px;
+            margin-bottom: 16px;
+        }
+
+        .doc-card .doc-header .doc-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a3a6a;
+            text-align: center;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+            line-height: 1.5;
+        }
+
+        .doc-card .doc-header .doc-meta {
+            font-size: 13px;
+            color: #999;
+            text-align: center;
+            margin-top: 4px;
+        }
+
+        .doc-card .doc-body {
+            font-size: 15px;
+            line-height: 2.1;
+            color: #333;
+            text-align: justify;
+        }
+
+        .doc-card .doc-body p {
+            text-indent: 2em;
+            margin-bottom: 10px;
+        }
+
+        .doc-card .doc-body .doc-section-title {
+            font-weight: 600;
+            text-indent: 0;
+            margin-top: 4px;
+            margin-bottom: 2px;
+        }
+
+        .doc-card .doc-body .doc-list {
+            padding-left: 2.5em;
+            text-indent: 0;
+            margin-bottom: 6px;
+        }
+
+        /* ===== 落款 + 印章（覆盖在落款上） ===== */
+        .doc-card .doc-body .doc-sign {
+            text-align: right;
+            text-indent: 0;
+            margin-top: 24px;
+            padding-top: 14px;
+            border-top: 1px solid #E8E0D8;
+            font-weight: 600;
+            font-size: 14px;
+            display: block;
+            clear: both;
+            position: relative;
+        }
+
+        .doc-card .doc-body .doc-sign .unit {
+            font-weight: 400;
+            font-size: 13px;
+            display: block;
+            margin-top: 2px;
+        }
+
+        /* ===== 红色公章 - 覆盖在落款文字上 ===== */
+        .doc-card .doc-body .doc-sign .stamp-on-sign {
+            position: absolute;
+            bottom: -10px;
+            right: -10px;
+            width: 76px;
+            height: 76px;
+            border: 3px solid rgba(180, 30, 30, 0.5);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: "KaiTi", "STKaiti", "楷体", serif;
+            color: rgba(180, 30, 30, 0.55);
+            font-size: 10px;
+            line-height: 1.3;
+            text-align: center;
+            background: rgba(200, 30, 30, 0.04);
+            transform: rotate(-12deg);
+            padding: 4px;
+            pointer-events: none;
+            box-shadow: 0 0 0 2px rgba(180, 30, 30, 0.06);
+        }
+
+        .doc-card .doc-body .doc-sign .stamp-on-sign .stamp-main {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            display: block;
+            margin-top: 1px;
+        }
+
+        .doc-card .doc-body .doc-sign .stamp-on-sign .stamp-sub {
+            font-size: 9px;
+            opacity: 0.8;
+            letter-spacing: 0.5px;
+            display: block;
+            margin-top: 1px;
+        }
+
+        .doc-card .doc-body .doc-sign .stamp-on-sign .stamp-star {
+            font-size: 13px;
+            line-height: 1;
+            display: block;
+            margin-bottom: 1px;
+        }
+
+        .site-footer {
+            border-top: 1px solid #E8E0D8;
+            padding: 16px 0 10px 0;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+            line-height: 1.8;
+            width: 100%;
+        }
+        .site-footer a {
+            color: #666;
+        }
+        .site-footer .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .site-footer .copyright {
+            color: #BBB;
+            font-size: 11px;
+            margin-top: 4px;
+            text-align: center;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .site-wrapper {
+                padding: 0 0 12px 0;
+            }
+            .site-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+                padding: 12px 16px 8px 16px;
+            }
+            .site-header .search-box {
+                width: 100%;
+            }
+            .site-header .search-box input {
+                width: 100%;
+            }
+            .site-header .logo-area .school-name {
+                font-size: 20px;
+            }
+            .site-header .logo-area .logo-icon {
+                width: 44px;
+                height: 44px;
+                font-size: 28px;
+            }
+            .site-nav {
+                padding: 4px 10px;
+                min-height: auto;
+                gap: 2px;
+                justify-content: flex-start;
+            }
+            .site-nav a {
+                padding: 4px 10px;
+                height: auto;
+                line-height: 1.6;
+                font-size: 12px;
+                border-bottom: none;
+                flex: 0 1 auto;
+                text-align: left;
+            }
+            .site-nav a.active {
+                border-bottom: none;
+                background: rgba(255, 255, 255, 0.15);
+                border-radius: 2px;
+            }
+            .notice-bar {
+                padding: 4px 12px;
+                font-size: 12px;
+                margin: 0 0 12px 0;
+            }
+            .content-area {
+                padding: 0 12px;
+            }
+            .doc-card {
+                padding: 18px 16px 16px 16px;
+            }
+            .doc-card .doc-header .doc-title {
+                font-size: 16px;
+            }
+            .doc-card .doc-body {
+                font-size: 14px;
+                line-height: 1.9;
+            }
+            .doc-card .doc-body .doc-sign .stamp-on-sign {
+                width: 62px;
+                height: 62px;
+                bottom: -6px;
+                right: -6px;
+            }
+            .doc-card .doc-body .doc-sign .stamp-on-sign .stamp-main {
+                font-size: 9px;
+            }
+            .doc-card .doc-body .doc-sign .stamp-on-sign .stamp-sub {
+                font-size: 8px;
+            }
+            .doc-card .doc-body .doc-sign .stamp-on-sign .stamp-star {
+                font-size: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .site-wrapper {
+                padding: 0 0 10px 0;
+            }
+            .site-header .logo-area .school-name {
+                font-size: 17px;
+            }
+            .site-header .logo-area .logo-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 20px;
+            }
+            .site-nav a {
+                font-size: 11px;
+                padding: 2px 6px;
+            }
+            .content-area {
+                padding: 0 6px;
+            }
+            .doc-card {
+                padding: 14px 12px 12px 12px;
+            }
+            .doc-card .doc-header .doc-title {
+                font-size: 15px;
+            }
+            .doc-card .doc-body {
+                font-size: 13px;
+                line-height: 1.8;
+            }
+            .doc-card .doc-body .doc-sign .stamp-on-sign {
+                width: 50px;
+                height: 50px;
+                bottom: -4px;
+                right: -4px;
+                border-width: 2px;
+            }
+            .doc-card .doc-body .doc-sign .stamp-on-sign .stamp-main {
+                font-size: 8px;
+            }
+            .doc-card .doc-body .doc-sign .stamp-on-sign .stamp-sub {
+                font-size: 7px;
+            }
+            .doc-card .doc-body .doc-sign .stamp-on-sign .stamp-star {
+                font-size: 9px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="site-wrapper">
+
+        <div class="site-header">
+            <div class="logo-area">
+                <div class="logo-icon">三中</div>
+                <div class="school-name">
+                    安溪第三中学
+                    <span class="sub">Anxi No.3 Middle School</span>
+                </div>
+            </div>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="站内搜索..." />
+                <button id="searchBtn">搜索</button>
+            </div>
+        </div>
+
+        <div class="site-nav">
+            <a href="page4.html#page-home">首页</a>
+            <a href="page4.html#page-intro">学校概况</a>
+            <a href="page4.html#page-news">新闻中心</a>
+            <a href="page4.html#page-teaching">教学科研</a>
+            <a href="page4.html#page-moral">德育天地</a>
+            <a href="page4.html#page-admission">招生考试</a>
+            <a href="page4.html#page-gaokao">高考喜报</a>
+            <a href="page4.html#page-contact">联系我们</a>
+        </div>
+
+        <div class="notice-bar">
+            <strong>📢 公告：</strong> 高三年级第三次模拟考试已于4月1日顺利完成。2026年高考体检工作已圆满结束。
+        </div>
+
+        <div class="content-area">
+            <div class="doc-card">
+                <div class="doc-header">
+                    <div class="doc-title">关于高三7班学生资料封存内部说明</div>
+                    <div class="doc-meta">安溪第三中学教务处 · 内部文件 编号：JWC-2026-0426</div>
+                </div>
+
+                <div class="doc-body">
+                    <p>根据学校档案管理规定及上级教育主管部门《关于加强中小学学籍信息管理的通知》相关要求，经2026年4月24日校务会议研究决定，现将高三7班学生林野（学号：2023070023）全部纸质档案、电子学籍及相关资料统一封存归档。具体事项通知如下：</p>
+
+                    <p class="doc-section-title">一、封存范围</p>
+                    <p class="doc-list">1. 该生自入学以来全部纸质档案，包括但不限于入学登记表、学籍卡、体检表、成绩单、奖惩记录等；</p>
+                    <p class="doc-list">2. 该生在学校教务管理系统中的全部电子学籍信息及数据记录；</p>
+                    <p class="doc-list">3. 该生在校期间的所有考勤记录、课程选修记录及学业成绩单；</p>
+                    <p class="doc-list">4. 该生与学校往来的全部书面材料及电子通信记录。</p>
+
+                    <p class="doc-section-title">二、封存要求</p>
+                    <p class="doc-list">1. 全体教职工应严格遵守学校档案管理制度，不得对外透露该生任何相关信息；</p>
+                    <p class="doc-list">2. 外部单位或个人如有问询，统一答复"无此人相关记录"，不得提供任何补充说明或解释；</p>
+                    <p class="doc-list">3. 封存档案由教务处档案室专人保管，未经批准不得调阅；</p>
+                    <p class="doc-list">4. 相关电子数据由信息中心进行加密处理，确保数据安全不外泄。</p>
+
+                    <p class="doc-section-title">三、执行时间</p>
+                    <p>上述决定自2026年4月26日起执行，解封时间另行通知。各部门须于4月30日前完成全部封存工作，并将执行情况书面报送教务处备案。</p>
+
+                    <p class="doc-section-title">四、相关责任</p>
+                    <p>各部门负责人为本部门档案封存工作第一责任人，须严格落实档案封存工作，确保信息不外泄。因工作疏忽导致信息泄露的，将按照学校相关规定追究相关人员责任。</p>
+
+                    <p>请各部门高度重视，严格按照本通知要求执行，确保封存工作顺利完成。</p>
+
+                    <!-- ===== 落款 + 印章覆盖在落款上 ===== -->
+                    <p class="doc-sign">
+                        安溪第三中学教务处
+                        <span class="unit">2026年4月26日</span>
+                        <span class="stamp-on-sign">
+                            <span class="stamp-star">★</span>
+                            <span class="stamp-main">安溪第三中学</span>
+                            <span class="stamp-sub">教务处</span>
+                        </span>
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="site-footer">
+            <div class="footer-links">
+                <a href="page4.html#page-home">首页</a>
+                <a href="page4.html#page-intro">学校概况</a>
+                <a href="page4.html#page-contact">联系我们</a>
+                <a href="#">网站地图</a>
+                <a href="#">隐私政策</a>
+            </div>
+            <div class="copyright">
+                Copyright © 2008-2026 安溪第三中学 版权所有 闽ICP备20080123号<br />
+                本站由安溪三中信息中心维护
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        var searchInput = document.getElementById('searchInput');
+        var searchBtn = document.getElementById('searchBtn');
+
+        function doSearch() {
+            var q = searchInput.value.trim();
+            if (!q) {
+                alert('请输入搜索关键词');
+                return;
+            }
+
+            var lowerQ = q.toLowerCase();
+
+            if (lowerQ === '林野') {
+                window.location.href = 'page6.html';
+                return;
+            }
+            if (lowerQ === '23' || lowerQ === '档案室') {
+                window.location.href = 'page7.html';
+                return;
+            }
+            alert('未找到相关结果');
+        }
+
+        searchBtn.addEventListener('click', doSearch);
+        searchInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                doSearch();
+            }
+        });
+
+        console.log('✦ 安溪第三中学 · 学籍封存内部文件 ✦');
+        console.log('—— 关键编号：JWC-2026-0426 ——');
+    </script>
+
+</body>
+</html>

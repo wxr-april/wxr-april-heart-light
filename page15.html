@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>碎铜断香 - 老巷陈记</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #0D0A08;
+            font-family: "微软雅黑", "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+            font-size: 14px;
+            color: #EEE;
+            line-height: 1.6;
+            user-select: none;
+        }
+
+        .full-screen {
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            position: relative;
+            overflow: hidden;
+            background: #0D0A08;
+        }
+
+        /* ===== 背景 ===== */
+        .full-screen .bg-img {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            background: #1A1410;
+        }
+
+        .full-screen .bg-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* ===== 遮罩 ===== */
+        .full-screen .overlay {
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(to bottom, rgba(13, 10, 8, 0.1) 0%, rgba(13, 10, 8, 0.5) 50%, rgba(13, 10, 8, 0.85) 100%);
+            z-index: 1;
+        }
+
+        /* ===== 内容 ===== */
+        .full-screen .content {
+            position: absolute;
+            bottom: 12vh;
+            left: 0;
+            right: 0;
+            z-index: 2;
+            padding: 0 28px;
+            text-align: center;
+        }
+
+        .full-screen .content .title {
+            font-size: 28px;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.3);
+            letter-spacing: 12px;
+            font-family: "楷体", "KaiTi", "STKaiti", serif;
+            margin-bottom: 6px;
+        }
+
+        .full-screen .content .sub {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.12);
+            letter-spacing: 4px;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+            margin-bottom: 14px;
+        }
+
+        .full-screen .content .line {
+            width: 40px;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.06);
+            margin: 0 auto 14px auto;
+        }
+
+        .full-screen .content .body-text {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.25);
+            letter-spacing: 2px;
+            line-height: 2.2;
+            font-family: "楷体", "KaiTi", "STKaiti", serif;
+            margin-bottom: 20px;
+        }
+
+        .full-screen .content .body-text .dim {
+            color: rgba(255, 255, 255, 0.10);
+        }
+
+        .full-screen .footer-hint {
+            position: absolute;
+            bottom: 3vh;
+            left: 0;
+            right: 0;
+            z-index: 2;
+            text-align: center;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.03);
+            letter-spacing: 2px;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+            pointer-events: none;
+        }
+
+        @media (max-width: 600px) {
+            .full-screen .content {
+                bottom: 10vh;
+                padding: 0 20px;
+            }
+            .full-screen .content .title {
+                font-size: 22px;
+                letter-spacing: 8px;
+            }
+            .full-screen .content .body-text {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .full-screen .content {
+                bottom: 8vh;
+                padding: 0 14px;
+            }
+            .full-screen .content .title {
+                font-size: 18px;
+                letter-spacing: 6px;
+            }
+            .full-screen .content .body-text {
+                font-size: 13px;
+                line-height: 2;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="full-screen">
+        <!-- 背景 -->
+        <div class="bg-img" id="bgImg">
+            <img src="end1-bg.jpg" alt="碎铜断香" />
+        </div>
+
+        <!-- 遮罩 -->
+        <div class="overlay"></div>
+
+        <!-- 内容 -->
+        <div class="content">
+            <div class="title">碎铜断香</div>
+            <div class="sub">老巷陈记 · 安溪</div>
+            <div class="line"></div>
+            <div class="body-text">
+                铜灯已毁，香火尽熄。<br />
+                <span class="dim">卷帘门落下，再无人声。</span>
+            </div>
+        </div>
+
+        <div class="footer-hint">— 老巷 · 终 —</div>
+    </div>
+
+    <script>
+        console.log('✦ 碎铜断香 · 结局1 ✦');
+        console.log('—— 铜灯损毁，香火中断 ——');
+    </script>
+
+</body>
+</html>

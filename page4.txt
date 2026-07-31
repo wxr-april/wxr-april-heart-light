@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>安溪第三中学 - 官方网站</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100vh;
+            background: #F0EBE4;
+            font-family: "宋体", "SimSun", "Microsoft YaHei", serif;
+            font-size: 14px;
+            color: #222;
+            line-height: 1.8;
+        }
+
+        a {
+            color: #1a3a6a;
+            text-decoration: none;
+        }
+        a:hover {
+            color: #C00;
+            text-decoration: underline;
+        }
+
+        .site-wrapper {
+            width: 100%;
+            min-height: 100vh;
+            background: #FFFDF8;
+            padding: 0 12px 16px 12px;
+        }
+
+        /* ===== 顶部 ===== */
+        .site-header {
+            padding: 18px 0 10px 0;
+            border-bottom: 3px solid #1a3a6a;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .site-header .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .site-header .logo-area .logo-icon {
+            font-size: 36px;
+            color: #1a3a6a;
+            font-weight: 700;
+            font-family: "Times New Roman", serif;
+            border: 2px solid #1a3a6a;
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #F0EDE8;
+            flex-shrink: 0;
+        }
+
+        .site-header .logo-area .school-name {
+            font-size: 26px;
+            font-weight: 700;
+            color: #1a3a6a;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+            letter-spacing: 2px;
+        }
+
+        .site-header .logo-area .school-name .sub {
+            font-size: 12px;
+            font-weight: 400;
+            color: #999;
+            letter-spacing: 1px;
+            display: block;
+            margin-top: 2px;
+        }
+
+        .site-header .search-box {
+            background: #FFF;
+            border: 1px solid #CCC;
+            padding: 4px 6px;
+            display: flex;
+            align-items: center;
+            border-radius: 3px;
+            flex-shrink: 0;
+        }
+
+        .site-header .search-box input {
+            border: none;
+            outline: none;
+            width: 200px;
+            height: 28px;
+            font-size: 13px;
+            font-family: "宋体", sans-serif;
+            color: #333;
+            background: transparent;
+            padding: 0 6px;
+        }
+
+        .site-header .search-box button {
+            border: 1px solid #AAA;
+            background: #E5E0D8;
+            color: #333;
+            padding: 0 14px;
+            font-size: 13px;
+            cursor: pointer;
+            font-family: "微软雅黑", sans-serif;
+            height: 28px;
+            border-radius: 2px;
+        }
+        .site-header .search-box button:hover {
+            background: #D5D0C8;
+        }
+
+        /* ===== 导航栏 ===== */
+        .site-nav {
+            background: #1a3a6a;
+            padding: 0 0;
+            margin: 10px 0 16px 0;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            min-height: 40px;
+            border-radius: 2px;
+            width: 100%;
+        }
+
+        .site-nav a {
+            color: #FFF;
+            padding: 0 22px;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+            cursor: pointer;
+            height: 40px;
+            line-height: 40px;
+            display: inline-block;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.2s;
+            white-space: nowrap;
+            flex: 1 0 auto;
+            text-align: center;
+        }
+
+        .site-nav a:hover {
+            background: none;
+            text-decoration: none;
+            color: #FFF;
+            border-bottom-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .site-nav a.active {
+            border-bottom-color: #FFF;
+        }
+
+        /* ===== 公告条 ===== */
+        .notice-bar {
+            background: #FFFDE6;
+            border: 1px solid #E5D5B0;
+            padding: 6px 12px;
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 16px;
+            border-radius: 2px;
+        }
+        .notice-bar strong {
+            color: #C00;
+        }
+
+        /* ===== 内容区 ===== */
+        .content-area {
+            min-height: 400px;
+            width: 100%;
+        }
+
+        .page-section {
+            display: none;
+            width: 100%;
+        }
+        .page-section.active {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a3a6a;
+            border-bottom: 2px solid #1a3a6a;
+            padding-bottom: 6px;
+            margin-bottom: 14px;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+        }
+
+        .content-text {
+            font-size: 14px;
+            line-height: 2;
+            color: #333;
+        }
+        .content-text p {
+            text-indent: 2em;
+            margin-bottom: 8px;
+        }
+        .content-text .no-indent {
+            text-indent: 0;
+        }
+
+        /* ===== 首页网格 ===== */
+        .home-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            width: 100%;
+        }
+
+        .home-main .block {
+            background: #FDFBF8;
+            border: 1px solid #E8E0D8;
+            border-radius: 2px;
+            padding: 14px 12px;
+            margin-bottom: 16px;
+        }
+
+        .home-main .block .block-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a3a6a;
+            border-bottom: 2px solid #1a3a6a;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+        }
+
+        .home-main .block .intro-text {
+            font-size: 14px;
+            line-height: 1.9;
+            color: #333;
+        }
+        .home-main .block .intro-text p {
+            text-indent: 2em;
+            margin-bottom: 6px;
+        }
+
+        .home-main .block .news-item {
+            padding: 5px 0;
+            border-bottom: 1px dotted #EFECE8;
+            display: flex;
+            gap: 10px;
+            font-size: 13px;
+        }
+        .home-main .block .news-item:last-child {
+            border-bottom: none;
+        }
+        .home-main .block .news-item .date {
+            color: #999;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+        .home-main .block .news-item .title a {
+            color: #036;
+        }
+        .home-main .block .news-item .title a:hover {
+            color: #C00;
+            text-decoration: underline;
+        }
+
+        .home-side .block {
+            background: #FDFBF8;
+            border: 1px solid #E8E0D8;
+            border-radius: 2px;
+            padding: 14px 12px;
+            margin-bottom: 16px;
+        }
+
+        .home-side .block .block-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1a3a6a;
+            border-bottom: 2px solid #1a3a6a;
+            padding-bottom: 6px;
+            margin-bottom: 8px;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+        }
+
+        .home-side .block .link-item {
+            padding: 4px 0;
+            font-size: 13px;
+            border-bottom: 1px dotted #F0EDE8;
+        }
+        .home-side .block .link-item:last-child {
+            border-bottom: none;
+        }
+        .home-side .block .link-item a {
+            color: #036;
+        }
+        .home-side .block .link-item a:hover {
+            color: #C00;
+            text-decoration: underline;
+        }
+
+        .home-side .block .contact-info {
+            font-size: 13px;
+            color: #555;
+            line-height: 2;
+        }
+        .home-side .block .contact-info .label {
+            color: #999;
+        }
+        .home-side .block .contact-info .tel {
+            font-family: "Courier New", monospace;
+            color: #1a3a6a;
+        }
+
+        /* ===== 新闻列表 ===== */
+        .news-list-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #F0EDE8;
+        }
+        .news-list-item:last-child {
+            border-bottom: none;
+        }
+        .news-list-item .date {
+            color: #999;
+            font-size: 12px;
+            display: inline-block;
+            width: 80px;
+        }
+        .news-list-item .title {
+            font-weight: 600;
+            color: #1a3a6a;
+            font-size: 15px;
+        }
+        .news-list-item .summary {
+            font-size: 13px;
+            color: #555;
+            padding-left: 80px;
+            line-height: 1.7;
+        }
+
+        /* ===== 高考喜报 ===== */
+        .gaokao-list {
+            padding: 4px 0;
+        }
+
+        .gaokao-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #F0EDE8;
+            font-size: 14px;
+            color: #333;
+            line-height: 1.9;
+        }
+        .gaokao-item:last-child {
+            border-bottom: none;
+        }
+
+        .gaokao-item .year {
+            color: #999;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-block;
+            width: 75px;
+        }
+
+        .gaokao-item .name {
+            font-weight: 600;
+            color: #1a3a6a;
+            font-size: 15px;
+        }
+
+        .gaokao-item .detail {
+            display: block;
+            padding-left: 75px;
+            color: #555;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .gaokao-item .detail .highlight {
+            color: #1a3a6a;
+            font-weight: 600;
+        }
+
+        /* ===== 页脚 ===== */
+        .site-footer {
+            border-top: 1px solid #E8E0D8;
+            padding: 16px 0 10px 0;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+            line-height: 1.8;
+        }
+        .site-footer a {
+            color: #666;
+        }
+        .site-footer .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .site-footer .copyright {
+            color: #BBB;
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        /* ===== 响应式 ===== */
+        @media (max-width: 1024px) {
+            .site-nav a {
+                padding: 0 14px;
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .site-wrapper {
+                padding: 0 8px 12px 8px;
+            }
+            .site-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            .site-header .search-box {
+                width: 100%;
+            }
+            .site-header .search-box input {
+                width: 100%;
+            }
+            .site-header .logo-area .school-name {
+                font-size: 20px;
+            }
+            .site-header .logo-area .logo-icon {
+                width: 44px;
+                height: 44px;
+                font-size: 28px;
+            }
+            .site-nav {
+                padding: 4px 0;
+                min-height: auto;
+                gap: 2px;
+                justify-content: flex-start;
+            }
+            .site-nav a {
+                padding: 4px 12px;
+                height: auto;
+                line-height: 1.6;
+                font-size: 13px;
+                border-bottom: none;
+                flex: 0 1 auto;
+                text-align: left;
+            }
+            .site-nav a.active {
+                border-bottom: none;
+                background: rgba(255, 255, 255, 0.15);
+                border-radius: 2px;
+            }
+            .home-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .gaokao-item .detail {
+                padding-left: 0;
+            }
+            .gaokao-item .year {
+                display: block;
+                width: auto;
+            }
+            .news-list-item .summary {
+                padding-left: 0;
+            }
+            .notice-bar {
+                font-size: 12px;
+                padding: 4px 10px;
+            }
+            .home-main .block {
+                padding: 12px 8px;
+            }
+            .home-side .block {
+                padding: 12px 8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .site-wrapper {
+                padding: 0 4px 10px 4px;
+            }
+            .site-header .logo-area .school-name {
+                font-size: 17px;
+            }
+            .site-header .logo-area .logo-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 20px;
+            }
+            .site-nav a {
+                font-size: 12px;
+                padding: 3px 8px;
+            }
+            .home-main .block .news-item {
+                flex-wrap: wrap;
+                gap: 2px;
+            }
+            .home-main .block .news-item .date {
+                width: 100%;
+            }
+            .gaokao-item .detail {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="site-wrapper">
+
+        <!-- ===== 顶部 ===== -->
+        <div class="site-header">
+            <div class="logo-area">
+                <div class="logo-icon">三中</div>
+                <div class="school-name">
+                    安溪第三中学
+                    <span class="sub">Anxi No.3 Middle School</span>
+                </div>
+            </div>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="站内搜索..." />
+                <button id="searchBtn">搜索</button>
+            </div>
+        </div>
+
+        <!-- ===== 导航 ===== -->
+        <div class="site-nav">
+            <a href="#" class="active" data-page="home">首页</a>
+            <a href="#" data-page="intro">学校概况</a>
+            <a href="#" data-page="news">新闻中心</a>
+            <a href="#" data-page="teaching">教学科研</a>
+            <a href="#" data-page="moral">德育天地</a>
+            <a href="#" data-page="admission">招生考试</a>
+            <a href="#" data-page="gaokao">高考喜报</a>
+            <a href="#" data-page="contact">联系我们</a>
+        </div>
+
+        <!-- ===== 公告条 ===== -->
+        <div class="notice-bar">
+            <strong>📢 公告：</strong> 高三年级第三次模拟考试已于4月1日顺利完成。2026年高考体检工作已圆满结束。请高三师生关注后续工作安排。
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- 首页 -->
+        <!-- ========================================================= -->
+        <div class="content-area page-section active" id="page-home">
+            <div class="home-grid">
+                <div class="home-main">
+                    <div class="block">
+                        <div class="block-title">学校简介</div>
+                        <div class="intro-text">
+                            <p>安溪第三中学创办于1958年，位于安溪县城区中心，是一所全日制普通完全中学。校园占地120亩，建筑面积约4.2万平方米，现有教学班48个，在校学生2400余人，教职工180余人。</p>
+                            <p>学校秉承"立德树人、全面发展"的办学理念，以"厚德、博学、笃行、致远"为校训，教育教学质量稳步提升，高考成绩逐年攀升，本科上线率稳居全县前列。</p>
+                        </div>
+                    </div>
+
+                    <div class="block">
+                        <div class="block-title">校园新闻</div>
+                        <div class="news-item">
+                            <span class="date">2026-04-28</span>
+                            <span class="title"><a href="#" onclick="switchPage('news');return false;">安溪三中2026年高考体检工作圆满完成</a></span>
+                        </div>
+                        <div class="news-item">
+                            <span class="date">2026-04-20</span>
+                            <span class="title"><a href="#" onclick="switchPage('news');return false;">高三模考成绩公布，考生可登录系统查询</a></span>
+                        </div>
+                        <div class="news-item">
+                            <span class="date">2026-04-15</span>
+                            <span class="title"><a href="#" onclick="switchPage('news');return false;">学校开展高三考前心理辅导专题讲座</a></span>
+                        </div>
+                        <div class="news-item">
+                            <span class="date">2026-04-08</span>
+                            <span class="title"><a href="#" onclick="switchPage('news');return false;">2026年秋季学期教材征订工作启动</a></span>
+                        </div>
+                        <div class="news-item">
+                            <span class="date">2026-04-01</span>
+                            <span class="title"><a href="#" onclick="switchPage('news');return false;">高三年级第三次模拟考试顺利举行</a></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="home-side">
+                    <div class="block">
+                        <div class="block-title">快速通道</div>
+                        <div class="link-item"><a href="#" onclick="switchPage('admission');return false;">· 招生考试信息</a></div>
+                        <div class="link-item"><a href="#" onclick="switchPage('gaokao');return false;">· 历年高考喜报</a></div>
+                        <div class="link-item"><a href="#" onclick="switchPage('news');return false;">· 校园新闻</a></div>
+                        <div class="link-item"><a href="#">· 教务管理系统</a></div>
+                        <div class="link-item"><a href="#">· 成绩查询系统</a></div>
+                    </div>
+                    <div class="block">
+                        <div class="block-title">联系我们</div>
+                        <div class="contact-info">
+                            <div><span class="label">📍 地址：</span>福建省泉州市安溪县凤城镇三中路18号</div>
+                            <div><span class="label">📞 电话：</span><span class="tel">0595-2325-5432</span></div>
+                            <div><span class="label">📧 邮箱：</span>anxisanzhong@163.com</div>
+                            <div><span class="label">🕐 办公时间：</span>周一至周五 8:00-17:30</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- 学校概况 -->
+        <!-- ========================================================= -->
+        <div class="content-area page-section" id="page-intro">
+            <div class="section-title">学校概况</div>
+            <div class="content-text">
+                <p><strong>安溪第三中学</strong>创办于1958年，迄今已有六十余年的办学历史。学校坐落于安溪县城区中心，地理位置优越，交通便利。校园占地约120亩，建筑面积约4.2万平方米，绿化覆盖率达35%以上，是一所环境优美、设施完善的完全中学。</p>
+
+                <p style="text-indent:0;font-weight:600;color:#1a3a6a;margin-top:10px;">校训</p>
+                <p>厚德 博学 笃行 致远</p>
+
+                <p style="text-indent:0;font-weight:600;color:#1a3a6a;margin-top:10px;">办学理念</p>
+                <p>立德树人、全面发展</p>
+
+                <p style="text-indent:0;font-weight:600;color:#1a3a6a;margin-top:10px;">办学目标</p>
+                <p>建设成为安溪县乃至泉州市有影响力、有特色的优质完全中学</p>
+
+                <p style="text-indent:0;font-weight:600;color:#1a3a6a;margin-top:10px;">校园环境</p>
+                <p>学校校园布局合理，教学区、运动区、生活区分明。校内绿树成荫，环境幽雅。建有标准化田径运动场、多功能报告厅、图书馆（藏书近8万册）、理生化实验室、信息技术教室、心理咨询室等教学设施，为学生提供了良好的学习和成长环境。</p>
+
+                <p style="text-indent:0;font-weight:600;color:#1a3a6a;margin-top:10px;">生活设施</p>
+                <p>学校食堂、学生公寓等生活设施齐全，实行封闭式管理，为住校生提供了安全、舒适的生活条件。学校高度重视校园安全，建立健全了安全管理体系，连续多年被评为"安溪县平安校园"。</p>
+
+                <p style="text-indent:0;font-weight:600;color:#1a3a6a;margin-top:10px;">办学成果</p>
+                <p>学校先后荣获"福建省义务教育管理标准化学校""安溪县文明校园""安溪县教育教学先进单位"等荣誉称号。近年来，学校在学科竞赛、体育比赛、艺术展演等方面取得了丰硕成果。</p>
+            </div>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- 新闻中心 -->
+        <!-- ========================================================= -->
+        <div class="content-area page-section" id="page-news">
+            <div class="section-title">新闻中心</div>
+            <div class="content-text">
+
+                <div class="news-list-item">
+                    <span class="date">2026-04-28</span>
+                    <div class="title">安溪三中2026年高考体检工作圆满完成</div>
+                    <div class="summary">4月25日至27日，我校组织全体高三学生分批前往安溪县医院完成2026年高考体检。本次体检涵盖内科、外科、眼科、耳鼻喉科、胸透等常规项目，流程规范，组织有序，确保考生体检工作顺利完成。</div>
+                </div>
+
+                <div class="news-list-item">
+                    <span class="date">2026-04-20</span>
+                    <div class="title">高三模考成绩公布，考生可登录系统查询</div>
+                    <div class="summary">2026届高三第三次模拟考试成绩已于4月20日公布，考生可登录学校教务管理系统查询个人成绩及排名。本次模考由泉州市统一命题，整体难度适中，对后续复习备考具有重要参考意义。</div>
+                </div>
+
+                <div class="news-list-item">
+                    <span class="date">2026-04-15</span>
+                    <div class="title">学校开展高三考前心理辅导专题讲座</div>
+                    <div class="summary">为缓解高三学生考前压力，我校特邀泉州师范学院心理学教授来校开展"阳光心态 从容应考"主题讲座。讲座围绕考前焦虑应对、情绪调节、时间管理等方面进行指导，帮助高三学生以良好心态迎接高考。</div>
+                </div>
+
+                <div class="news-list-item">
+                    <span class="date">2026-04-08</span>
+                    <div class="title">2026年秋季学期教材征订工作启动</div>
+                    <div class="summary">根据县教育局统一部署，我校2026年秋季学期教材征订工作已于4月8日正式启动。各年级备课组已按要求完成教材版本确认和数量申报，确保新学期教材按时到位。</div>
+                </div>
+
+                <div class="news-list-item">
+                    <span class="date">2026-04-01</span>
+                    <div class="title">高三年级第三次模拟考试顺利举行</div>
+                    <div class="summary">4月1日至3日，我校高三年级举行了第三次模拟考试。本次考试严格按照高考标准组织，实行单人单桌、信号屏蔽、视频监控，旨在帮助学生提前适应高考氛围，检验阶段性复习成果。</div>
+                </div>
+
+                <div class="news-list-item">
+                    <span class="date">2026-03-25</span>
+                    <div class="title">安溪三中2026年春季运动会圆满落幕</div>
+                    <div class="summary">3月22日至24日，我校举行2026年春季田径运动会。全校48个班级共600余名运动员参加了100米、400米、跳高、跳远、铅球等十余个项目的角逐，充分展现了三中学子昂扬向上的精神风貌。</div>
+                </div>
+
+                <div class="news-list-item">
+                    <span class="date">2026-03-18</span>
+                    <div class="title">学校开展"学雷锋"志愿服务月系列活动</div>
+                    <div class="summary">3月5日至18日，我校组织各年级学生开展"学雷锋"志愿服务月系列活动，内容包括校园卫生清扫、社区助老帮扶、文明交通劝导等，弘扬雷锋精神，培育学生社会责任感。</div>
+                </div>
+
+                <div class="news-list-item" style="border-bottom:none;">
+                    <span class="date">2026-03-10</span>
+                    <div class="title">安溪三中召开2026年春季家长会</div>
+                    <div class="summary">3月8日至9日，我校分年级召开2026年春季家长会。各年级就上学期教学成果、新学期工作安排、学生行为习惯养成等方面与家长进行了深入交流，家校协同共促学生健康成长。</div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- 教学科研 -->
+        <!-- ========================================================= -->
+        <div class="content-area page-section" id="page-teaching">
+            <div class="section-title">教学科研</div>
+            <div class="content-text">
+                <p>学校高度重视教学科研工作，坚持以教学为中心，以科研为先导，不断深化教育教学改革，提升教育教学质量。</p>
+
+                <p style="text-indent:0;font-weight:600;color:#1a3a6a;margin-top:10px;">教师队伍</p>
+                <p>学校现有教职工180余人，其中高级教师32人，一级教师68人，省市级骨干教师16人，县级学科带头人28人。教师队伍结构合理，业务精湛，师德高尚，多人次在省市级教学技能竞赛中获奖。</p>
+
+                <p style="text-indent:0;font-weight:600;color:#1a3a6a;margin-top:10px;">教科研成果</p>
+                <p>近年来，学校承担省市级教育科研课题12项，其中省级课题4项，市级课题8项。教师发表教育教学论文100余篇，其中核心期刊论文20余篇。学校被评为"安溪县教育科研先进单位""泉州市校本教研示范校"。</p>
+
+                <p style="text-indent:0;font-weight:600;color:#1a3a6a;margin-top:10px;">教研活动</p>
+                <p>各学科教研组定期开展集体备课、听课评课、教学反思等活动，形成了浓厚的教研氛围。学校积极推进信息技术与课堂教学的深度融合，建设智慧课堂，提升教学效率。每学期组织公开课、示范课、教学开放周等活动，促进教师专业成长。</p>
+
+                <p style="text-indent:0;font-weight:600;color:#1a3a6a;margin-top:10px;">学科竞赛</p>
+                <p>学校积极组织学生参加各学科竞赛，近年来在全国中学生数学联赛、物理竞赛、化学竞赛、生物竞赛、作文大赛等赛事中均有学生获奖，累计获得省级以上奖项50余人次。</p>
+            </div>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- 德育天地 -->
+        <!-- ========================================================= -->
+        <div class="content-area page-section" id="page-moral">
+            <div class="section-title">德育天地</div>
+            <div class="content-text">
+                <p>学校坚持"育人为本、德育为先"的教育理念，构建了完善的德育工作体系，注重培养学生良好的道德品质和行为习惯。</p>
+
+                <p style="text-indent:0;font-weight:600;color:#1a3a6a;margin-top:10px;">德育工作</p>
+                <p>通过主题班会、国旗下讲话、社会实践、志愿服务等多种形式，开展爱国主义教育、理想信念教育、品德修养教育、法治安全教育等系列活动。每学期定期开展"文明班级""三好学生""优秀学生干部"评选表彰，营造积极向上的校园氛围。</p>
+
+                <p style="text-indent:0;font-weight:600;color:#1a3a6a;margin-top:10px;">学生社团</p>
+                <p>学校成立了文学社、书法社、音乐社、篮球社、科技社、志愿者协会等20余个学生社团，定期举办校园文化艺术节、运动会、演讲比赛、辩论赛、书法展览等文体活动，丰富学生课余生活，促进学生全面发展。</p>
+
+                <p style="text-indent:0;font-weight:600;color:#1a3a6a;margin-top:10px;">心理健康教育</p>
+                <p>学校心理健康教育中心配备专职心理教师2名，设有心理咨询室、团体辅导室、放松室等功能区域，定期开展心理健康讲座和个体咨询，关注学生心理健康，帮助学生健康成长。</p>
+
+                <p style="text-indent:0;font-weight:600;color:#1a3a6a;margin-top:10px;">家校共育</p>
+                <p>学校建立了家校沟通长效机制，通过家长会、家访、家长开放日、家长微信群等多种渠道，加强家校联系，形成教育合力，共同促进学生全面发展。</p>
+            </div>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- 招生考试 -->
+        <!-- ========================================================= -->
+        <div class="content-area page-section" id="page-admission">
+            <div class="section-title">招生考试</div>
+            <div class="content-text">
+
+                <p style="font-weight:600;color:#1a3a6a;font-size:15px;border-bottom:1px solid #EEE;padding-bottom:4px;">2026年高一新生招生计划</p>
+                <p>2026年秋季，我校计划招收高一新生680人，共14个教学班。招生范围为安溪县全县，按照中考成绩和志愿择优录取。具体招生政策请咨询学校招生办：0595-2325-5432。</p>
+
+                <p style="font-weight:600;color:#1a3a6a;font-size:15px;border-bottom:1px solid #EEE;padding-bottom:4px;margin-top:16px;">历年录取分数线参考</p>
+                <p>· 2025年：统招线 628分，定向线 598分</p>
+                <p>· 2024年：统招线 615分，定向线 585分</p>
+                <p>· 2023年：统招线 602分，定向线 572分</p>
+
+                <p style="font-weight:600;color:#1a3a6a;font-size:15px;border-bottom:1px solid #EEE;padding-bottom:4px;margin-top:16px;">高考报名</p>
+                <p>2026年高考报名工作已于2025年10月完成。请高三考生关注后续体检、志愿填报等工作安排，及时与班主任保持联系。</p>
+
+                <!-- 已删除：📌 查看历年高考优秀学生录取情况，请点击导航栏 高考喜报 -->
+
+            </div>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- 高考喜报 -->
+        <!-- ========================================================= -->
+        <div class="content-area page-section" id="page-gaokao">
+            <div class="section-title">高考喜报</div>
+            <div class="content-text">
+                <p style="color:#666;font-size:13px;margin-bottom:10px;">近年来，我校高考成绩稳步提升，大批优秀学子被省内外重点高校录取。以下是部分优秀毕业生录取及在校档案记录：</p>
+
+                <div class="gaokao-list">
+
+                    <div class="gaokao-item">
+                        <span class="year">2025届</span>
+                        <span class="name">陈思远</span>
+                        <span class="detail">理科总分678分，被浙江大学工科试验班录取。在校期间多次获得省级数学竞赛一等奖，品学兼优。</span>
+                    </div>
+
+                    <div class="gaokao-item">
+                        <span class="year">2025届</span>
+                        <span class="name">林雨桐</span>
+                        <span class="detail">文科总分632分，被厦门大学经济学类专业录取。校学生会主席，曾获泉州市优秀学生干部称号。</span>
+                    </div>
+
+                    <div class="gaokao-item">
+                        <span class="year">2024届</span>
+                        <span class="name">王泽凯</span>
+                        <span class="detail">理科总分665分，被华中科技大学计算机科学与技术专业录取。校科技社社长，获省级科技创新大赛一等奖。</span>
+                    </div>
+
+                    <div class="gaokao-item">
+                        <span class="year">2012届</span>
+                        <span class="name">李彤</span>
+                        <span class="detail">应届文科考生，当年高考总分613分，超文史类本科一批录取线。入学后因家庭原因申请休学，其后家属登记信息全部失效，校方多方联系无果。据档案记载，其母李娟曾长期陪同就医，后去向不明。</span>
+                    </div>
+
+                    <div class="gaokao-item">
+                        <span class="year">2024届</span>
+                        <span class="name">苏晓婷</span>
+                        <span class="detail">文科总分624分，被中山大学新闻传播学类专业录取。校文学社社长，多篇作品发表于市级报刊。</span>
+                    </div>
+
+                    <div class="gaokao-item">
+                        <span class="year">1999届</span>
+                        <span class="name">张伟</span>
+                        <span class="detail">理科考生，当年高考总分642分，被省内重点高校工科专业录取。入学后表现良好，但其父于同年除夕前后失联，校方曾协助联系，后续无任何回应。据街坊邻里反映，其父张建军曾在本县老巷一带频繁出入。</span>
+                    </div>
+
+                    <div class="gaokao-item">
+                        <span class="year">2023届</span>
+                        <span class="name">黄志鹏</span>
+                        <span class="detail">理科总分658分，被电子科技大学电子信息类专业录取。校物理竞赛队主力队员，省物理竞赛二等奖获得者。</span>
+                    </div>
+
+                    <div class="gaokao-item" style="border-bottom:none;">
+                        <span class="year">1979届</span>
+                        <span class="name">赵秀兰</span>
+                        <span class="detail">当年全国统考总分500分，该生总分320分，超文科本科录取线。入学不足一月主动向校方提交退学申请，后多次家访均无法取得联络，家庭登记地址现已失效，历年毕业生回访均无此人记录。据档案记载，该生退学前曾出入安溪县老巷一带。</span>
+                    </div>
+
+                </div>
+
+                <p style="color:#999;font-size:12px;margin-top:12px;border-top:1px solid #EEE;padding-top:8px;">※ 以上为部分学生录取及档案记录，持续更新中。</p>
+            </div>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- 联系我们 -->
+        <!-- ========================================================= -->
+        <div class="content-area page-section" id="page-contact">
+            <div class="section-title">联系我们</div>
+            <div class="content-text">
+                <p style="font-weight:600;color:#1a3a6a;font-size:16px;">安溪第三中学</p>
+                <p style="text-indent:0;"><span style="color:#999;">📍 地址：</span>福建省泉州市安溪县凤城镇三中路18号（邮编：362400）</p>
+                <p style="text-indent:0;"><span style="color:#999;">📞 电话：</span>0595-2325-5432（教务处）</p>
+                <p style="text-indent:0;"><span style="color:#999;">📧 邮箱：</span>anxisanzhong@163.com</p>
+                <p style="text-indent:0;"><span style="color:#999;">🕐 办公时间：</span>周一至周五 8:00-17:30</p>
+
+                <p style="text-indent:0;font-weight:600;color:#1a3a6a;margin-top:14px;">交通指引</p>
+                <p style="text-indent:0;">乘坐安溪县公交1路、3路、7路至"三中站"下车，步行约100米即达。</p>
+
+                <p style="text-indent:0;color:#999;font-size:13px;margin-top:10px;">欢迎社会各界人士莅临指导，欢迎广大学子报考安溪第三中学。</p>
+            </div>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- 页脚 -->
+        <!-- ========================================================= -->
+        <div class="site-footer">
+            <div class="footer-links">
+                <a href="#" onclick="switchPage('home');return false;">首页</a>
+                <a href="#" onclick="switchPage('intro');return false;">学校概况</a>
+                <a href="#" onclick="switchPage('contact');return false;">联系我们</a>
+                <a href="#">网站地图</a>
+                <a href="#">隐私政策</a>
+            </div>
+            <div class="copyright">
+                Copyright © 2008-2026 安溪第三中学 版权所有 闽ICP备20080123号<br />
+                本站由安溪三中信息中心维护
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // =============================================================
+        // 1. 导航切换
+        // =============================================================
+        var navLinks = document.querySelectorAll('.site-nav a');
+        var pageSections = {
+            home: document.getElementById('page-home'),
+            intro: document.getElementById('page-intro'),
+            news: document.getElementById('page-news'),
+            teaching: document.getElementById('page-teaching'),
+            moral: document.getElementById('page-moral'),
+            admission: document.getElementById('page-admission'),
+            gaokao: document.getElementById('page-gaokao'),
+            contact: document.getElementById('page-contact')
+        };
+
+        function switchPage(pageId) {
+            Object.keys(pageSections).forEach(function(key) {
+                pageSections[key].classList.remove('active');
+            });
+            if (pageSections[pageId]) {
+                pageSections[pageId].classList.add('active');
+            }
+            navLinks.forEach(function(link) {
+                link.classList.remove('active');
+                if (link.dataset.page === pageId) {
+                    link.classList.add('active');
+                }
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        navLinks.forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                var page = this.dataset.page;
+                if (page) switchPage(page);
+            });
+        });
+
+        window.switchPage = switchPage;
+
+        // =============================================================
+        // 2. 搜索框
+        // =============================================================
+        var searchInput = document.getElementById('searchInput');
+        var searchBtn = document.getElementById('searchBtn');
+
+        function doSearch() {
+            var q = searchInput.value.trim();
+            if (!q) {
+                alert('请输入搜索关键词');
+                return;
+            }
+
+            var lowerQ = q.toLowerCase();
+
+            if (lowerQ === '林野') {
+                window.location.href = 'page6.html';
+                return;
+            }
+
+            if (lowerQ === '23' || lowerQ === '档案室') {
+                window.location.href = 'page7.html';
+                return;
+            }
+
+            alert('未找到相关结果');
+        }
+
+        searchBtn.addEventListener('click', doSearch);
+        searchInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                doSearch();
+            }
+        });
+
+        console.log('✦ 安溪第三中学官网加载完毕 ✦');
+        console.log('—— 搜索"林野"跳转page6，搜索"23"或"档案室"跳转page7 ——');
+        console.log('—— 高考喜报中混入三条异常档案记录 ——');
+    </script>
+
+</body>
+</html>

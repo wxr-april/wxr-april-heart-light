@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>还香 · 天下舆图</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #0d0a08;
+            font-family: "Microsoft YaHei", "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+        }
+
+        .container {
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            background: #1a1614;
+            border: 1px solid #2a221e;
+            box-shadow: inset 0 0 0 1px #2a221e;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: #14100e;
+            padding: 8px 16px;
+            border-bottom: 1px solid #2a221e;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+            cursor: default;
+        }
+
+        .chat-header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            color: #7a6a5a;
+            font-weight: 400;
+            user-select: none;
+            letter-spacing: 0.5px;
+        }
+
+        .chat-header-left .status-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #3a2a22;
+            border-radius: 50%;
+            border: 1px solid #2a1a14;
+        }
+
+        .chat-header-right {
+            font-size: 12px;
+            color: #4a3a32;
+            user-select: none;
+            letter-spacing: 0.3px;
+        }
+
+        .chat-body {
+            flex: 1 1 0;
+            min-height: 0;
+            background: #161210;
+            padding: 14px 18px 10px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .chat-body::-webkit-scrollbar {
+            width: 4px;
+        }
+        .chat-body::-webkit-scrollbar-track {
+            background: #1a1614;
+        }
+        .chat-body::-webkit-scrollbar-thumb {
+            background: #3a2a22;
+            border-radius: 2px;
+        }
+
+        .map-wrapper {
+            flex: 1 1 0;
+            min-height: 0;
+            background: #12100e;
+            border: 1px solid #2a221e;
+            border-radius: 2px;
+            padding: 12px 10px 10px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .map-title {
+            font-size: 13px;
+            color: #6a5a4a;
+            font-family: "Consolas", monospace;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            border-bottom: 1px solid #2a221e;
+            padding-bottom: 6px;
+            margin-bottom: 8px;
+            flex-shrink: 0;
+            text-align: center;
+        }
+
+        .map-grid {
+            flex: 1 1 0;
+            min-height: 0;
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: flex-start;
+            gap: 6px 12px;
+            padding: 4px 2px;
+            overflow-y: auto;
+        }
+
+        .map-grid::-webkit-scrollbar {
+            width: 3px;
+        }
+        .map-grid::-webkit-scrollbar-track {
+            background: #12100e;
+        }
+        .map-grid::-webkit-scrollbar-thumb {
+            background: #2a221e;
+            border-radius: 2px;
+        }
+
+        .light-point {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            padding: 3px 6px 3px 4px;
+            border-radius: 2px;
+            transition: background 0.15s;
+            font-size: 12px;
+            color: #7a6a5a;
+            font-family: "Consolas", monospace;
+            letter-spacing: 0.3px;
+            user-select: none;
+            flex-shrink: 0;
+            border: 1px solid transparent;
+        }
+
+        .light-point:hover {
+            background: #1a1614;
+            border-color: #2a221e;
+        }
+
+        .light-point .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            border: 1px solid rgba(0, 0, 0, 0.3);
+            transition: all 0.2s;
+        }
+
+        .light-point .dot.lit {
+            background: radial-gradient(circle at 40% 30%, #c8a070, #a08050 50%, #806040 80%);
+            box-shadow: 0 0 6px rgba(180, 150, 100, 0.2);
+            border-color: rgba(160, 130, 80, 0.2);
+        }
+
+        .light-point .dot.extinct {
+            background: #2a2a2a;
+            border-color: #3a3a3a;
+            box-shadow: none;
+        }
+
+        .light-point .dot.gray {
+            background: radial-gradient(circle at 40% 30%, #4a4a4a, #3a3a3a 50%, #2a2a2a 80%);
+            border-color: #3a3a3a;
+            box-shadow: 0 0 4px rgba(100, 100, 100, 0.06);
+        }
+
+        .light-point .dot.special-blink {
+            background: radial-gradient(circle at 40% 30%, #ffcc77, #e8a040 50%, #c88020 80%);
+            border-color: #e8a040;
+            animation: blinkSpecial 2.8s ease-in-out infinite alternate;
+            box-shadow: 0 0 12px rgba(255, 180, 60, 0.4);
+            cursor: pointer;
+        }
+
+        @keyframes blinkSpecial {
+            0% {
+                opacity: 0.6;
+                transform: scale(0.9);
+                box-shadow: 0 0 6px rgba(255, 180, 60, 0.2);
+            }
+            50% {
+                opacity: 1.0;
+                transform: scale(1.2);
+                box-shadow: 0 0 25px rgba(255, 200, 80, 0.8), 0 0 50px rgba(255, 180, 60, 0.3);
+            }
+            100% {
+                opacity: 0.6;
+                transform: scale(0.9);
+                box-shadow: 0 0 6px rgba(255, 180, 60, 0.2);
+            }
+        }
+
+        .light-point .name {
+            font-size: 12px;
+            color: #7a6a5a;
+            white-space: nowrap;
+        }
+
+        .light-point.special {
+            border-color: rgba(200, 180, 100, 0.15);
+            background: rgba(200, 180, 100, 0.03);
+            cursor: pointer;
+        }
+
+        .light-point.special:hover {
+            border-color: rgba(255, 200, 100, 0.3);
+            background: rgba(200, 180, 100, 0.06);
+        }
+
+        .light-point.special .name {
+            color: #ccaa66;
+        }
+
+        /* ===== 底部铭文 — 正常可读，不突兀 ===== */
+        .final-question {
+            margin-top: 6px;
+            padding: 8px 10px 6px 10px;
+            border-top: 1px solid #2a221e;
+            font-size: 12px;
+            color: #5a4a3a;
+            font-family: "KaiTi", "STKaiti", serif;
+            letter-spacing: 1.5px;
+            line-height: 1.6;
+            text-align: center;
+            flex-shrink: 0;
+            opacity: 0.6;
+        }
+
+        .final-question .epigraph {
+            color: #5a4a3a;
+            font-size: 12px;
+            letter-spacing: 1.5px;
+            font-weight: 400;
+        }
+
+        .chat-footer {
+            background: #14100e;
+            border-top: 1px solid #2a221e;
+            padding: 10px 18px 14px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .footer-hint {
+            font-size: 11px;
+            color: #4a3a32;
+            text-align: center;
+            letter-spacing: 1px;
+            font-family: "Consolas", monospace;
+            border-bottom: 1px solid #2a221e;
+            padding-bottom: 6px;
+            width: 100%;
+            opacity: 0.4;
+        }
+
+        .btn-back {
+            background: #1a1614;
+            border: 1px solid #2a221e;
+            border-radius: 2px;
+            padding: 7px 24px;
+            font-size: 13px;
+            font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+            color: #6a5a4a;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            letter-spacing: 1px;
+        }
+
+        .btn-back:hover {
+            background: #2a221e;
+            border-color: #4a3a32;
+            color: #8a7a6a;
+        }
+
+        .chat-status {
+            background: #14100e;
+            border-top: 1px solid #1a1614;
+            padding: 3px 16px;
+            font-size: 10px;
+            color: #4a3a32;
+            display: flex;
+            justify-content: space-between;
+            font-family: "Consolas", monospace;
+            letter-spacing: 0.2px;
+            user-select: none;
+            flex-shrink: 0;
+        }
+
+        .chat-status .count {
+            color: #5a4a3a;
+        }
+
+        .detail-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            padding: 20px;
+            backdrop-filter: blur(2px);
+        }
+
+        .detail-overlay.visible {
+            display: flex;
+        }
+
+        .detail-card {
+            background: #1a1614;
+            border: 1px solid #3a2a22;
+            border-radius: 3px;
+            padding: 24px 28px 20px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .detail-card .d-title {
+            font-size: 18px;
+            color: #b0a090;
+            font-family: "KaiTi", "STKaiti", serif;
+            letter-spacing: 2px;
+            border-bottom: 1px solid #2a221e;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+        }
+
+        .detail-card .d-row {
+            font-size: 13px;
+            color: #7a6a5a;
+            font-family: "Consolas", monospace;
+            padding: 4px 0;
+            border-bottom: 1px solid #1a1614;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .detail-card .d-row .label {
+            color: #4a3a32;
+        }
+        .detail-card .d-row .value {
+            color: #9a8a7a;
+        }
+
+        .detail-card .d-close {
+            margin-top: 14px;
+            background: #1a1614;
+            border: 1px solid #2a221e;
+            border-radius: 2px;
+            padding: 6px 20px;
+            color: #6a5a4a;
+            cursor: pointer;
+            font-size: 13px;
+            font-family: "Microsoft YaHei", Arial, sans-serif;
+            transition: all 0.2s;
+            width: 100%;
+            text-align: center;
+        }
+
+        .detail-card .d-close:hover {
+            background: #2a221e;
+            border-color: #4a3a32;
+            color: #8a7a6a;
+        }
+
+        @media (max-width: 600px) {
+            .chat-header {
+                padding: 6px 12px;
+            }
+            .chat-header-left {
+                font-size: 12px;
+            }
+            .chat-body {
+                padding: 10px 12px 8px;
+            }
+            .map-wrapper {
+                padding: 8px 6px;
+            }
+            .light-point {
+                font-size: 11px;
+                padding: 2px 4px;
+            }
+            .light-point .dot {
+                width: 8px;
+                height: 8px;
+            }
+            .light-point .name {
+                font-size: 11px;
+            }
+            .final-question {
+                font-size: 11px;
+                padding: 6px 8px;
+            }
+            .final-question .epigraph {
+                font-size: 11px;
+            }
+            .chat-footer {
+                padding: 8px 14px 12px;
+            }
+            .btn-back {
+                padding: 8px 20px;
+                font-size: 14px;
+                width: 100%;
+                text-align: center;
+            }
+            .detail-card {
+                padding: 18px 18px 16px;
+            }
+            .detail-card .d-title {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .chat-body {
+                padding: 6px 6px 4px;
+            }
+            .map-wrapper {
+                padding: 6px 4px;
+            }
+            .light-point {
+                font-size: 10px;
+                gap: 4px;
+            }
+            .light-point .dot {
+                width: 7px;
+                height: 7px;
+            }
+            .light-point .name {
+                font-size: 10px;
+            }
+            .final-question {
+                font-size: 10px;
+                padding: 4px 6px;
+            }
+            .final-question .epigraph {
+                font-size: 10px;
+            }
+            .chat-status {
+                font-size: 9px;
+                padding: 2px 10px;
+                flex-wrap: wrap;
+                gap: 2px;
+            }
+            .detail-card {
+                padding: 14px 14px 12px;
+            }
+            .detail-card .d-title {
+                font-size: 14px;
+            }
+            .detail-card .d-row {
+                font-size: 12px;
+            }
+        }
+
+        @media (max-height: 500px) {
+            .chat-body {
+                padding: 4px 8px 4px;
+                gap: 4px;
+            }
+            .map-wrapper {
+                padding: 4px 4px;
+            }
+            .map-title {
+                font-size: 10px;
+                padding-bottom: 4px;
+                margin-bottom: 4px;
+            }
+            .light-point {
+                font-size: 10px;
+                padding: 1px 3px;
+                gap: 4px;
+            }
+            .light-point .dot {
+                width: 6px;
+                height: 6px;
+            }
+            .final-question {
+                font-size: 10px;
+                padding: 4px 6px;
+                margin-top: 4px;
+            }
+            .final-question .epigraph {
+                font-size: 10px;
+            }
+            .chat-footer {
+                padding: 4px 12px 8px;
+                gap: 4px;
+            }
+            .btn-back {
+                padding: 4px 14px;
+                font-size: 12px;
+            }
+            .chat-status {
+                font-size: 9px;
+                padding: 2px 10px;
+            }
+            .detail-card {
+                padding: 12px 14px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="chat-header">
+        <div class="chat-header-left">
+            <span class="status-dot"></span>
+            <span>· · ·</span>
+        </div>
+        <div class="chat-header-right"></div>
+    </div>
+
+    <div class="chat-body" id="chatBody">
+
+        <div class="map-wrapper">
+            <div class="map-title">◈ 天下舆图 ◈</div>
+            <div class="map-grid" id="mapGrid"></div>
+            <div class="final-question">
+                <span class="epigraph">凡人可破一轮灯，不可破人间万古愿。</span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="chat-footer">
+        <div class="footer-hint">— 若有缘，再会 —</div>
+        <a href="page16b.html" class="btn-back">← 返回灯谱回响</a>
+    </div>
+
+    <div class="chat-status">
+        <span>灯谱 · <span class="count" id="totalCount">0</span> 城</span>
+        <span>安溪 · 已熄</span>
+        <span>东京 · 燃</span>
+    </div>
+
+</div>
+
+<div class="detail-overlay" id="detailOverlay">
+    <div class="detail-card">
+        <div class="d-title" id="dTitle">——</div>
+        <div class="d-row"><span class="label">状态</span><span class="value" id="dStatus">——</span></div>
+        <div class="d-row" id="dKeeperRow"><span class="label">守灯人</span><span class="value" id="dKeeper">——</span></div>
+        <div class="d-close" id="dClose">关 闭</div>
+    </div>
+</div>
+
+<script>
+    // =============================================================
+    // 1. 城市列表（约372个，打乱顺序，确保无重复）
+    // =============================================================
+    const cityList = [
+        "北京","上海","广州","深圳","杭州","成都","武汉","南京","重庆","天津",
+        "苏州","西安","长沙","郑州","东莞","青岛","沈阳","宁波","昆明","大连",
+        "厦门","福州","哈尔滨","长春","石家庄","南昌","济南","太原","南宁","乌鲁木齐",
+        "兰州","银川","西宁","拉萨","呼和浩特","海口","台北","高雄","香港","澳门",
+        "首尔","釜山","大阪","名古屋","札幌","福冈","横滨","京都","神户",
+        "平壤","乌兰巴托","曼谷","清迈","普吉","河内","胡志明市","岘港","金边","万象",
+        "仰光","马尼拉","宿务","雅加达","泗水","吉隆坡","槟城","新加坡","斯里巴加湾","帝力",
+        "新德里","孟买","加尔各答","金奈","班加罗尔","海得拉巴","伊斯兰堡","拉合尔",
+        "卡拉奇","达卡","加德满都","科伦坡","马累","塔什干","阿拉木图","阿斯塔纳",
+        "比什凯克","杜尚别","阿什哈巴德","德黑兰","伊斯法罕","巴格达","利雅得","吉达",
+        "麦加","多哈","阿布扎比","迪拜","马斯喀特","科威特城","贝鲁特","安曼","耶路撒冷",
+        "特拉维夫","大马士革","伊斯坦布尔","安卡拉","开罗","亚历山大","伦敦","曼彻斯特",
+        "爱丁堡","巴黎","马赛","里昂","柏林","慕尼黑","汉堡","法兰克福","罗马","米兰",
+        "那不勒斯","佛罗伦萨","威尼斯","马德里","巴塞罗那","瓦伦西亚","里斯本","波尔图",
+        "阿姆斯特丹","鹿特丹","布鲁塞尔","安特卫普","哥本哈根","斯德哥尔摩","奥斯陆",
+        "赫尔辛基","雷克雅未克","维也纳","苏黎世","日内瓦","伯尔尼","布拉格","华沙",
+        "布达佩斯","贝尔格莱德","索非亚","布加勒斯特","雅典","塞萨洛尼基","莫斯科",
+        "圣彼得堡","基辅","明斯克","维尔纽斯","里加","塔林","都柏林","萨格勒布",
+        "卢布尔雅那","布拉迪斯拉发","纽约","洛杉矶","芝加哥","休斯顿","凤凰城","费城",
+        "圣安东尼奥","圣迭戈","达拉斯","圣何塞","多伦多","温哥华","蒙特利尔","卡尔加里",
+        "渥太华","墨西哥城","瓜达拉哈拉","蒙特雷","哈瓦那","圣多明各","波多黎各",
+        "圣保罗","里约热内卢","巴西利亚","萨尔瓦多","布宜诺斯艾利斯","科尔多瓦",
+        "圣地亚哥","利马","波哥大","麦德林","基多","拉巴斯","蒙得维的亚","亚松森",
+        "加拉加斯","马拉开波","约翰内斯堡","开普敦","比勒陀利亚","拉各斯","阿布贾",
+        "卡萨布兰卡","拉巴特","突尼斯","阿尔及尔","的黎波里","内罗毕","蒙巴萨",
+        "阿克拉","达喀尔","巴马科","亚的斯亚贝巴","坎帕拉","达累斯萨拉姆","卢萨卡",
+        "哈拉雷","罗安达","马普托","温得和克","哈博罗内","悉尼","墨尔本","布里斯班",
+        "珀斯","阿德莱德","堪培拉","奥克兰","惠灵顿","基督城","莫尔兹比港","苏瓦","帕劳",
+        "东京"
+    ];
+
+    // 去除重复
+    const uniqueCities = [...new Set(cityList)];
+
+    // 扩充至372个
+    let finalCities = [];
+    while (finalCities.length < 372) {
+        for (let c of uniqueCities) {
+            if (finalCities.length >= 372) break;
+            finalCities.push(c);
+        }
+    }
+
+    // 确保安溪在列表中
+    if (!finalCities.includes('安溪')) {
+        finalCities[0] = '安溪';
+    }
+
+    // 打乱顺序
+    for (let i = finalCities.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [finalCities[i], finalCities[j]] = [finalCities[j], finalCities[i]];
+    }
+
+    const SITES = finalCities.map(city => ({
+        name: city,
+        status: city === '安溪' ? 'extinct' : 'lit'
+    }));
+
+    // 守灯人列表
+    const keepers = [
+        "陈氏", "周氏", "吴氏", "郑氏", "王氏", "李氏", "张氏", "刘氏", "陈氏分支",
+        "林氏", "黄氏", "赵氏", "杨氏", "徐氏", "孙氏", "马氏", "朱氏", "胡氏",
+        "郭氏", "高氏", "罗氏", "梁氏", "宋氏", "郑氏分支", "谢氏", "韩氏", "唐氏",
+        "冯氏", "于氏", "董氏", "萧氏", "程氏", "曹氏", "袁氏", "邓氏", "许氏",
+        "傅氏", "沈氏", "曾氏", "彭氏", "吕氏", "苏氏", "卢氏", "蒋氏", "蔡氏",
+        "贾氏", "丁氏", "魏氏", "薛氏", "叶氏", "阎氏", "余氏", "潘氏", "杜氏",
+        "戴氏", "夏氏", "钟氏", "汪氏", "田氏", "任氏", "姜氏", "范氏", "方氏",
+        "石氏", "姚氏", "谭氏", "廖氏", "邹氏", "熊氏", "金氏", "陆氏", "郝氏",
+        "孔氏", "白氏", "崔氏", "毛氏", "邱氏", "秦氏", "江氏", "史氏", "顾氏",
+        "侯氏", "邵氏", "孟氏", "龙氏", "万氏", "段氏", "雷氏", "钱氏", "汤氏",
+        "尹氏", "黎氏", "易氏", "常氏", "武氏", "乔氏", "贺氏", "赖氏", "龚氏",
+        "文氏", "陈氏旁支"
+    ];
+
+    function getRandomKeeper() {
+        return keepers[Math.floor(Math.random() * keepers.length)];
+    }
+
+    // =============================================================
+    // 2. 渲染
+    // =============================================================
+    const grid = document.getElementById('mapGrid');
+
+    function renderMap() {
+        let html = '';
+        SITES.forEach((site) => {
+            let dotClass = 'dot';
+            let isSpecial = false;
+            const isAnxi = (site.name === '安溪');
+            const isTokyo = (site.name === '东京');
+
+            if (isAnxi) {
+                dotClass += ' extinct gray';
+            } else if (isTokyo) {
+                dotClass += ' lit special-blink';
+                isSpecial = true;
+            } else {
+                dotClass += ' lit';
+            }
+
+            const extraClass = isSpecial ? ' special' : '';
+            html += `
+                <div class="light-point${extraClass}" data-name="${site.name}" data-status="${site.status}" data-is-tokyo="${isTokyo ? 'true' : 'false'}" data-is-anxi="${isAnxi ? 'true' : 'false'}">
+                    <span class="${dotClass}"></span>
+                    <span class="name">${site.name}</span>
+                </div>
+            `;
+        });
+        grid.innerHTML = html;
+        document.getElementById('totalCount').textContent = SITES.length;
+    }
+    renderMap();
+
+    // =============================================================
+    // 3. 点击事件
+    // =============================================================
+    const overlay = document.getElementById('detailOverlay');
+    const dTitle = document.getElementById('dTitle');
+    const dStatus = document.getElementById('dStatus');
+    const dKeeper = document.getElementById('dKeeper');
+    const dKeeperRow = document.getElementById('dKeeperRow');
+    const dClose = document.getElementById('dClose');
+
+    grid.addEventListener('click', function(e) {
+        const point = e.target.closest('.light-point');
+        if (!point) return;
+
+        const isTokyo = point.dataset.isTokyo === 'true';
+        const isAnxi = point.dataset.isAnxi === 'true';
+        const name = point.dataset.name;
+        const status = point.dataset.status;
+
+        // 东京 → 跳转 page18
+        if (isTokyo) {
+            window.location.href = 'page18.html';
+            return;
+        }
+
+        // 安溪 → 显示特殊信息
+        if (isAnxi) {
+            dTitle.textContent = '▸ ' + name;
+            dStatus.textContent = '💀 已熄';
+            dKeeper.textContent = '灯虽熄，愿未灭。后人可续。';
+            dKeeperRow.style.display = 'flex';
+            overlay.classList.add('visible');
+            return;
+        }
+
+        // 其他城市
+        const statusText = (status === 'extinct') ? '💀 灯灭' : '🔥 灯燃';
+        const keeper = getRandomKeeper();
+        dTitle.textContent = '▸ ' + name;
+        dStatus.textContent = statusText;
+        dKeeper.textContent = keeper;
+        dKeeperRow.style.display = 'flex';
+        overlay.classList.add('visible');
+    });
+
+    dClose.addEventListener('click', () => overlay.classList.remove('visible'));
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('visible'); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') overlay.classList.remove('visible'); });
+
+    // =============================================================
+    // 4. 控制台
+    // =============================================================
+    const lit = SITES.filter(s => s.status === 'lit').length;
+    const ext = SITES.filter(s => s.status === 'extinct').length;
+    console.log(`✦ 天下舆图 ✦ 总城: ${SITES.length} 燃灯: ${lit} 灯灭: ${ext}`);
+    console.log('—— 点击东京跳转page18，点击安溪显示特殊信息 ——');
+</script>
+
+</body>
+</html>

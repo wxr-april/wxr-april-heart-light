@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>无法访问此网站</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background: #FFFFFF;
+            font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+        }
+
+        .container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .error-icon {
+            font-size: 48px;
+            color: #CCC;
+            margin-bottom: 16px;
+        }
+
+        .error-title {
+            font-size: 28px;
+            font-weight: 300;
+            color: #222;
+            margin-bottom: 6px;
+        }
+
+        .error-url {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 12px;
+            word-break: break-all;
+        }
+
+        .error-desc {
+            font-size: 14px;
+            color: #888;
+            line-height: 1.6;
+            text-align: center;
+            max-width: 500px;
+        }
+
+        .error-code {
+            margin-top: 18px;
+            font-size: 13px;
+            color: #BBB;
+            font-family: "Consolas", "Courier New", monospace;
+        }
+
+        .error-divider {
+            width: 60px;
+            height: 1px;
+            background: #E0E0E0;
+            margin: 18px 0 14px 0;
+        }
+
+        .error-actions {
+            display: flex;
+            gap: 20px;
+            font-size: 13px;
+        }
+
+        .error-actions a {
+            color: #1A73E8;
+            text-decoration: none;
+        }
+
+        .error-actions a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+            .error-title {
+                font-size: 22px;
+            }
+            .error-url {
+                font-size: 13px;
+            }
+            .error-desc {
+                font-size: 13px;
+            }
+            .error-icon {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="error-icon">🌐</div>
+        <div class="error-title">无法访问此网站</div>
+        <div class="error-url" id="errorUrl">http://www.anxiyizhong.edu.cn</div>
+        <div class="error-desc">
+            该网页可能暂时无法连接，或者它已永久性地移动到了新网址。
+        </div>
+        <div class="error-code" id="errorCode">ERR_CONNECTION_RESET</div>
+        <div class="error-divider"></div>
+        <div class="error-actions">
+            <a href="javascript:history.back()">返回上一页</a>
+            <a href="#" id="refreshBtn">重新加载</a>
+        </div>
+    </div>
+
+    <script>
+        // 显示用户访问的网址
+        document.getElementById('errorUrl').textContent = window.location.href;
+
+        // 刷新按钮重新加载当前页
+        document.getElementById('refreshBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.reload();
+        });
+
+        console.log('✦ 404 - 无法访问此网站 ✦');
+    </script>
+</body>
+</html>

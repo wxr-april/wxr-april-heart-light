@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>陈氏守灯旧录</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            min-height: 100vh;
+            background: #0d0a08;
+            font-family: "SimSun", "STSong", "KaiTi", "Microsoft YaHei", serif;
+            color: #b09888;
+        }
+
+        .container {
+            width: 100%;
+            min-height: 100vh;
+            background: #0f0c0a;
+            border: none;
+            padding: 40px 40px 30px;
+            box-shadow: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .head-line {
+            width: 100%;
+            text-align: center;
+            font-size: 11px;
+            letter-spacing: 8px;
+            color: #3a2a22;
+            border-bottom: 1px solid #1a1410;
+            padding-bottom: 12px;
+            margin-bottom: 24px;
+            font-family: "SimSun", serif;
+        }
+
+        .main-title {
+            text-align: center;
+            font-size: 30px;
+            letter-spacing: 18px;
+            color: #aa7a5a;
+            font-weight: 400;
+            font-family: "KaiTi", "STKaiti", serif;
+            margin-bottom: 22px;
+            text-shadow: none;
+            border-bottom: 1px solid #1a1410;
+            padding-bottom: 18px;
+            width: 100%;
+        }
+
+        .scroll-body {
+            width: 100%;
+            flex: 1;
+        }
+
+        .scroll-text {
+            font-size: 16.5px;
+            line-height: 2.6;
+            letter-spacing: 1.5px;
+            color: #b09888;
+            text-align: justify;
+            font-family: "KaiTi", "STKaiti", "SimSun", serif;
+            column-count: 2;
+            column-gap: 44px;
+            column-rule: 1px solid rgba(60, 40, 30, 0.2);
+            padding: 0 4px;
+        }
+
+        .scroll-text p {
+            margin-bottom: 1.2em;
+            text-indent: 2em;
+            break-inside: avoid;
+        }
+
+        .footer-nav {
+            width: 100%;
+            margin-top: 30px;
+            padding-top: 16px;
+            border-top: 1px solid #1a1410;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px 30px;
+        }
+
+        .footer-nav a {
+            font-size: 13px;
+            letter-spacing: 2px;
+            color: #6a5a4a;
+            text-decoration: none;
+            border-bottom: 1px dotted rgba(120, 80, 60, 0.15);
+            transition: color 0.3s;
+            font-family: "SimSun", serif;
+        }
+
+        .footer-nav a:hover {
+            color: #b09880;
+        }
+
+        @media (max-width: 700px) {
+            .container {
+                padding: 24px 16px 20px;
+            }
+            .main-title {
+                font-size: 24px;
+                letter-spacing: 10px;
+            }
+            .scroll-text {
+                font-size: 15px;
+                line-height: 2.4;
+                column-count: 1;
+                column-rule: none;
+                padding: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 16px 10px 14px;
+            }
+            .main-title {
+                font-size: 20px;
+                letter-spacing: 6px;
+            }
+            .scroll-text {
+                font-size: 13.5px;
+                line-height: 2.2;
+            }
+            .footer-nav a {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <div class="head-line">· · ·</div>
+
+        <div class="main-title">陈氏守灯旧录</div>
+
+        <div class="scroll-body">
+            <div class="scroll-text">
+
+                <p>青元灯者，不知其所起。明万历间，有书生陈氏，名砚秋，闽南安溪人也。赴省试，道遇大雨，避于老巷废祠。祠中一老妪，独守一灯，灯色青荧，光不及丈，而满室温然。妪谓生曰：「此灯传自前朝，凡有难者，燃之三日，其愿必达。然灯不轻燃，须以血书愿文，焚于灯下，方得感应。」生疑之，然雨连日不止，饥寒交迫，乃试书「愿天晴」三字，焚之。翌日，果云开日出。</p>
+
+                <p>生感其灵，欲购此灯。妪笑曰：「此非货财可易，须立誓守灯，代代相传，不得断绝。」生乃盟誓，携灯归家。其后每遇乡邻困厄，辄燃灯助之，无不验。久之，灯名远播，四方来求者不绝。然灯有定数，一岁仅可燃三回，多则反噬。生严遵祖训，未尝逾矩。</p>
+
+                <p>崇祯末，天下大乱，流寇入闽。生恐灯落贼手，携灯隐于老巷深宅，更名改姓，以「陈记」为号，暗传灯法。自后陈氏子孙，代代守灯，凡有愿者，书天竺文于纸，焚于灯前，即可得偿。然灯愈燃愈暗，至清光绪间，已不复当年之明。陈氏末裔叹曰：「灯力有尽，而人愿无穷。吾辈但尽人事，何求灯永明？」</p>
+
+                <p>民国初，战火频仍，老巷几毁。陈氏后人将灯谱埋于地窖，携残灯远走。其后数十年，杳无音信。至公元一九九八年，有张姓工人，因子学费无着，偶得陈氏后人遗书，试燃一灯，竟得助。自此，灯谱重现人间，然知者甚少，唯守灯人默默传续。</p>
+
+                <p>千禧年后，灯谱残卷渐为世人所知。有好事者考其源流，竟于海外诸国，寻得同类灯脉十余处。或曰，此灯本非陈氏独有，乃上古祭天遗法，散落四方，各成流派。然灯法虽异，其理则同：以愿为薪，以纸为引，燃灯三日，则念达于天。天下守灯者，虽不相识，而心同一脉。</p>
+
+                <p>今岁，有林姓少年，遍寻老巷，终得陈记旧铺，见灯谱残卷，乃悟「还香」之意——还者，返也；香者，愿也。燃灯非为祈福，实为还愿于天地，使万念归墟，各得其所。灯之将灭，而愿不灭；灯之既灭，而香永存。少年焚血书于灯下，灯焰骤明，复又渐暗。或曰：「灯已燃尽矣。」然少年笑曰：「灯尽而愿不尽，此灯虽灭，天下万灯犹在。」</p>
+
+                <p>考灯谱所载，自明迄今，凡四百余年，守灯者三十七代，燃灯四百二十余回，所偿之愿不可胜数。其间有乞食者得饱，病危者得生，失散者得聚，蒙冤者得雪。灯之微光，曾照无数暗夜；纸之轻烟，曾载无数深愿。今灯虽渐寂，然人间之愿，未尝少减。后世若有心人，得此残卷，续此灯法，则青元一脉，终不灭绝。守灯非为神明，为凡人心中未死之念。燃灯者，不求灯永明，但求愿不断。</p>
+
+            </div>
+        </div>
+
+        <div class="footer-nav">
+            <a href="page17.html">← 返 天 下 舆 图</a>
+            <a href="index.html">返 首 页 →</a>
+        </div>
+
+    </div>
+
+</body>
+</html>

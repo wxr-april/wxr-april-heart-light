@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>老张 - 个人主页 - 安溪生活圈</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #E8E3DB;
+            font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+            font-size: 14px;
+            color: #222;
+            line-height: 1.6;
+        }
+
+        a {
+            color: #036;
+            text-decoration: none;
+        }
+        a:hover {
+            color: #F30;
+        }
+
+        /* ===== 顶部导航栏 ===== */
+        .top-nav {
+            background: #FFFFFF;
+            border-bottom: 1px solid #D5D0C8;
+            padding: 0 24px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            width: 100%;
+        }
+
+        .top-nav .left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .top-nav .left .logo {
+            font-size: 18px;
+            font-weight: 700;
+            color: #036;
+            font-family: "微软雅黑", sans-serif;
+        }
+        .top-nav .left .logo span {
+            color: #999;
+            font-weight: 400;
+            font-size: 12px;
+        }
+
+        .top-nav .left .search-box {
+            display: flex;
+            align-items: center;
+            background: #F5F3EF;
+            border-radius: 4px;
+            padding: 0 12px;
+            height: 30px;
+            width: 260px;
+        }
+        .top-nav .left .search-box input {
+            border: none;
+            background: transparent;
+            outline: none;
+            font-size: 13px;
+            width: 100%;
+            color: #333;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+        .top-nav .left .search-box input::placeholder {
+            color: #BBB;
+        }
+        .top-nav .left .search-box .icon {
+            color: #BBB;
+            margin-right: 6px;
+            font-size: 14px;
+        }
+
+        .top-nav .right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 13px;
+            color: #666;
+        }
+        .top-nav .right a {
+            color: #666;
+            cursor: pointer;
+        }
+        .top-nav .right a:hover {
+            color: #036;
+        }
+        .top-nav .right .avatar-small {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #6A6A6A;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFF;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* ===== 主体布局（全屏） ===== */
+        .main-wrap {
+            display: flex;
+            width: 100%;
+            padding: 16px 24px 30px 24px;
+            gap: 24px;
+            min-height: calc(100vh - 48px);
+        }
+
+        /* ===== 左侧菜单 ===== */
+        .left-menu {
+            width: 160px;
+            flex-shrink: 0;
+        }
+
+        .left-menu .menu-item {
+            padding: 6px 12px;
+            font-size: 14px;
+            color: #555;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.15s;
+            margin-bottom: 2px;
+        }
+        .left-menu .menu-item:hover {
+            background: #F0EDE8;
+        }
+        .left-menu .menu-item.active {
+            background: #036;
+            color: #FFF;
+        }
+        .left-menu .menu-item .icon {
+            margin-right: 8px;
+        }
+
+        .left-menu .menu-divider {
+            height: 1px;
+            background: #E0DCD6;
+            margin: 6px 0 8px 0;
+        }
+
+        .left-menu .menu-label {
+            font-size: 11px;
+            color: #BBB;
+            padding: 6px 12px 4px 12px;
+            letter-spacing: 0.5px;
+        }
+
+        /* ===== 右侧内容 ===== */
+        .right-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        /* ===== 个人信息卡片 ===== */
+        .profile-card {
+            background: #FFF;
+            border: 1px solid #D5D0C8;
+            border-radius: 4px;
+            padding: 20px 24px;
+            margin-bottom: 0;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .profile-card .avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: #6A6A6A;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFF;
+            font-size: 28px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .profile-card .info {
+            flex: 1;
+            min-width: 0;
+        }
+        .profile-card .info .name-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .profile-card .info .name-row .name {
+            font-size: 20px;
+            font-weight: 700;
+            color: #222;
+        }
+        .profile-card .info .name-row .gender {
+            font-size: 13px;
+            color: #999;
+        }
+        .profile-card .info .name-row .id {
+            font-size: 12px;
+            color: #BBB;
+        }
+        .profile-card .info .bio {
+            font-size: 14px;
+            color: #666;
+            margin-top: 2px;
+            font-style: italic;
+        }
+        .profile-card .info .location {
+            font-size: 13px;
+            color: #999;
+            margin-top: 2px;
+        }
+
+        .profile-card .stats {
+            display: flex;
+            gap: 20px;
+            font-size: 13px;
+            color: #666;
+            flex-shrink: 0;
+        }
+        .profile-card .stats .num {
+            font-weight: 600;
+            color: #222;
+        }
+
+        .profile-card .edit-btn {
+            padding: 4px 16px;
+            border: 1px solid #D5D0C8;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #666;
+            background: #FFF;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex-shrink: 0;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+        .profile-card .edit-btn:hover {
+            border-color: #036;
+            color: #036;
+        }
+
+        /* ===== 标签栏 ===== */
+        .tab-bar {
+            background: #FFF;
+            border-left: 1px solid #D5D0C8;
+            border-right: 1px solid #D5D0C8;
+            padding: 0 24px;
+            display: flex;
+            gap: 0;
+            height: 42px;
+            align-items: center;
+            border-bottom: 1px solid #E8E0D8;
+        }
+
+        .tab-bar .tab-item {
+            padding: 0 16px;
+            font-size: 14px;
+            color: #999;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+            cursor: default;
+            border-bottom: 2px solid transparent;
+            user-select: none;
+        }
+
+        .tab-bar .tab-item.active {
+            color: #036;
+            border-bottom-color: #036;
+            cursor: pointer;
+        }
+
+        .tab-bar .tab-item.active:hover {
+            color: #036;
+        }
+
+        .tab-bar .tab-item .count {
+            color: #BBB;
+            font-weight: 400;
+            margin-left: 4px;
+            font-size: 12px;
+        }
+
+        /* ===== 内容列表样式 ===== */
+        .tab-content {
+            background: #FFF;
+            border: 1px solid #D5D0C8;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+            padding: 4px 0;
+            min-height: 200px;
+        }
+
+        .list-item {
+            padding: 10px 24px;
+            border-bottom: 1px solid #F5F3EF;
+            transition: background 0.15s;
+        }
+        .list-item:last-child {
+            border-bottom: none;
+        }
+        .list-item:hover {
+            background: #FDFCFA;
+        }
+
+        .list-item .title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #036;
+        }
+        .list-item .title a {
+            color: #036;
+        }
+        .list-item .title a:hover {
+            color: #F30;
+            text-decoration: underline;
+        }
+
+        .list-item .meta {
+            font-size: 12px;
+            color: #999;
+            margin-top: 2px;
+        }
+        .list-item .meta .board {
+            color: #666;
+        }
+
+        .list-item .excerpt {
+            font-size: 13px;
+            color: #555;
+            margin-top: 4px;
+            padding-left: 6px;
+            border-left: 2px solid #E8E0D8;
+            padding-left: 10px;
+        }
+
+        .list-item .actions {
+            display: flex;
+            gap: 20px;
+            margin-top: 8px;
+            font-size: 12px;
+            color: #999;
+            padding-top: 8px;
+            border-top: 1px solid #F5F3EF;
+        }
+        .list-item .actions span {
+            cursor: default;
+        }
+        .list-item .actions .num {
+            color: #BBB;
+        }
+
+        .tab-pane {
+            display: none;
+        }
+        .tab-pane.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .top-nav {
+                padding: 0 12px;
+                flex-wrap: wrap;
+                height: auto;
+                padding: 6px 12px;
+                gap: 6px;
+            }
+            .top-nav .left .search-box {
+                width: 140px;
+            }
+            .main-wrap {
+                flex-direction: column;
+                padding: 10px 12px 20px 12px;
+                gap: 12px;
+            }
+            .left-menu {
+                width: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 2px;
+            }
+            .left-menu .menu-item {
+                padding: 4px 10px;
+                font-size: 13px;
+            }
+            .left-menu .menu-divider,
+            .left-menu .menu-label {
+                display: none;
+            }
+            .profile-card {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 16px;
+            }
+            .profile-card .stats {
+                width: 100%;
+                justify-content: flex-start;
+            }
+            .profile-card .edit-btn {
+                width: 100%;
+                text-align: center;
+            }
+            .tab-bar {
+                padding: 0 12px;
+                overflow-x: auto;
+                gap: 0;
+            }
+            .tab-bar .tab-item {
+                padding: 0 12px;
+                font-size: 13px;
+                white-space: nowrap;
+            }
+            .list-item {
+                padding: 10px 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .top-nav .left .search-box {
+                width: 100px;
+            }
+            .top-nav .left .logo {
+                font-size: 15px;
+            }
+            .top-nav .right {
+                font-size: 12px;
+                gap: 8px;
+            }
+            .profile-card .avatar {
+                width: 56px;
+                height: 56px;
+                font-size: 22px;
+            }
+            .profile-card .info .name-row .name {
+                font-size: 17px;
+            }
+            .list-item .title {
+                font-size: 13px;
+            }
+            .tab-bar .tab-item {
+                font-size: 12px;
+                padding: 0 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-nav">
+        <div class="left">
+            <div class="logo">安溪生活圈 <span>· 贴吧</span></div>
+            <div class="search-box">
+                <span class="icon">🔍</span>
+                <input type="text" placeholder="搜索帖子、用户" id="searchInput" />
+            </div>
+        </div>
+        <div class="right">
+            <a href="#">发帖</a>
+            <a href="#">游戏</a>
+            <a href="#">消息</a>
+            <div class="avatar-small">张</div>
+        </div>
+    </div>
+
+    <div class="main-wrap">
+
+        <div class="left-menu">
+            <div class="menu-item active"><span class="icon">🏠</span>首页</div>
+            <div class="menu-item"><span class="icon">👤</span>我的</div>
+            <div class="menu-divider"></div>
+            <div class="menu-label">我常逛的吧</div>
+            <div class="menu-item">安溪生活</div>
+            <div class="menu-item">民生求助</div>
+            <div class="menu-item">校园交流</div>
+            <div class="menu-divider"></div>
+            <div class="menu-label">大家都在逛</div>
+            <div class="menu-item">安溪杂谈</div>
+            <div class="menu-item">二手闲置</div>
+            <div class="menu-item">老城旧事</div>
+        </div>
+
+        <div class="right-content">
+
+            <div class="profile-card">
+                <div class="avatar">张</div>
+                <div class="info">
+                    <div class="name-row">
+                        <span class="name">老张</span>
+                        <span class="gender">♂</span>
+                        <span class="id">ID: 老张_756</span>
+                    </div>
+                    <div class="bio">"日子还得往下过。"</div>
+                    <div class="location">📍 安溪 · 凤城</div>
+                </div>
+                <div class="stats">
+                    <span>获赞 <span class="num">189</span></span>
+                    <span>关注 <span class="num">42</span></span>
+                    <span>粉丝 <span class="num">106</span></span>
+                </div>
+                <button class="edit-btn">编辑资料</button>
+            </div>
+
+            <div class="tab-bar">
+                <span class="tab-item active" data-tab="posts">帖子 <span class="count">13</span></span>
+                <span class="tab-item" data-tab="replies">回帖 <span class="count">31</span></span>
+                <span class="tab-item" data-tab="likes">点赞 <span class="count">215</span></span>
+                <span class="tab-item" data-tab="favs">收藏 <span class="count">5</span></span>
+            </div>
+
+            <div class="tab-content">
+
+                <!-- 帖子 -->
+                <div class="tab-pane active" id="tabPosts">
+                    <div class="list-item">
+                        <div class="title"><a href="#">厂子裁员，孩子学费还没着落</a></div>
+                        <div class="meta"><span class="board">民生求助</span> · 1998-12-10 19:20</div>
+                        <div class="excerpt">厂子年底裁员裁到我了。孩子明年高考，成绩一直很好，不能让学费拖累他。我这几天跑了几家亲戚都没借到，愁得整夜睡不着。</div>
+                        <div class="actions">
+                            <span>💬 回复 <span class="num">5</span></span>
+                            <span>👍 点赞 <span class="num">18</span></span>
+                            <span>⭐ 收藏</span>
+                        </div>
+                    </div>
+
+                    <div class="list-item">
+                        <div class="title"><a href="#">今天去老巷那边转了一圈</a></div>
+                        <div class="meta"><span class="board">安溪杂谈</span> · 1998-12-05 16:30</div>
+                        <div class="excerpt">路过一家铺子，门板关着但闻到一股油味。想敲门看看，手举起来又放下了。</div>
+                        <div class="actions">
+                            <span>💬 回复 <span class="num">2</span></span>
+                            <span>👍 点赞 <span class="num">7</span></span>
+                            <span>⭐ 收藏</span>
+                        </div>
+                    </div>
+
+                    <div class="list-item">
+                        <div class="title"><a href="#">巷口卖红薯的大爷今天收摊早</a></div>
+                        <div class="meta"><span class="board">安溪杂谈</span> · 1998-11-28 18:10</div>
+                        <div class="excerpt">他说天冷早点回。我买了一个，烫得在手里掂来掂去，吃了半天。</div>
+                        <div class="actions">
+                            <span>💬 回复 <span class="num">3</span></span>
+                            <span>👍 点赞 <span class="num">12</span></span>
+                            <span>⭐ 收藏</span>
+                        </div>
+                    </div>
+
+                    <div class="list-item">
+                        <div class="title"><a href="#">下午在公园坐了一下午</a></div>
+                        <div class="meta"><span class="board">安溪杂谈</span> · 1998-11-20 17:40</div>
+                        <div class="excerpt">看见几个人下棋，围了一圈人看。我也凑过去看了看，看不懂，就是不想回家。</div>
+                        <div class="actions">
+                            <span>💬 回复 <span class="num">1</span></span>
+                            <span>👍 点赞 <span class="num">6</span></span>
+                            <span>⭐ 收藏</span>
+                        </div>
+                    </div>
+
+                    <div class="list-item">
+                        <div class="title"><a href="#">今天听收音机，说又要降温了</a></div>
+                        <div class="meta"><span class="board">安溪杂谈</span> · 1998-11-15 21:00</div>
+                        <div class="excerpt">天气预报说后天降到五度。我把柜子里的旧棉袄翻出来拍了拍，还能穿。</div>
+                        <div class="actions">
+                            <span>💬 回复 <span class="num">4</span></span>
+                            <span>👍 点赞 <span class="num">9</span></span>
+                            <span>⭐ 收藏</span>
+                        </div>
+                    </div>
+
+                    <div class="list-item">
+                        <div class="title"><a href="#">有没有工友知道哪里能打零工？</a></div>
+                        <div class="meta"><span class="board">民生求助</span> · 1998-11-02 14:20</div>
+                        <div class="excerpt">白天没事干，想找点活。搬运也行，看仓库也行，能赚一点是一点。</div>
+                        <div class="actions">
+                            <span>💬 回复 <span class="num">8</span></span>
+                            <span>👍 点赞 <span class="num">14</span></span>
+                            <span>⭐ 收藏</span>
+                        </div>
+                    </div>
+
+                    <div class="list-item">
+                        <div class="title"><a href="#">路过学校门口，站了一会儿</a></div>
+                        <div class="meta"><span class="board">安溪杂谈</span> · 1998-10-22 17:50</div>
+                        <div class="excerpt">刚好放学，看见一群学生走出来。我在人群里找了他半天，没找到。</div>
+                        <div class="actions">
+                            <span>💬 回复 <span class="num">2</span></span>
+                            <span>👍 点赞 <span class="num">11</span></span>
+                            <span>⭐ 收藏</span>
+                        </div>
+                    </div>
+
+                    <div class="list-item">
+                        <div class="title"><a href="#">孩子模考又考了年级前二十</a></div>
+                        <div class="meta"><span class="board">安溪杂谈</span> · 1998-10-15 20:30</div>
+                        <div class="excerpt">老师说保持住一本没问题。我在办公室听着，脸上笑，心里堵——学费还没着落。</div>
+                        <div class="actions">
+                            <span>💬 回复 <span class="num">6</span></span>
+                            <span>👍 点赞 <span class="num">23</span></span>
+                            <span>⭐ 收藏</span>
+                        </div>
+                    </div>
+
+                    <div class="list-item">
+                        <div class="title"><a href="#">菜市场买了条鱼，六块五</a></div>
+                        <div class="meta"><span class="board">安溪杂谈</span> · 1998-10-08 11:10</div>
+                        <div class="excerpt">跟老板磨了半天嘴皮子，少了两毛。回家炖了一锅汤，孩子喝了三碗。</div>
+                        <div class="actions">
+                            <span>💬 回复 <span class="num">3</span></span>
+                            <span>👍 点赞 <span class="num">15</span></span>
+                            <span>⭐ 收藏</span>
+                        </div>
+                    </div>
+
+                    <div class="list-item">
+                        <div class="title"><a href="#">今天看见一个老工友，在拉三轮</a></div>
+                        <div class="meta"><span class="board">安溪杂谈</span> · 1998-09-25 15:40</div>
+                        <div class="excerpt">我喊了他一声，他回头看了我一眼，笑了一下就走了。后来想想，可能认错人了。</div>
+                        <div class="actions">
+                            <span>💬 回复 <span class="num">1</span></span>
+                            <span>👍 点赞 <span class="num">5</span></span>
+                            <span>⭐ 收藏</span>
+                        </div>
+                    </div>
+
+                    <div class="list-item">
+                        <div class="title"><a href="#">送孩子去学校报到</a></div>
+                        <div class="meta"><span class="board">安溪杂谈</span> · 1998-09-01 08:30</div>
+                        <div class="excerpt">我帮他提着行李走到宿舍楼下。他上了楼，我在楼下站了五分钟才走。</div>
+                        <div class="actions">
+                            <span>💬 回复 <span class="num">4</span></span>
+                            <span>👍 点赞 <span class="num">19</span></span>
+                            <span>⭐ 收藏</span>
+                        </div>
+                    </div>
+
+                    <div class="list-item">
+                        <div class="title"><a href="#">半夜醒了，听见隔壁在吵架</a></div>
+                        <div class="meta"><span class="board">安溪杂谈</span> · 1998-08-15 02:30</div>
+                        <div class="excerpt">摔了一个碗，然后安静了。我翻了个身，又睡着了。大家都不容易。</div>
+                        <div class="actions">
+                            <span>💬 回复 <span class="num">2</span></span>
+                            <span>👍 点赞 <span class="num">8</span></span>
+                            <span>⭐ 收藏</span>
+                        </div>
+                    </div>
+
+                    <div class="list-item">
+                        <div class="title"><a href="#">发工资了，给孩子买了两件新衣服</a></div>
+                        <div class="meta"><span class="board">安溪杂谈</span> · 1998-07-28 19:00</div>
+                        <div class="excerpt">他嘴上说不要，试穿的时候一直在照镜子。我假装没看见他在笑。</div>
+                        <div class="actions">
+                            <span>💬 回复 <span class="num">5</span></span>
+                            <span>👍 点赞 <span class="num">27</span></span>
+                            <span>⭐ 收藏</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 回帖（装饰） -->
+                <div class="tab-pane" id="tabReplies"></div>
+
+                <!-- 点赞（装饰） -->
+                <div class="tab-pane" id="tabLikes"></div>
+
+                <!-- 收藏（装饰） -->
+                <div class="tab-pane" id="tabFavs"></div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        var searchInput = document.getElementById('searchInput');
+
+        searchInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                var q = this.value.trim();
+                if (!q) return;
+                var lowerQ = q.toLowerCase();
+
+                if (lowerQ === '李娟') {
+                    window.location.href = 'page_lijuan.html';
+                    return;
+                }
+                if (lowerQ === '张建军' || lowerQ === '张') {
+                    window.location.href = 'page_zhang.html';
+                    return;
+                }
+                if (lowerQ === '林野') {
+                    window.location.href = 'page_linye.html';
+                    return;
+                }
+                if (lowerQ === '老巷' || lowerQ === '陈记') {
+                    window.location.href = 'page_laoxiang.html';
+                    return;
+                }
+                alert('未找到相关结果');
+            }
+        });
+
+        var tabItems = document.querySelectorAll('.tab-item');
+        var tabPanes = {
+            posts: document.getElementById('tabPosts'),
+            replies: document.getElementById('tabReplies'),
+            likes: document.getElementById('tabLikes'),
+            favs: document.getElementById('tabFavs')
+        };
+
+        tabItems.forEach(function(item) {
+            item.addEventListener('click', function() {
+                var tab = this.dataset.tab;
+                if (tab !== 'posts') return;
+
+                tabItems.forEach(function(t) { t.classList.remove('active'); });
+                this.classList.add('active');
+
+                Object.keys(tabPanes).forEach(function(key) {
+                    tabPanes[key].classList.remove('active');
+                });
+                if (tabPanes[tab]) {
+                    tabPanes[tab].classList.add('active');
+                }
+            });
+        });
+
+        console.log('✦ 安溪生活圈 · 老张个人主页 ✦');
+    </script>
+
+</body>
+</html>

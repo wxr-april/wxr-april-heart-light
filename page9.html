@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>民国老铜供灯 · 三足莲纹 - 老巷陈记香油灯</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100vh;
+            background: #F5F5F5;
+            font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+            font-size: 14px;
+            color: #222;
+            line-height: 1.6;
+        }
+
+        a {
+            color: #1a3a6a;
+            text-decoration: none;
+        }
+        a:hover {
+            color: #C00;
+            text-decoration: underline;
+        }
+
+        /* ===== 顶部工具条 ===== */
+        .tb-top-bar {
+            background: #FFFFFF;
+            border-bottom: 1px solid #E8E8E8;
+            padding: 4px 20px;
+            font-size: 12px;
+            color: #999;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 4px;
+            width: 100%;
+        }
+        .tb-top-bar .left a {
+            color: #999;
+            margin: 0 4px;
+        }
+        .tb-top-bar .left a:hover {
+            color: #C00;
+            text-decoration: underline;
+        }
+        .tb-top-bar .right a {
+            color: #999;
+            margin: 0 4px;
+        }
+        .tb-top-bar .right a:hover {
+            color: #C00;
+            text-decoration: underline;
+        }
+        .tb-top-bar .right .sep {
+            color: #DDD;
+            margin: 0 2px;
+        }
+
+        /* ===== 搜索区 ===== */
+        .tb-search-area {
+            background: #FFFFFF;
+            padding: 10px 20px 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border-bottom: 1px solid #E8E8E8;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+        .tb-search-area .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #FF4400;
+            font-family: "Arial", "Microsoft YaHei", sans-serif;
+            letter-spacing: 1px;
+            flex-shrink: 0;
+        }
+        .tb-search-area .logo span {
+            color: #666;
+            font-weight: 400;
+            font-size: 12px;
+            letter-spacing: 0;
+        }
+
+        .tb-search-area .search-box {
+            display: flex;
+            align-items: center;
+            background: #FFF;
+            border: 2px solid #FF4400;
+            border-radius: 4px;
+            overflow: hidden;
+            flex: 1;
+            max-width: 600px;
+        }
+
+        .tb-search-area .search-box input {
+            border: none;
+            outline: none;
+            padding: 8px 12px;
+            font-size: 14px;
+            font-family: "Microsoft YaHei", sans-serif;
+            color: #333;
+            background: transparent;
+            flex: 1;
+            min-width: 60px;
+        }
+
+        .tb-search-area .search-box button {
+            border: none;
+            background: #FF4400;
+            color: #FFF;
+            padding: 8px 24px;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: 600;
+            font-family: "Microsoft YaHei", sans-serif;
+            height: 38px;
+            white-space: nowrap;
+        }
+        .tb-search-area .search-box button:hover {
+            background: #E63E00;
+        }
+
+        /* ===== 店铺迷你头部 ===== */
+        .shop-mini-header {
+            background: #FFFFFF;
+            padding: 8px 20px;
+            border-bottom: 1px solid #E8E8E8;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+        .shop-mini-header .back-link {
+            font-size: 13px;
+            color: #999;
+            cursor: pointer;
+        }
+        .shop-mini-header .back-link:hover {
+            color: #C00;
+        }
+
+        .shop-mini-header .shop-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+        .shop-mini-header .shop-name .sub {
+            font-weight: 400;
+            color: #999;
+            font-size: 12px;
+        }
+
+        /* ===== 商品详情主体（1:1对半） ===== */
+        .product-detail {
+            width: 100%;
+            padding: 20px 20px 0 20px;
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+            background: #FFF;
+            border-bottom: 1px solid #E8E0D8;
+            padding-bottom: 20px;
+        }
+
+        /* 左栏：占一半 */
+        .product-detail .left-col {
+            flex: 1;
+            max-width: 50%;
+            min-width: 0;
+        }
+
+        .product-detail .left-col .main-img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid #EDE8E0;
+            background: #F5F0EA;
+        }
+
+        .product-detail .left-col .main-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* 评价区（在左栏图片下方） */
+        .product-detail .left-col .reviews-section {
+            margin-top: 16px;
+            padding-top: 14px;
+            border-top: 1px solid #F0EDE8;
+        }
+
+        .product-detail .left-col .reviews-section .reviews-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product-detail .left-col .reviews-section .reviews-title .count {
+            font-weight: 400;
+            color: #999;
+            font-size: 13px;
+        }
+
+        .product-detail .left-col .reviews-section .reviews-title .status-tag {
+            font-size: 12px;
+            color: #999;
+            background: #F5F3EF;
+            padding: 1px 12px;
+            border-radius: 3px;
+        }
+
+        .review-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #F5F3EF;
+            transition: background 0.3s;
+        }
+        .review-item:last-child {
+            border-bottom: none;
+        }
+
+        .review-item .review-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 2px;
+        }
+
+        .review-item .review-header .stars {
+            color: #FF8C00;
+            font-size: 13px;
+            letter-spacing: 1px;
+        }
+
+        .review-item .review-header .user {
+            font-size: 13px;
+            font-weight: 600;
+            color: #036;
+        }
+
+        .review-item .review-header .time {
+            font-size: 12px;
+            color: #BBB;
+            margin-left: auto;
+        }
+
+        .review-item .review-content {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.6;
+            padding-left: 4px;
+            transition: color 0.3s;
+        }
+
+        /* 替换后的红色文字 */
+        .review-item.review-weird .review-content {
+            color: #B22222;
+        }
+
+        /* 评价更新闪烁提醒 */
+        .reviews-section.reviews-updated {
+            animation: flashBg 0.6s ease 2;
+        }
+
+        @keyframes flashBg {
+            0% { background: transparent; }
+            50% { background: rgba(200, 180, 160, 0.08); }
+            100% { background: transparent; }
+        }
+
+        /* ===== 右栏：占一半 ===== */
+        .product-detail .right-col {
+            flex: 1;
+            max-width: 50%;
+            min-width: 0;
+        }
+
+        .product-detail .right-col .product-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .product-detail .right-col .product-sub {
+            font-size: 13px;
+            color: #999;
+            margin-bottom: 8px;
+        }
+
+        .product-detail .right-col .product-price {
+            font-size: 28px;
+            color: #FF4400;
+            font-weight: 700;
+            padding: 8px 0;
+            border-top: 1px solid #EEE;
+            border-bottom: 1px solid #EEE;
+            margin-bottom: 10px;
+        }
+
+        .product-detail .right-col .product-price .old-price {
+            font-size: 16px;
+            color: #BBB;
+            font-weight: 400;
+            text-decoration: line-through;
+            margin-left: 10px;
+        }
+
+        .product-detail .right-col .product-price .sales {
+            font-size: 14px;
+            color: #999;
+            font-weight: 400;
+            margin-left: 16px;
+        }
+
+        .product-detail .right-col .product-info {
+            font-size: 14px;
+            color: #555;
+            line-height: 2;
+            margin-bottom: 12px;
+        }
+
+        .product-detail .right-col .product-info .row {
+            display: flex;
+            gap: 8px;
+            padding: 2px 0;
+        }
+
+        .product-detail .right-col .product-info .row .label {
+            color: #999;
+            min-width: 72px;
+        }
+        .product-detail .right-col .product-info .row .value {
+            color: #333;
+        }
+
+        .product-detail .right-col .product-info .row .free-shipping {
+            color: #FF4400;
+            font-weight: 600;
+        }
+
+        .product-detail .right-col .product-info .row .delivery-time {
+            color: #FF4400;
+        }
+
+        .product-detail .right-col .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid #EEE;
+            flex-wrap: wrap;
+        }
+
+        .product-detail .right-col .action-buttons .btn {
+            padding: 10px 32px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: "Microsoft YaHei", sans-serif;
+            border: 1px solid #DDD;
+            background: #FFF;
+            color: #666;
+            transition: all 0.2s;
+            font-weight: 600;
+        }
+        .product-detail .right-col .action-buttons .btn:hover {
+            border-color: #FF4400;
+            color: #FF4400;
+        }
+        .product-detail .right-col .action-buttons .btn-cart {
+            background: #FF8C00;
+            color: #FFF;
+            border-color: #FF8C00;
+        }
+        .product-detail .right-col .action-buttons .btn-cart:hover {
+            background: #E67A00;
+            border-color: #E67A00;
+        }
+        .product-detail .right-col .action-buttons .btn-buy {
+            background: #FF4400;
+            color: #FFF;
+            border-color: #FF4400;
+        }
+        .product-detail .right-col .action-buttons .btn-buy:hover {
+            background: #E63E00;
+            border-color: #E63E00;
+        }
+
+        /* ===== 底部 ===== */
+        .shop-footer {
+            width: 100%;
+            border-top: 1px solid #E8E0D8;
+            padding: 16px 20px 12px 20px;
+            margin-top: 0;
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+            line-height: 1.8;
+            background: #F8F6F2;
+        }
+        .shop-footer a {
+            color: #666;
+        }
+        .shop-footer .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .shop-footer .copyright {
+            color: #BBB;
+            font-size: 11px;
+            margin-top: 2px;
+        }
+
+        /* ===== 响应式 ===== */
+        @media (max-width: 1024px) {
+            .product-detail {
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .tb-top-bar {
+                font-size: 11px;
+                padding: 4px 12px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 2px;
+            }
+            .tb-search-area {
+                padding: 8px 12px;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+            .tb-search-area .search-box {
+                max-width: 100%;
+            }
+            .tb-search-area .logo {
+                font-size: 22px;
+                text-align: center;
+            }
+            .shop-mini-header {
+                padding: 6px 14px;
+            }
+            .product-detail {
+                flex-direction: column;
+                padding: 14px 14px 0 14px;
+                gap: 16px;
+            }
+            .product-detail .left-col {
+                max-width: 100%;
+                flex: none;
+                width: 100%;
+            }
+            .product-detail .right-col {
+                max-width: 100%;
+                flex: none;
+                width: 100%;
+            }
+            .product-detail .right-col .product-title {
+                font-size: 17px;
+            }
+            .product-detail .right-col .product-price {
+                font-size: 22px;
+            }
+            .product-detail .right-col .action-buttons .btn {
+                padding: 8px 20px;
+                font-size: 14px;
+                flex: 1;
+                min-width: 100px;
+            }
+            .shop-footer {
+                padding: 12px 14px 10px 14px;
+                font-size: 11px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tb-top-bar {
+                font-size: 10px;
+                padding: 3px 8px;
+            }
+            .tb-search-area .logo {
+                font-size: 18px;
+            }
+            .shop-mini-header .shop-name {
+                font-size: 13px;
+            }
+            .product-detail {
+                padding: 10px 10px 0 10px;
+            }
+            .product-detail .right-col .product-title {
+                font-size: 15px;
+            }
+            .product-detail .right-col .product-price {
+                font-size: 18px;
+            }
+            .product-detail .right-col .action-buttons {
+                flex-direction: column;
+            }
+            .product-detail .right-col .action-buttons .btn {
+                width: 100%;
+                text-align: center;
+            }
+            .review-item .review-content {
+                font-size: 12px;
+            }
+            .product-detail .right-col .product-info {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== 顶部工具条 ===== -->
+    <div class="tb-top-bar">
+        <div class="left">
+            <span>中国大陆</span>
+            <span style="color:#CCC;margin:0 4px;">|</span>
+            <a href="#">tb123456</a>
+            <span style="color:#CCC;margin:0 4px;">|</span>
+            <a href="#">网页无障碍</a>
+        </div>
+        <div class="right">
+            <a href="#">淘宝网首页</a>
+            <span class="sep">|</span>
+            <a href="#">已买到的宝贝</a>
+            <span class="sep">|</span>
+            <a href="#">我的淘宝</a>
+            <span class="sep">|</span>
+            <a href="#">购物车</a>
+            <span class="sep">|</span>
+            <a href="#">收藏夹</a>
+            <span class="sep">|</span>
+            <a href="#">免费开店</a>
+            <span class="sep">|</span>
+            <a href="#">帮助中心</a>
+        </div>
+    </div>
+
+    <!-- ===== 搜索区 ===== -->
+    <div class="tb-search-area">
+        <div class="logo">淘宝网 <span>Taobao.com</span></div>
+        <div class="search-box">
+            <input type="text" id="shopSearchInput" placeholder="搜索店内商品..." />
+            <button id="shopSearchBtn">搜索</button>
+        </div>
+    </div>
+
+    <!-- ===== 店铺迷你头部 ===== -->
+    <div class="shop-mini-header">
+        <a href="page8.html" class="back-link">← 返回店铺</a>
+        <span class="shop-name">老巷陈记香油灯 <span class="sub">| 三代祖传 · 古法铜灯</span></span>
+    </div>
+
+    <!-- ===== 商品详情 ===== -->
+    <div class="product-detail">
+
+        <!-- 左栏：图片 + 评价（占50%） -->
+        <div class="left-col">
+            <div class="main-img">
+                <img src="product1.jpg" alt="民国老铜供灯 · 三足莲纹" />
+            </div>
+
+            <!-- 评价区 -->
+            <div class="reviews-section" id="reviewsSection">
+                <div class="reviews-title">
+                    <span>用户评价 <span class="count">共6条</span></span>
+                    <span class="status-tag" id="reviewStatus">全部评价</span>
+                </div>
+
+                <div id="reviewsContainer">
+
+                    <div class="review-item">
+                        <div class="review-header">
+                            <span class="stars">★★★★★</span>
+                            <span class="user">h***3</span>
+                            <span class="time">2026-07-20</span>
+                        </div>
+                        <div class="review-content">做工复古，放书房摆件刚刚好，包装严实无磕碰，好评。</div>
+                    </div>
+
+                    <div class="review-item">
+                        <div class="review-header">
+                            <span class="stars">★★★☆☆</span>
+                            <span class="user">t***6</span>
+                            <span class="time">2026-07-18</span>
+                        </div>
+                        <div class="review-content">铜皮略薄，胜在款式少见，复古氛围感可以，收藏还行。</div>
+                    </div>
+
+                    <div class="review-item">
+                        <div class="review-header">
+                            <span class="stars">★★★★☆</span>
+                            <span class="user">安溪***</span>
+                            <span class="time">2026-07-15</span>
+                        </div>
+                        <div class="review-content">给老家祠堂添置的，尺寸刚好，物流速度快，包装很仔细。</div>
+                    </div>
+
+                    <div class="review-item">
+                        <div class="review-header">
+                            <span class="stars">★★★★★</span>
+                            <span class="user">老巷***</span>
+                            <span class="time">2026-07-12</span>
+                        </div>
+                        <div class="review-content">店家是老巷老店了，东西有年代感，会回购小型酥油灯。</div>
+                    </div>
+
+                    <div class="review-item">
+                        <div class="review-header">
+                            <span class="stars">★★★★☆</span>
+                            <span class="user">旧***</span>
+                            <span class="time">2026-07-10</span>
+                        </div>
+                        <div class="review-content">铜灯做工不错，放在客厅角落很有味道，朋友看了都说好。</div>
+                    </div>
+
+                    <div class="review-item" style="border-bottom:none;">
+                        <div class="review-header">
+                            <span class="stars">★★★☆☆</span>
+                            <span class="user">过***</span>
+                            <span class="time">2026-07-08</span>
+                        </div>
+                        <div class="review-content">整体还行，就是比想象中小一点，不过老物件做工确实精细。</div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- 右栏：商品信息（占50%） -->
+        <div class="right-col">
+            <div class="product-title">民国老铜供灯 · 三足莲纹</div>
+            <div class="product-sub">安溪老巷 · 手工打造 · 仅供收藏祈福</div>
+
+            <div class="product-price">
+                ¥99.00
+                <span class="old-price">¥158.00</span>
+                <span class="sales">月销 0 · 累计评价 6</span>
+            </div>
+
+            <div class="product-info">
+                <div class="row">
+                    <span class="label">发货地</span>
+                    <span class="value">福建安溪</span>
+                </div>
+                <div class="row">
+                    <span class="label">快递</span>
+                    <span class="value free-shipping">免运费</span>
+                </div>
+                <div class="row">
+                    <span class="label">发货时间</span>
+                    <span class="value">预计24小时内发货</span>
+                </div>
+                <div class="row">
+                    <span class="label">送达时间</span>
+                    <span class="value delivery-time">预计后天送达（以实际物流为准）</span>
+                </div>
+                <div class="row">
+                    <span class="label">材质</span>
+                    <span class="value">老铜 · 民国</span>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-cart">加入购物车</button>
+                <button class="btn btn-buy">领券购买</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ===== 底部 ===== -->
+    <div class="shop-footer">
+        <div class="footer-links">
+            <a href="#">关于我们</a>
+            <a href="#">联系我们</a>
+            <a href="#">实体店地址</a>
+            <a href="#">隐私政策</a>
+        </div>
+        <div class="copyright">
+            © 老巷陈记香油灯 版权所有 闽ICP备20080123号<br />
+            本站商品仅供收藏展示
+        </div>
+    </div>
+
+    <script>
+        // =============================================================
+        // 1. 店铺搜索框
+        // =============================================================
+        var shopSearchInput = document.getElementById('shopSearchInput');
+        var shopSearchBtn = document.getElementById('shopSearchBtn');
+
+        function doShopSearch() {
+            var q = shopSearchInput.value.trim();
+            if (!q) {
+                alert('请输入搜索关键词');
+                return;
+            }
+            var lowerQ = q.toLowerCase();
+            if (lowerQ === '陈砚秋') {
+                window.location.href = 'page14.html';
+                return;
+            }
+            alert('未找到相关商品');
+        }
+
+        shopSearchBtn.addEventListener('click', doShopSearch);
+        shopSearchInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                doShopSearch();
+            }
+        });
+
+        // =============================================================
+        // 2. 评价替换逻辑：10秒后替换为诡异评价
+        // =============================================================
+        var weirdReviews = [
+            { stars: '★★★★★', user: 'h***3', time: '2026-07-20', content: '孩子名次上涨四十多名，只是总记不起儿时爱好了。' },
+            { stars: '★★★☆☆', user: 't***6', time: '2026-07-18', content: '生意慢慢变好，从前老友渐渐不再往来。' },
+            { stars: '★★★★☆', user: '安溪***', time: '2026-07-15', content: '愿望如愿达成，心底时常空荡荡的，像丢了什么东西。' },
+            { stars: '★★★★★', user: '老巷***', time: '2026-07-12', content: '孩子考上重点大学了，可是很久没跟我说过话了。' },
+            { stars: '★★★★☆', user: '旧***', time: '2026-07-10', content: '事情解决了，但想不起来当初为什么要来这家店。' },
+            { stars: '★★★☆☆', user: '过***', time: '2026-07-08', content: '帮家里求了个愿，现在真的实现了，但好像少了点什么。' }
+        ];
+
+        var isReplaced = false;
+
+        function replaceReviews() {
+            if (isReplaced) return;
+            isReplaced = true;
+
+            var container = document.getElementById('reviewsContainer');
+            var html = '';
+            for (var i = 0; i < weirdReviews.length; i++) {
+                var r = weirdReviews[i];
+                var borderStyle = (i === weirdReviews.length - 1) ? 'border-bottom:none;' : '';
+                html += '<div class="review-item review-weird" style="' + borderStyle + '">';
+                html += '  <div class="review-header">';
+                html += '    <span class="stars">' + r.stars + '</span>';
+                html += '    <span class="user">' + r.user + '</span>';
+                html += '    <span class="time">' + r.time + '</span>';
+                html += '  </div>';
+                html += '  <div class="review-content">' + r.content + '</div>';
+                html += '</div>';
+            }
+            container.innerHTML = html;
+
+            document.getElementById('reviewStatus').textContent = '最近更新';
+
+            var section = document.getElementById('reviewsSection');
+            section.classList.add('reviews-updated');
+            setTimeout(function() {
+                section.classList.remove('reviews-updated');
+            }, 800);
+
+            console.log('✦ 评价已替换为诡异内容（红色文字） ✦');
+        }
+
+        // 10秒后自动替换
+        setTimeout(function() {
+            replaceReviews();
+        }, 10000);
+
+        console.log('✦ 民国老铜供灯 · 商品详情 ✦');
+        console.log('—— 左栏（图片+评价）与右栏（信息）各占50% ——');
+        console.log('—— 页面加载10秒后评价会自动替换为红色文字 ——');
+    </script>
+
+</body>
+</html>

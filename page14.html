@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>青元灯谱 - 陈砚秋手录</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100vh;
+            background: #D4C8B8;
+            font-family: "楷体", "KaiTi", "STKaiti", "华文楷体", "Noto Serif SC", serif;
+            font-size: 14px;
+            color: #3A2F26;
+            line-height: 1.8;
+        }
+
+        a {
+            color: #5A4D3E;
+            text-decoration: none;
+        }
+        a:hover {
+            color: #8A6A4A;
+            text-decoration: underline;
+        }
+
+        .site-wrapper {
+            width: 100%;
+            min-height: 100vh;
+            background: #D4C8B8;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        /* ===== 顶部导航 ===== */
+        .top-bar {
+            width: 100%;
+            background: #3A3228;
+            padding: 6px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
+            border-bottom: 2px solid #2A2218;
+            flex-shrink: 0;
+        }
+
+        .top-bar .left {
+            color: rgba(212, 201, 184, 0.4);
+            font-size: 12px;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+            letter-spacing: 1px;
+        }
+
+        .top-bar .right a {
+            color: rgba(212, 201, 184, 0.3);
+            font-size: 12px;
+            margin-left: 16px;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+            letter-spacing: 0.5px;
+        }
+        .top-bar .right a:hover {
+            color: rgba(212, 201, 184, 0.6);
+            text-decoration: none;
+        }
+
+        /* ===== 古籍卡片 ===== */
+        .scroll-container {
+            width: 100%;
+            flex: 1;
+            padding: 28px 32px 24px 32px;
+            background: #F0E8DA;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .scroll-container::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background:
+                repeating-linear-gradient(0deg,
+                    transparent,
+                    transparent 28px,
+                    rgba(160, 140, 120, 0.07) 28px,
+                    rgba(160, 140, 120, 0.07) 29px),
+                radial-gradient(ellipse at 30% 20%, rgba(180, 160, 140, 0.05) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 80%, rgba(180, 160, 140, 0.04) 0%, transparent 50%);
+        }
+
+        .scroll-container .back-link {
+            display: inline-block;
+            font-size: 13px;
+            color: #8A7A6A;
+            margin-bottom: 12px;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+            letter-spacing: 0.5px;
+            position: relative;
+            z-index: 1;
+        }
+        .scroll-container .back-link:hover {
+            color: #5A4D3E;
+        }
+
+        .scroll-container .title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #3A2F26;
+            text-align: center;
+            letter-spacing: 8px;
+            border-bottom: 2px solid #C8BCA8;
+            padding-bottom: 12px;
+            margin-bottom: 18px;
+            font-family: "楷体", "KaiTi", "STKaiti", serif;
+            position: relative;
+            z-index: 1;
+        }
+
+        .scroll-container .title .sub {
+            font-size: 13px;
+            font-weight: 400;
+            color: #A89888;
+            letter-spacing: 2px;
+            display: block;
+            margin-top: 4px;
+        }
+
+        .scroll-container .body {
+            font-size: 15.5px;
+            line-height: 2.2;
+            color: #3A2F26;
+            text-align: justify;
+            letter-spacing: 0.5px;
+            position: relative;
+            z-index: 1;
+            flex: 1;
+        }
+
+        .scroll-container .body p {
+            text-indent: 2em;
+            margin-bottom: 10px;
+        }
+
+        .scroll-container .body .no-indent {
+            text-indent: 0;
+        }
+
+        .scroll-container .body .highlight {
+            color: #8A5A3A;
+            font-weight: 600;
+        }
+
+        .scroll-container .body .signature {
+            text-align: right;
+            text-indent: 0;
+            margin-top: 18px;
+            padding-top: 12px;
+            border-top: 1px solid #D5C8B8;
+            font-size: 15px;
+            color: #5A4D3E;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .scroll-container .body .signature .date {
+            font-weight: 400;
+            color: #A89888;
+            font-size: 13px;
+            display: block;
+            margin-top: 2px;
+        }
+
+        /* ===== 底部两个选项 ===== */
+        .scroll-container .choices {
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid #D5C8B8;
+            display: flex;
+            justify-content: center;
+            gap: 48px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        .scroll-container .choices .choice {
+            font-size: 16px;
+            color: #8A7A6A;
+            letter-spacing: 3px;
+            font-family: "楷体", "KaiTi", "STKaiti", serif;
+            cursor: pointer;
+            transition: color 0.3s;
+            padding: 4px 8px;
+            border-bottom: 1px solid transparent;
+        }
+        .scroll-container .choices .choice:hover {
+            color: #5A3D2E;
+            border-bottom-color: #8A7A6A;
+            text-decoration: none;
+        }
+
+        /* ===== 底部 ===== */
+        .footer {
+            width: 100%;
+            padding: 10px 20px 14px 20px;
+            text-align: center;
+            font-size: 11px;
+            color: #B8ADA2;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+            border-top: 1px solid #C8BCA8;
+            background: #D4C8B8;
+            flex-shrink: 0;
+        }
+
+        .footer a {
+            color: #A89888;
+        }
+        .footer a:hover {
+            color: #5A4D3E;
+        }
+
+        /* ===== 响应式 ===== */
+        @media (max-width: 768px) {
+            .scroll-container {
+                padding: 18px 16px 16px 16px;
+            }
+            .scroll-container .title {
+                font-size: 20px;
+                letter-spacing: 4px;
+            }
+            .scroll-container .body {
+                font-size: 14px;
+                line-height: 2;
+            }
+            .top-bar {
+                padding: 4px 14px;
+            }
+            .top-bar .left {
+                font-size: 11px;
+            }
+            .top-bar .right a {
+                font-size: 11px;
+                margin-left: 10px;
+            }
+            .scroll-container .choices {
+                gap: 24px;
+            }
+            .scroll-container .choices .choice {
+                font-size: 15px;
+                letter-spacing: 2px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .scroll-container {
+                padding: 12px 10px 12px 10px;
+            }
+            .scroll-container .title {
+                font-size: 17px;
+                letter-spacing: 2px;
+            }
+            .scroll-container .title .sub {
+                font-size: 11px;
+            }
+            .scroll-container .body {
+                font-size: 13px;
+                line-height: 1.9;
+            }
+            .scroll-container .back-link {
+                font-size: 12px;
+            }
+            .scroll-container .choices {
+                gap: 14px;
+                flex-direction: column;
+                align-items: center;
+            }
+            .scroll-container .choices .choice {
+                font-size: 14px;
+                letter-spacing: 1px;
+                padding: 4px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="site-wrapper">
+
+        <!-- ===== 顶部导航 ===== -->
+        <div class="top-bar">
+            <div class="left">◈ 青元山 · 灯谱 ◈</div>
+            <div class="right">
+                <a href="page8.html">返回店铺</a>
+                <a href="#">藏经阁</a>
+            </div>
+        </div>
+
+        <!-- ===== 古籍内容 ===== -->
+        <div class="scroll-container">
+            <a href="page8.html" class="back-link">← 返回店铺</a>
+
+            <div class="title">
+                青元灯谱
+                <span class="sub">—— 陈砚秋手录 · 嘉定三年 ——</span>
+            </div>
+
+            <div class="body">
+
+                <p>青元灯谱初铸于明万历三十八年，开山者陈砚秋，乃初代执灯人，非守灯人。当年少年登榜，以自身执念燃灯，自愿入谱，陈氏后代世代困于巷中守此七铜灯，永世不得脱离。</p>
+
+                <p>灯无妖邪，仅映照世人放不下之心愿。凡入巷点灯者，皆是自愿赴约，无外力胁迫，无鬼魅诱骗。灯轮转百载，一代执念燃尽，自有下一个心怀渴求之人寻至老巷。</p>
+
+                <p>砚秋登榜之年，年方十七，意气风发，本可远行。然秋闱归来，偶入一巷，见古灯七盏，灯火幽微，有老者坐守灯前，形容枯槁，双目深陷，问之不语。砚秋坐于灯前，竟一夜未眠。翌日老者不见，砚秋自承守灯之责，自此闭门不出。</p>
+
+                <p>家人寻访不得，邻里传为怪谈。砚秋留手札于案上，末句云：「灯谱已定，吾往矣。」其后再无人见其踪迹。家中仅存灯谱一册，墨迹尚新，字迹工整。后陈氏子孙遵其所嘱，守此七灯，代代相传，不敢有违。</p>
+
+                <p>灯谱所录，非咒非术，乃凡人之执念。一愿一灯，一灯一轮。求功名者，得功名而失志趣；求寿数者，得寿数而失亲友；求骨肉团圆者，得团圆而失记忆。凡有所得，必有所失，灯轮不言，唯待来人自悟。</p>
+
+                <p>砚秋于灯谱末页手书数行：「观灯者自悟，执灯者自渡。灯谱非困人之器，乃照心之镜。汝之所求，汝之所失，皆在汝心。灯轮不息，因执念不绝。」</p>
+
+                <p>观览至此，汝心中执念，早已为灯谱所察。愿力已生，灯烛已应。灯轮既启，非人力可止。唯有一问留于阅者：汝所执者，为何物？</p>
+
+                <div class="signature">
+                    初代执灯人 · 陈砚秋
+                    <span class="date">嘉定三年 · 十二月 · 灯前手录</span>
+                </div>
+
+            </div>
+
+            <!-- ===== 底部两个选项 ===== -->
+            <div class="choices">
+                <a href="page15.html" class="choice">一、碎铜断香</a>
+                <a href="page16.html" class="choice">二、燃灯立誓</a>
+            </div>
+
+        </div>
+
+        <!-- ===== 底部 ===== -->
+        <div class="footer">
+            <span>青元山陈氏 · 老巷陈记 · 灯谱手抄本 · 文物扫描件</span>
+        </div>
+
+    </div>
+
+    <script>
+        console.log('✦ 青元灯谱 · 陈砚秋手录 ✦');
+        console.log('—— 碎铜断香 → page15，燃灯立誓 → page16 ——');
+    </script>
+
+</body>
+</html>

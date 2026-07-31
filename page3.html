@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>寻人：安溪三中高三男生，模考完失联 - 安溪生活圈</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100vh;
+            background: #E8E3DB;
+            font-family: "Microsoft YaHei", Tahoma, "宋体", Arial, sans-serif;
+            font-size: 14px;
+            color: #222;
+            line-height: 1.6;
+        }
+
+        a {
+            color: #036;
+            text-decoration: none;
+        }
+        a:hover {
+            color: #F30;
+            text-decoration: underline;
+        }
+
+        .top-bar {
+            background: #F2EFEA;
+            border-bottom: 1px solid #CCC;
+            padding: 5px 24px;
+            font-size: 13px;
+            color: #666;
+        }
+        .top-bar .wrap {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .top-bar .wrap .left a {
+            margin-right: 16px;
+            color: #555;
+        }
+        .top-bar .wrap .left a:hover {
+            color: #036;
+        }
+        .top-bar .wrap .right {
+            color: #999;
+            font-size: 12px;
+        }
+
+        .header {
+            padding: 14px 24px 8px 24px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            border-bottom: 3px solid #036;
+            background: #F8F6F2;
+        }
+        .header .logo h1 {
+            font-size: 30px;
+            font-weight: 700;
+            color: #036;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+            letter-spacing: 1px;
+        }
+        .header .logo h1 span {
+            color: #999;
+            font-size: 16px;
+            font-weight: 400;
+            margin-left: 14px;
+        }
+        .header .logo .sub {
+            font-size: 13px;
+            color: #999;
+            margin-top: 2px;
+            letter-spacing: 1px;
+        }
+        .header .search-box {
+            background: #FFF;
+            border: 1px solid #BBB;
+            padding: 4px 8px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 4px;
+            border-radius: 3px;
+        }
+        .header .search-box input {
+            border: none;
+            outline: none;
+            width: 220px;
+            height: 28px;
+            font-size: 14px;
+            font-family: Tahoma, "宋体", sans-serif;
+            color: #333;
+            background: transparent;
+            padding: 0 6px;
+        }
+        .header .search-box button {
+            border: 1px solid #AAA;
+            background: #E5E0D8;
+            color: #333;
+            padding: 2px 18px;
+            font-size: 14px;
+            cursor: pointer;
+            font-family: "微软雅黑", sans-serif;
+            height: 28px;
+            border-radius: 3px;
+        }
+        .header .search-box button:hover {
+            background: #D5D0C8;
+        }
+
+        .nav {
+            background: #036;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            height: 38px;
+        }
+        .nav a {
+            color: #FFF;
+            padding: 0 22px;
+            font-size: 15px;
+            font-weight: 600;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+            cursor: pointer;
+            height: 38px;
+            line-height: 38px;
+            display: inline-block;
+        }
+        .nav a:hover {
+            background: #048;
+            text-decoration: none;
+            color: #FFF;
+        }
+        .nav a.current {
+            background: #048;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+            padding: 14px 24px 20px 24px;
+            background: #E8E3DB;
+            min-height: 600px;
+        }
+
+        .main {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .announce {
+            background: #FFFDE6;
+            border: 1px solid #E0D5B0;
+            padding: 8px 16px;
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 14px;
+            border-radius: 2px;
+        }
+        .announce strong {
+            color: #C00;
+        }
+
+        .post-card {
+            background: #FFF;
+            border: 1px solid #D0CBC4;
+            border-radius: 2px;
+            padding: 20px 24px 16px 24px;
+            margin-bottom: 12px;
+        }
+
+        .post-card .breadcrumb {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #EEE;
+        }
+        .post-card .breadcrumb a {
+            color: #036;
+        }
+        .post-card .breadcrumb a:hover {
+            color: #F30;
+            text-decoration: underline;
+        }
+        .post-card .breadcrumb .sep {
+            margin: 0 6px;
+            color: #CCC;
+        }
+        .post-card .breadcrumb .current {
+            color: #666;
+        }
+
+        .post-card .post-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #900;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+            line-height: 1.4;
+            margin-bottom: 4px;
+        }
+
+        .post-card .post-meta {
+            font-size: 13px;
+            color: #999;
+            border-bottom: 1px solid #EEE;
+            padding-bottom: 10px;
+            margin-bottom: 12px;
+        }
+        .post-card .post-meta .author {
+            color: #036;
+            font-weight: 600;
+        }
+        .post-card .post-meta .time {
+            color: #BBB;
+        }
+
+        .post-card .post-body {
+            font-size: 15px;
+            line-height: 2;
+            color: #333;
+            padding-bottom: 14px;
+            border-bottom: 1px solid #EEE;
+            margin-bottom: 12px;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .replies-title {
+            font-size: 13px;
+            color: #999;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .reply-item {
+            font-size: 14px;
+            color: #444;
+            padding: 5px 0;
+            border-bottom: 1px solid #F5F3EF;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3px 10px;
+        }
+        .reply-item:last-child {
+            border-bottom: none;
+        }
+
+        .reply-item .r-author {
+            color: #036;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .reply-item .r-time {
+            color: #BBB;
+            font-size: 12px;
+            margin-left: auto;
+        }
+
+        .reply-item .r-content {
+            width: 100%;
+            padding-left: 14px;
+            color: #333;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .sidebar {
+            width: 260px;
+            flex-shrink: 0;
+        }
+        .sidebar .block {
+            background: #FFF;
+            border: 1px solid #D0CBC4;
+            margin-bottom: 12px;
+            border-radius: 2px;
+        }
+        .sidebar .block .hd {
+            background: #EEEAE4;
+            padding: 6px 14px;
+            border-bottom: 1px solid #D0CBC4;
+            font-weight: 700;
+            font-size: 14px;
+            color: #333;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+        }
+        .sidebar .block .bd {
+            padding: 8px 14px 10px 14px;
+            font-size: 13px;
+            color: #555;
+        }
+        .sidebar .block .bd .item {
+            padding: 4px 0;
+            border-bottom: 1px solid #F0EDE8;
+            font-size: 13px;
+        }
+        .sidebar .block .bd .item:last-child {
+            border-bottom: none;
+        }
+        .sidebar .block .bd .tel {
+            font-family: "Courier New", monospace;
+            color: #036;
+            font-size: 13px;
+        }
+
+        .footer {
+            padding: 6px 24px 14px 24px;
+            border-top: 1px solid #CCC;
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+            line-height: 1.6;
+            background: #F8F6F2;
+        }
+        .footer a {
+            color: #666;
+        }
+        .footer .powered {
+            font-family: Tahoma, Arial, sans-serif;
+            font-size: 12px;
+        }
+        .footer .powered b {
+            color: #036;
+        }
+
+        @media (max-width: 768px) {
+            .top-bar .wrap {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 4px;
+                font-size: 12px;
+            }
+            .top-bar {
+                padding: 4px 14px;
+            }
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+                padding: 12px 14px 8px 14px;
+            }
+            .header .search-box {
+                width: 100%;
+            }
+            .header .search-box input {
+                width: 100%;
+            }
+            .header .logo h1 {
+                font-size: 24px;
+            }
+            .header .logo h1 span {
+                font-size: 13px;
+                display: inline;
+            }
+            .nav {
+                padding: 0 10px;
+                overflow-x: auto;
+                white-space: nowrap;
+                height: 36px;
+            }
+            .nav a {
+                padding: 0 14px;
+                font-size: 14px;
+                height: 36px;
+                line-height: 36px;
+            }
+            .container {
+                flex-direction: column;
+                padding: 10px 12px 16px 12px;
+                gap: 12px;
+            }
+            .sidebar {
+                width: 100%;
+            }
+            .post-card {
+                padding: 14px 14px 12px 14px;
+            }
+            .post-card .post-title {
+                font-size: 16px;
+            }
+            .post-card .post-body {
+                font-size: 14px;
+                line-height: 1.8;
+            }
+            .reply-item {
+                font-size: 13px;
+            }
+            .reply-item .r-content {
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header .logo h1 {
+                font-size: 20px;
+            }
+            .header .logo h1 span {
+                font-size: 12px;
+                display: block;
+                margin-left: 0;
+            }
+            .nav a {
+                padding: 0 10px;
+                font-size: 13px;
+            }
+            .container {
+                padding: 8px 6px 12px 6px;
+            }
+            .post-card {
+                padding: 10px 10px 10px 10px;
+            }
+            .post-card .post-title {
+                font-size: 15px;
+            }
+            .post-card .post-body {
+                font-size: 13px;
+                line-height: 1.7;
+            }
+            .reply-item .r-content {
+                font-size: 12px;
+            }
+            .footer {
+                padding: 4px 14px 10px 14px;
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== 顶部工具条 ===== -->
+    <div class="top-bar">
+        <div class="wrap">
+            <div class="left">
+                <a href="#">登录</a>
+                <a href="#">注册</a>
+                <a href="#">我的</a>
+                <a href="#">消息</a>
+                <span style="color:#CCC;margin:0 4px;">|</span>
+                <a href="#">收藏本站</a>
+            </div>
+            <div class="right">
+                <span>安溪生活圈 · 本地综合社区</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 头部 ===== -->
+    <div class="header">
+        <div class="logo">
+            <h1>安溪生活圈 <span>本地 · 便民 · 邻里</span></h1>
+            <div class="sub">—— 安溪人自己的网上家园 ——</div>
+        </div>
+        <div class="search-box" id="topSearchBox">
+            <input type="text" id="searchInput" placeholder="输入关键词搜索帖子、用户..." />
+            <button id="searchBtn">搜索</button>
+        </div>
+    </div>
+
+    <!-- ===== 导航栏 ===== -->
+    <div class="nav" id="navBar">
+        <a href="index.html#board-zatan">安溪杂谈</a>
+        <a href="index.html#board-minsheng">民生求助</a>
+        <a href="index.html#board-campus" class="current">校园交流</a>
+        <a href="index.html#board-oldcity">老城旧事</a>
+        <a href="index.html#board-ershou">二手闲置</a>
+        <a href="index.html#board-marry">婚嫁亲子</a>
+    </div>
+
+    <!-- ===== 主体 ===== -->
+    <div class="container">
+
+        <div class="main">
+
+            <div class="announce">
+                <strong>📢 通知：</strong> 安溪县2026年秋季小学招生方案已公布，详见教育局官网。高考志愿填报咨询服务正在进行中。
+            </div>
+
+            <div class="post-card">
+                <div class="breadcrumb">
+                    <a href="index.html">安溪生活圈</a><span class="sep">></span>
+                    <a href="index.html#board-campus">校园交流</a><span class="sep">></span>
+                    <span class="current">查看帖子</span>
+                </div>
+
+                <div class="post-title">寻人：安溪三中高三男生，模考完失联</div>
+                <div class="post-meta">
+                    楼主：<span class="author">xm1987</span> · <span class="time">2026-04-25 21:30</span>
+                </div>
+
+                <div class="post-body">
+                    求助各位安溪本地街坊，安溪三中高三7班男生林野，上周六模考结束当晚离校，至今联系不上，已经去派出所报案。
+
+                    他这大半年性格变得特别内向，平时独来独往，成绩从中下游突飞猛进冲到年级前十。
+
+                    宿舍柜子遗留一盏老式铜制油灯，还有半盒酥油，家里完全不认得，有没有人见过同款器物？
+
+                    如果有人见过或者知道什么线索，麻烦联系我，万分感谢。
+                </div>
+
+                <div class="replies-title">—— 全部回复（41条） ——</div>
+
+                <div class="reply-item">
+                    <span class="r-author">冰镇绿豆汤</span>
+                    <span class="r-time">2026-04-25 21:35</span>
+                    <span class="r-content">帮顶，三中模考分数出来了吗？</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">晚风骑行客</span>
+                    <span class="r-time">2026-04-25 21:38</span>
+                    <span class="r-content">我家孩子同年级，最近班里确实有个男生名次涨得飞快</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">公交靠窗乘客</span>
+                    <span class="r-time">2026-04-25 21:42</span>
+                    <span class="r-content">高三压力大，会不会去亲戚家住两天</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">奶茶重度依赖</span>
+                    <span class="r-time">2026-04-25 21:48</span>
+                    <span class="r-content">报警了吗</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">外卖一级鉴赏师</span>
+                    <span class="r-time">2026-04-25 21:52</span>
+                    <span class="r-content">帮顶，希望早点找到</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">阳台晒太阳发呆</span>
+                    <span class="r-time">2026-04-25 21:58</span>
+                    <span class="r-content">孩子压力太大了，哎</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">熬夜看球赛</span>
+                    <span class="r-time">2026-04-25 22:05</span>
+                    <span class="r-content">有没有去网吧找过</span>
+                </div>
+
+                <!-- ===== 原“还香”回复已被替换为普通回复 ===== -->
+                <div class="reply-item">
+                    <span class="r-author">老城旧事</span>
+                    <span class="r-time">2026-04-25 22:08</span>
+                    <span class="r-content">老一辈人好像有办法，不过现在没人知道了。老巷那边确实有家老店，但具体做什么的，谁也说不清楚。</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">小区遛弯大爷</span>
+                    <span class="r-time">2026-04-25 22:10</span>
+                    <span class="r-content">报警三天了还没消息吗</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">阴天懒得出门</span>
+                    <span class="r-time">2026-04-25 22:15</span>
+                    <span class="r-content">帮顶，会找到的</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">超市囤货爱好者</span>
+                    <span class="r-time">2026-04-25 22:20</span>
+                    <span class="r-content">孩子平时有没有什么异常</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">xm1987</span>
+                    <span class="r-time">2026-04-25 22:25</span>
+                    <span class="r-content">就这半年性格变化很大，不爱说话，成绩突然上来的</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">加班摸鱼打工人</span>
+                    <span class="r-time">2026-04-25 22:30</span>
+                    <span class="r-content">宿舍那盏灯是什么样子的</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">xm1987</span>
+                    <span class="r-time">2026-04-25 22:35</span>
+                    <span class="r-content">老式的铜灯，上面刻了字，看不清了</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">菜市场闲逛选手</span>
+                    <span class="r-time">2026-04-25 22:40</span>
+                    <span class="r-content">会不会是离家出走了</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">晚高峰挤地铁</span>
+                    <span class="r-time">2026-04-25 22:45</span>
+                    <span class="r-content">学校监控看了吗</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">xm1987</span>
+                    <span class="r-time">2026-04-25 22:50</span>
+                    <span class="r-content">监控只看到他出校门，后面就没了</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">干饭一级选手</span>
+                    <span class="r-time">2026-04-25 22:55</span>
+                    <span class="r-content">帮顶，别沉</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">路人甲</span>
+                    <span class="r-time">2026-04-25 23:00</span>
+                    <span class="r-content">隔壁班家长，确实听说7班有学生没来上课</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">早起困难户</span>
+                    <span class="r-time">2026-04-25 23:05</span>
+                    <span class="r-content">希望平安无事</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">追剧不吃零食</span>
+                    <span class="r-time">2026-04-25 23:10</span>
+                    <span class="r-content">会不会去老同学家住了</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">晚风过境</span>
+                    <span class="r-time">2026-04-25 23:15</span>
+                    <span class="r-content">已转发朋友圈</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">发呆专业户</span>
+                    <span class="r-time">2026-04-25 23:18</span>
+                    <span class="r-content">楼主有去老巷那边问吗</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">半夜刷手机</span>
+                    <span class="r-time">2026-04-25 23:22</span>
+                    <span class="r-content">老巷那边好像有家老店，不过我不太确定</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">徒步背包客</span>
+                    <span class="r-time">2026-04-25 23:26</span>
+                    <span class="r-content">帮顶，让更多人看到</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">快乐摸鱼选手</span>
+                    <span class="r-time">2026-04-25 23:30</span>
+                    <span class="r-content">这都多少天了，派出所还没进展吗</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">xm1987</span>
+                    <span class="r-time">2026-04-25 23:35</span>
+                    <span class="r-content">目前还没有消息，谢谢大家关心</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">独行看日落</span>
+                    <span class="r-time">2026-04-25 23:38</span>
+                    <span class="r-content">班主任有没有说什么</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">h38392</span>
+                    <span class="r-time">2026-04-25 23:42</span>
+                    <span class="r-content">老巷那边可以问问，那边老人多</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">云朵打盹了</span>
+                    <span class="r-time">2026-04-25 23:45</span>
+                    <span class="r-content">希望孩子早点回家</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">街角便利店</span>
+                    <span class="r-time">2026-04-25 23:48</span>
+                    <span class="r-content">帮顶</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">微风不燥</span>
+                    <span class="r-time">2026-04-25 23:50</span>
+                    <span class="r-content">有没有查过车站监控</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">晨跑的人</span>
+                    <span class="r-time">2026-04-25 23:52</span>
+                    <span class="r-content">那盏灯能不能拍个照片发上来</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">xm1987</span>
+                    <span class="r-time">2026-04-25 23:55</span>
+                    <span class="r-content">明天去学校拍一下</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">晚风寄书信</span>
+                    <span class="r-time">2026-04-25 23:58</span>
+                    <span class="r-content">希望只是出去散心了，早点回来</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">楼下便利店常客</span>
+                    <span class="r-time">2026-04-26 00:02</span>
+                    <span class="r-content">已经转群里了，有消息第一时间告诉你</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">山野藏晚风</span>
+                    <span class="r-time">2026-04-26 00:05</span>
+                    <span class="r-content">帮顶，别沉</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">qz3201</span>
+                    <span class="r-time">2026-04-26 00:08</span>
+                    <span class="r-content">楼主别太着急，说不定过两天就回来了</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">落日吻海平面</span>
+                    <span class="r-time">2026-04-26 00:12</span>
+                    <span class="r-content">家里人现在什么反应</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">xm1987</span>
+                    <span class="r-time">2026-04-26 00:15</span>
+                    <span class="r-content">他家里人都急坏了，已经报了失踪</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">攒一兜温柔</span>
+                    <span class="r-time">2026-04-26 00:18</span>
+                    <span class="r-content">孩子性格变化这么大，是不是遇到了什么事</span>
+                </div>
+
+                <div class="reply-item">
+                    <span class="r-author">lxj1024</span>
+                    <span class="r-time">2026-04-26 00:20</span>
+                    <span class="r-content">帮顶，希望早日找到</span>
+                </div>
+
+                <div class="reply-item" style="border-bottom:none;">
+                    <span class="r-author">放学绕远路</span>
+                    <span class="r-time">2026-04-26 00:25</span>
+                    <span class="r-content">明天我也去老巷那边问问看</span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ===== 侧边栏 ===== -->
+        <div class="sidebar">
+            <div class="block">
+                <div class="hd">热门板块</div>
+                <div class="bd">
+                    <div class="item"><a href="index.html#board-zatan">安溪杂谈</a> (1492)</div>
+                    <div class="item"><a href="index.html#board-minsheng">民生求助</a> (823)</div>
+                    <div class="item"><a href="index.html#board-campus"><strong>校园交流</strong></a> (654)</div>
+                    <div class="item"><a href="index.html#board-oldcity">老城旧事</a> (312)</div>
+                    <div class="item"><a href="index.html#board-ershou">二手闲置</a> (278)</div>
+                </div>
+            </div>
+            <div class="block">
+                <div class="hd">本地便民</div>
+                <div class="bd">
+                    <div class="item">· 安溪县教育局 <span class="tel">0595-2322-9876</span></div>
+                    <div class="item">· 安溪三中教务处 <span class="tel">0595-2325-5432</span></div>
+                    <div class="item">· 老巷社区服务中心</div>
+                </div>
+            </div>
+            <div class="block">
+                <div class="hd">推荐</div>
+                <div class="bd" style="color:#999; text-align:center; padding:14px 0; font-size:14px;">
+                    [ 本地家政服务 ]<br />
+                    [ 安溪铁观音春茶上市 ]
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 底部 ===== -->
+    <div class="footer">
+        <div class="powered">Powered by <b>Discuz!</b> X3.2 · 安溪生活圈</div>
+        <div style="font-size:11px; color:#BBB; margin-top:2px;">2008-2026 安溪生活圈 版权所有 闽ICP备20080123号</div>
+    </div>
+
+    <script>
+        var searchInput = document.getElementById('searchInput');
+        var searchBtn = document.getElementById('searchBtn');
+
+        function doSearch() {
+            var q = searchInput.value.trim();
+            if (!q) {
+                alert('请输入搜索关键词');
+                return;
+            }
+            var lowerQ = q.toLowerCase();
+
+            if (lowerQ === '李娟') {
+                window.location.href = 'page_lijuan.html';
+                return;
+            }
+            if (lowerQ === '张建军' || lowerQ === '张') {
+                window.location.href = 'page_zhang.html';
+                return;
+            }
+            if (lowerQ === '林野') {
+                window.location.href = 'page_linye.html';
+                return;
+            }
+            if (lowerQ === '老巷' || lowerQ === '陈记') {
+                window.location.href = 'page_laoxiang.html';
+                return;
+            }
+            alert('未找到相关结果');
+        }
+
+        searchBtn.addEventListener('click', doSearch);
+        searchInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                doSearch();
+            }
+        });
+
+        console.log('✦ 安溪生活圈 · 寻人帖详情页 ✦');
+        console.log('—— 删除了"还香"相关回复，改为普通回复 ——');
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>还香 · 燃灯立誓</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000000;
+            color: #cc0000;
+            font-family: "SimSun", "STSong", "KaiTi", serif;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .wish-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .wish-item {
+            position: absolute;
+            writing-mode: vertical-rl;
+            font-size: 16px;
+            line-height: 2.0;
+            letter-spacing: 5px;
+            color: #cc0000;
+            text-shadow: 0 0 8px rgba(180, 0, 0, 0.20);
+            opacity: 0.45;
+            white-space: nowrap;
+            font-weight: 300;
+            will-change: transform;
+            padding: 2px 0;
+            border-left: 1px dashed rgba(180, 0, 0, 0.05);
+            padding-left: 8px;
+            padding-right: 2px;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        .wish-item.highlight {
+            color: #ff3333;
+            text-shadow: 0 0 28px rgba(255, 0, 0, 0.5);
+            opacity: 0.95;
+            font-weight: 500;
+            font-size: 18px;
+            border-left-color: rgba(200, 0, 0, 0.25);
+        }
+
+        .wish-item.ash {
+            color: #774444;
+            text-shadow: 0 0 4px rgba(80, 0, 0, 0.2);
+            opacity: 0.2;
+            font-size: 13px;
+        }
+
+        /* ---------- 上传卡片 ---------- */
+        .upload-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+        }
+
+        .upload-card {
+            pointer-events: auto;
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(3px);
+            border: 1px solid rgba(180, 60, 60, 0.4);
+            border-radius: 6px;
+            padding: 14px 28px;
+            max-width: 640px;
+            width: 80%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            box-shadow: 0 0 60px rgba(120, 0, 0, 0.15);
+            transition: border 0.6s ease, box-shadow 0.6s ease;
+        }
+
+        .upload-card .title {
+            font-size: 20px;
+            font-weight: 300;
+            letter-spacing: 8px;
+            color: #cc5555;
+            text-shadow: 0 0 30px rgba(180, 0, 0, 0.2);
+            white-space: nowrap;
+            font-family: "KaiTi", "STKaiti", serif;
+            border-right: 1px solid rgba(180, 60, 60, 0.2);
+            padding-right: 18px;
+            line-height: 1.4;
+        }
+
+        .upload-card .sub {
+            color: #aa7777;
+            font-size: 12px;
+            letter-spacing: 2px;
+            line-height: 1.6;
+            font-family: "KaiTi", "STKaiti", serif;
+            opacity: 0.8;
+            white-space: nowrap;
+            border-right: 1px solid rgba(180, 60, 60, 0.1);
+            padding-right: 16px;
+            flex-shrink: 0;
+        }
+
+        .upload-card .sub em {
+            font-style: normal;
+            color: #cc8888;
+            border-bottom: 1px dotted rgba(200, 100, 100, 0.2);
+            padding: 0 4px;
+        }
+
+        .file-upload-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            border: 2px dashed rgba(200, 80, 80, 0.5);
+            border-radius: 4px;
+            transition: border 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;
+            background: rgba(60, 20, 20, 0.15);
+            animation: pulse-border 2s ease-in-out infinite;
+        }
+
+        .file-upload-wrapper:hover {
+            border-color: rgba(255, 120, 120, 0.8);
+            background: rgba(80, 30, 30, 0.25);
+            animation-play-state: paused;
+            box-shadow: 0 0 40px rgba(200, 50, 50, 0.2);
+        }
+
+        @keyframes pulse-border {
+            0% {
+                border-color: rgba(200, 80, 80, 0.4);
+                box-shadow: 0 0 10px rgba(200, 50, 50, 0.05);
+            }
+            50% {
+                border-color: rgba(200, 120, 120, 0.7);
+                box-shadow: 0 0 30px rgba(200, 80, 80, 0.2);
+            }
+            100% {
+                border-color: rgba(200, 80, 80, 0.4);
+                box-shadow: 0 0 10px rgba(200, 50, 50, 0.05);
+            }
+        }
+
+        .file-upload-wrapper::after {
+            content: "☐";
+            font-size: 18px;
+            color: rgba(200, 120, 120, 0.4);
+            transition: color 0.4s;
+            line-height: 1;
+            pointer-events: none;
+        }
+
+        .file-upload-wrapper:hover::after {
+            color: rgba(255, 160, 160, 0.7);
+        }
+
+        .file-upload-wrapper input[type="file"] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            z-index: 20;
+        }
+
+        .status-msg {
+            position: fixed;
+            bottom: 16%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 15;
+            font-size: 14px;
+            letter-spacing: 3px;
+            color: #aa7777;
+            font-family: "KaiTi", "STKaiti", serif;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 6px 20px;
+            border-radius: 4px;
+            backdrop-filter: blur(2px);
+            border: 1px solid rgba(180, 80, 80, 0.15);
+            transition: all 0.6s ease;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        .status-msg.success {
+            color: #ccaa66;
+            text-shadow: 0 0 30px rgba(200, 150, 60, 0.3);
+            animation: emberGlow 2.8s infinite alternate;
+        }
+
+        @keyframes emberGlow {
+            0% {
+                opacity: 0.5;
+                text-shadow: 0 0 8px #5a2a1a;
+            }
+            100% {
+                opacity: 1;
+                text-shadow: 0 0 35px #aa6633;
+            }
+        }
+
+        .upload-card.accepted {
+            border-color: rgba(200, 150, 80, 0.3);
+            box-shadow: 0 0 80px rgba(180, 120, 40, 0.1);
+        }
+
+        .upload-card.accepted .file-upload-wrapper {
+            border-color: rgba(200, 180, 100, 0.5);
+            background: rgba(80, 60, 20, 0.15);
+            animation: none;
+            box-shadow: 0 0 40px rgba(200, 150, 50, 0.2);
+        }
+
+        .upload-card.accepted .file-upload-wrapper::after {
+            content: "🕯";
+            font-size: 22px;
+            color: rgba(200, 180, 100, 0.7);
+        }
+
+        .page-tag {
+            position: fixed;
+            bottom: 24px;
+            right: 30px;
+            z-index: 20;
+            color: #2a1a1a;
+            font-size: 11px;
+            letter-spacing: 8px;
+            font-family: monospace;
+            pointer-events: none;
+            border-top: 1px solid #1a1010;
+            padding-top: 6px;
+            opacity: 0.35;
+        }
+
+        @media (max-width: 700px) {
+            .upload-card {
+                flex-wrap: wrap;
+                justify-content: center;
+                padding: 12px 16px;
+                width: 90%;
+                gap: 8px;
+            }
+            .upload-card .title {
+                font-size: 16px;
+                letter-spacing: 4px;
+                border-right: none;
+                padding-right: 0;
+                width: 100%;
+                text-align: center;
+                border-bottom: 1px solid rgba(180, 60, 60, 0.15);
+                padding-bottom: 6px;
+            }
+            .upload-card .sub {
+                font-size: 11px;
+                white-space: normal;
+                border-right: none;
+                padding-right: 0;
+                text-align: center;
+            }
+            .file-upload-wrapper {
+                width: 50px;
+                height: 50px;
+            }
+            .status-msg {
+                font-size: 12px;
+                bottom: 14%;
+                padding: 4px 14px;
+                white-space: normal;
+            }
+            .wish-item {
+                font-size: 13px;
+                line-height: 1.8;
+                letter-spacing: 4px;
+                padding-left: 6px;
+            }
+            .wish-item.highlight {
+                font-size: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .wish-item {
+                font-size: 11px;
+                line-height: 1.6;
+                letter-spacing: 3px;
+                padding-left: 4px;
+            }
+            .upload-card {
+                padding: 8px 12px;
+            }
+            .upload-card .title {
+                font-size: 14px;
+            }
+            .file-upload-wrapper {
+                width: 40px;
+                height: 40px;
+            }
+            .file-upload-wrapper::after {
+                font-size: 14px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-tag">· 燃 灯 卷 ·</div>
+
+    <!-- 愿望容器 -->
+    <div class="wish-container" id="wishContainer"></div>
+
+    <!-- 上传卡片 -->
+    <div class="upload-overlay">
+        <div class="upload-card" id="uploadCard">
+            <span class="title">燃 愿 入 谱</span>
+            <span class="sub"><em>天竺语</em> 书纸 · 灯下影</span>
+            <div class="file-upload-wrapper">
+                <input type="file" id="fileInput" accept="image/*" capture="environment">
+            </div>
+        </div>
+        <div class="status-msg" id="statusMsg">将你的愿望翻译成天竺语，亲手抄写在纸上，然后拍照上传。<br />上传后，你的愿力将被灯谱收录。</div>
+    </div>
+
+    <script>
+        // ============================================================
+        // 1. 愿望生成 —— 1500+
+        // ============================================================
+
+        const pool = [
+            "希望明天的粥能稠一点",
+            "希望房东这个月别来敲门",
+            "希望粮站的称不要少三两",
+            "希望下雨前能收完稻谷",
+            "希望矿井今天别塌",
+            "希望工钱能结清",
+            "希望药渣里还能再熬出一碗",
+            "希望煤炉别在半夜熄",
+            "希望菜场收摊前能捡到菜叶",
+            "希望这双鞋能撑过这个冬天",
+            "希望井水不要变浑",
+            "希望还完债还剩五毛",
+            "希望孩子别在学堂饿晕",
+            "希望牛别生病",
+            "希望下雨别漏进被窝",
+            "希望米缸见底前发工资",
+            "希望晚班车能等到",
+            "希望祠堂分肉时别忘了我家",
+            "希望旧棉袄能再缝补一次",
+            "希望开水房别涨价",
+            "希望咳血别再来了",
+            "希望后背的疮能结痂",
+            "希望大夫别摇头",
+            "希望药铺能赊账",
+            "希望牙疼今晚别发作",
+            "希望关节别在雨天疼",
+            "希望娘能认出我",
+            "希望枕头底下别再有头发",
+            "希望发烧在鸡叫前退",
+            "希望疤别再痒了",
+            "希望胃里的烧灼感停一停",
+            "希望镜子里的脸色好看点",
+            "希望夜里不要盗汗",
+            "希望孩子能长出头发",
+            "希望伤口不化脓",
+            "希望爹今天不喝酒",
+            "希望娘别坐在门槛上哭",
+            "希望弟弟别再去码头",
+            "希望妹妹的亲事能退掉",
+            "希望他今晚别喝醉打我",
+            "希望婆婆别摔碗",
+            "希望大嫂别指桑骂槐",
+            "希望孩子别学他爹",
+            "希望那封信别被拆开",
+            "希望她别走",
+            "希望他忘了那个寡妇",
+            "希望邻居别听见我家吵架",
+            "希望孩子他爸能回来看看",
+            "希望外公别总摸着刀",
+            "希望继母别往饭里吐口水",
+            "希望隔壁能有人说句话",
+            "希望收音机别全是杂音",
+            "希望梦到的人别总背对着我",
+            "希望有个人能听我说完",
+            "希望镜子里的影子别动",
+            "希望门缝里别再塞纸钱",
+            "希望猫别在半夜叫",
+            "希望半夜别有人敲门",
+            "希望墙上的影子只有我一个",
+            "希望闭上眼睛别看到东西",
+            "希望身后没人跟着",
+            "希望阁楼别响",
+            "希望白事别找到我家",
+            "希望坟头的草别太高",
+            "希望那件旧衣裳别自己飘动",
+            "希望工头今天别骂人",
+            "希望白班能轮到我",
+            "希望机器别咬手",
+            "希望排队的队伍能快点",
+            "希望领导别看见我",
+            "希望考核能及格",
+            "希望同事别在背后说话",
+            "希望裁员名单没我",
+            "希望老板别让加班",
+            "希望罚款能少点",
+            "希望组长别盯着我看",
+            "希望打卡机别坏",
+            "希望这个月绩效别垫底",
+            "希望辞职信能递出去",
+            "希望明天别遇到他",
+            "希望楼上别再拖椅子",
+            "希望隔壁狗别再叫",
+            "希望那个人别再出现",
+            "希望那户人家搬走",
+            "希望告密的人烂舌头",
+            "希望他出门被车撞",
+            "希望她不得好死",
+            "希望账本永远消失",
+            "希望知道秘密的人闭嘴",
+            "希望那口井被封上",
+            "希望那把钥匙找不到",
+            "希望那把刀生锈",
+            "希望红旗别插在我家门前",
+            "希望抄家的人别翻箱底",
+            "希望下乡的名单没我",
+            "希望返城指标能分到",
+            "希望工龄别清零",
+            "希望档案别丢",
+            "希望户口本上的名字还在",
+            "希望粮票别过期",
+            "希望布票能多两尺",
+            "希望广播里别念我的名字",
+            "希望大字报别贴到我家",
+            "希望皮带别抽在我身上",
+            "希望牛棚别漏雨",
+            "希望别被点名",
+            "希望那封信别寄出去",
+            "希望他能看我一眼",
+            "希望她没上那班车",
+            "希望信能到他手里",
+            "希望他没娶别人",
+            "希望那晚没推开他",
+            "希望白头偕老是真的",
+            "希望戒指别沉到河里",
+            "希望照片别泛黄",
+            "希望他还记得巷口",
+            "希望她手里捧着的是我的花",
+            "希望走的时候不太疼",
+            "希望有人给我收尸",
+            "希望棺材板别太薄",
+            "希望坟头能有个名字",
+            "希望孩子过年能回来上坟",
+            "希望寿衣别太硬",
+            "希望阎王别拿铁链",
+            "希望黄泉路上有盏灯",
+            "希望下辈子别来了",
+            "希望忘川河别那么冷",
+            "希望闹钟别响",
+            "希望公交别开走",
+            "希望雨伞没忘带",
+            "希望手机还有电",
+            "希望快递别丢",
+            "希望外卖别撒",
+            "希望电梯别停",
+            "希望门锁别坏",
+            "希望热水器别熄火",
+            "希望网络别断",
+            "希望今天别堵车",
+            "希望座位旁边没人",
+            "希望会议早点结束",
+            "希望明天是晴天",
+            "希望彩票中五块",
+            "希望打折别错过",
+            "希望千万别遇上熟人",
+            "希望头发别掉",
+            "希望裤子拉链没坏",
+            "希望口罩还有",
+            "希望体检报告别拆",
+            "希望别查出什么",
+            "希望孩子考第一",
+            "希望爸妈身体好",
+            "希望别吵架",
+            "希望别冷战",
+            "希望他能哄我",
+            "希望她别哭",
+            "希望朋友别借钱",
+            "希望亲戚别问工资",
+            "希望家乡别下雪",
+            "希望航班别延误",
+            "希望过年的票能抢到",
+            "希望红包能收回本",
+            "希望烟花别哑火",
+            "希望年夜饭别剩",
+            "希望来年风调雨顺",
+            "希望麦子别倒伏",
+            "希望猪别得瘟",
+            "希望鸡别丢",
+            "希望灶王爷别说坏话",
+            "希望门神显灵",
+            "希望财神进门",
+            "希望霉运走远",
+            "希望小人退散",
+            "希望贵人相助",
+            "希望咸鱼翻身",
+            "希望梦想还在",
+            "希望初心不改",
+            "希望明天会好",
+            "希望一切都好",
+            "希望再等等",
+            "希望别放弃",
+            "希望还有人记得",
+            "希望灯还亮着",
+            "别来", "走吧", "算了", "疼", "饿", "冷", "等", "悔",
+            "怕", "空", "暗", "静", "太静了", "别回头", "它还在",
+            "不是我", "对不起", "算了吧", "就这样吧", "认了",
+            "够了", "停", "别说了", "忘了我", "放过我", "为什么",
+            "没用了", "太晚了", "回不去了", "都怪我", "罢了",
+            "该我了", "轮到我", "别抢", "让让", "借过", "谢了",
+            "做梦", "妄想", "痴人说梦", "不可能的", "算了吧你"
+        ];
+
+        const years = ["1998", "2003", "2007", "2011", "2015", "2018", "2021", "2024", "2026"];
+        const sigils = ["……", "☯", "⏣", "⚰", "☠", "🕯", "·", "✧", "◇", "⟡", "◈", "▸", "☽", "☾", "⚘"];
+
+        const all = [];
+
+        // 重复8遍
+        for (let r = 0; r < 8; r++) {
+            pool.forEach(w => all.push(w));
+        }
+        // 年份变形
+        for (let i = 0; i < 4; i++) {
+            pool.forEach(w => {
+                const y = years[Math.floor(Math.random() * years.length)];
+                if (Math.random() > 0.5) all.push("· " + y + " · " + w);
+                else all.push(w + " … " + y);
+            });
+        }
+        // 符号装饰
+        for (let i = 0; i < 4; i++) {
+            sigils.forEach(s => {
+                const base = pool[Math.floor(Math.random() * pool.length)];
+                all.push(s + " " + base);
+                all.push(base + " " + s);
+            });
+        }
+        // 纯符号
+        for (let i = 0; i < 6; i++) {
+            sigils.forEach(s => {
+                all.push(s + "  " + s);
+                all.push(s);
+            });
+        }
+
+        // 打乱
+        for (let i = all.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [all[i], all[j]] = [all[j], all[i]];
+        }
+
+        console.log('愿望总数（增强版）:', all.length);
+
+        // ============================================================
+        // 2. 愿望流动动画
+        // ============================================================
+
+        const container = document.getElementById('wishContainer');
+        const winW = window.innerWidth;
+        const winH = window.innerHeight;
+        const colWidth = 42;
+        const cols = Math.floor(winW / colWidth);
+        const items = [];
+
+        all.forEach((text, index) => {
+            const el = document.createElement('div');
+            el.className = 'wish-item';
+            const rnd = Math.random();
+            if (rnd > 0.94) el.classList.add('highlight');
+            else if (rnd < 0.05) el.classList.add('ash');
+
+            let display = text;
+            if (Math.random() > 0.92) {
+                const s = sigils[Math.floor(Math.random() * sigils.length)];
+                display = s + ' ' + text;
+            }
+            el.textContent = display;
+
+            const colIndex = Math.floor(Math.random() * cols);
+            const x = colIndex * colWidth + (Math.random() * 10 - 5);
+            const y = (index / all.length) * winH * 1.2 - winH * 0.1;
+            el.style.left = x + 'px';
+            el.style.top = y + 'px';
+            const sizeVariation = 14 + Math.random() * 8;
+            el.style.fontSize = sizeVariation + 'px';
+
+            container.appendChild(el);
+
+            const speed = (Math.random() * 0.9 + 0.3) * (Math.random() > 0.5 ? 1 : -1);
+            items.push({
+                el: el,
+                y: y,
+                speed: speed,
+                height: 0
+            });
+        });
+
+        requestAnimationFrame(() => {
+            items.forEach(item => {
+                item.height = item.el.offsetHeight || 30;
+            });
+        });
+
+        let lastTime = 0;
+
+        function animate(time) {
+            const delta = time - lastTime;
+            lastTime = time;
+            const step = Math.min(delta, 30);
+
+            const currentWinH = window.innerHeight;
+            const currentWinW = window.innerWidth;
+            const currentCols = Math.max(10, Math.floor(currentWinW / colWidth));
+
+            items.forEach(item => {
+                const h = item.height || 30;
+                item.y += item.speed * (step / 16);
+                item.el.style.top = item.y + 'px';
+
+                if (item.speed > 0) {
+                    if (item.y + h < -10) {
+                        item.y = currentWinH + 5 + Math.random() * 15;
+                        if (Math.random() > 0.6) {
+                            item.speed = (Math.random() * 0.9 + 0.3) * (Math.random() > 0.5 ? 1 : -1);
+                        }
+                        const newCol = Math.floor(Math.random() * currentCols);
+                        item.el.style.left = (newCol * colWidth + (Math.random() * 12 - 6)) + 'px';
+                        if (Math.random() > 0.9) {
+                            item.el.classList.toggle('highlight');
+                        }
+                    }
+                } else {
+                    if (item.y > currentWinH + 10) {
+                        item.y = -5 - Math.random() * 15;
+                        if (Math.random() > 0.6) {
+                            item.speed = (Math.random() * 0.9 + 0.3) * (Math.random() > 0.5 ? 1 : -1);
+                        }
+                        const newCol = Math.floor(Math.random() * currentCols);
+                        item.el.style.left = (newCol * colWidth + (Math.random() * 12 - 6)) + 'px';
+                        if (Math.random() > 0.9) {
+                            item.el.classList.toggle('ash');
+                        }
+                    }
+                }
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        requestAnimationFrame(animate);
+
+        // ============================================================
+        // 3. 上传功能
+        // ============================================================
+
+        const fileInput = document.getElementById('fileInput');
+        const statusMsg = document.getElementById('statusMsg');
+        const uploadCard = document.getElementById('uploadCard');
+
+        fileInput.addEventListener('change', function(e) {
+            if (this.files && this.files.length > 0) {
+                const file = this.files[0];
+                if (!file.type.startsWith('image/')) {
+                    statusMsg.textContent = '请上传图片（天竺语愿纸照片）';
+                    statusMsg.className = 'status-msg';
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = function(ev) {
+                    statusMsg.innerHTML = '愿 纸 已 载 入 灯 谱 · 青 烟 升 腾 · 灯 已 燃';
+                    statusMsg.className = 'status-msg success';
+                    uploadCard.classList.add('accepted');
+                    fileInput.disabled = true;
+                    document.body.style.transition = 'background 0.6s';
+                    document.body.style.backgroundColor = '#0d0500';
+                    setTimeout(() => {
+                        document.body.style.backgroundColor = '#000000';
+                    }, 700);
+
+                    // 1.8秒后跳转 page16b
+                    setTimeout(function() {
+                        window.location.href = 'page16b.html';
+                    }, 1800);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                statusMsg.textContent = '未选择愿纸，灯盏虚位。';
+                statusMsg.className = 'status-msg';
+            }
+        });
+
+        document.querySelector('.file-upload-wrapper').addEventListener('click', function(e) {
+            if (fileInput.disabled) {
+                statusMsg.innerHTML = '🕯 灯 已 燃 · 勿 再 扰';
+                statusMsg.className = 'status-msg success';
+            }
+        });
+
+        document.addEventListener('dragover', (e) => e.preventDefault());
+        document.addEventListener('drop', (e) => e.preventDefault());
+
+        console.log('page16 增强版：1500+ 愿望，边界紧贴重置，上传后跳转 page16b');
+    </script>
+
+</body>
+</html>

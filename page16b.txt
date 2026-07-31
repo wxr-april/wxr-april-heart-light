@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>灯谱回响 · 愿已收录</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #0d0a08;
+            font-family: "KaiTi", "STKaiti", "华文楷体", "Noto Serif SC", serif;
+            user-select: none;
+        }
+
+        .bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background: #0d0a08;
+            pointer-events: none;
+        }
+
+        .container {
+            position: fixed;
+            z-index: 10;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 90%;
+            max-width: 520px;
+            padding: 20px 24px;
+        }
+
+        .container .line {
+            font-size: 16px;
+            line-height: 2.6;
+            color: #8a3a2a;
+            letter-spacing: 4px;
+            font-family: "KaiTi", "STKaiti", "华文楷体", "Noto Serif SC", serif;
+            opacity: 1;
+        }
+
+        .container .line.system {
+            font-size: 13px;
+            color: #4a2a1a;
+            letter-spacing: 3px;
+            opacity: 0.4;
+        }
+
+        .container .line.break {
+            height: 14px;
+            opacity: 0;
+        }
+
+        .container .line.break-small {
+            height: 6px;
+            opacity: 0;
+        }
+
+        .container .code-display {
+            display: inline-block;
+            padding: 8px 24px;
+            border: 1px solid rgba(180, 80, 60, 0.15);
+            border-radius: 3px;
+            background: rgba(20, 10, 8, 0.3);
+            font-size: 22px;
+            font-family: "Consolas", "Courier New", monospace;
+            color: #aa5a3a;
+            letter-spacing: 3px;
+            margin-top: 4px;
+            margin-bottom: 4px;
+            min-width: 200px;
+        }
+
+        .container .code-label {
+            font-size: 13px;
+            color: #5a3a2a;
+            letter-spacing: 2px;
+            opacity: 0.4;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+        }
+
+        .container .save-hint {
+            font-size: 12px;
+            color: #4a2a1a;
+            letter-spacing: 2px;
+            opacity: 0.3;
+            margin-top: 8px;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+        }
+
+        .btn-forward {
+            display: inline-block;
+            margin-top: 18px;
+            padding: 8px 36px;
+            border: 1px solid rgba(180, 80, 60, 0.2);
+            border-radius: 3px;
+            color: #7a3a2a;
+            font-size: 14px;
+            font-family: "KaiTi", "STKaiti", "华文楷体", "Noto Serif SC", serif;
+            letter-spacing: 6px;
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.4s;
+            text-decoration: none;
+        }
+
+        .btn-forward:hover {
+            border-color: rgba(180, 80, 60, 0.4);
+            color: #9a4a3a;
+            background: rgba(30, 15, 8, 0.08);
+        }
+
+        .btn-forward:active {
+            transform: scale(0.97);
+        }
+
+        /* 底部状态栏 */
+        .status-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 5;
+            background: rgba(4, 2, 2, 0.3);
+            border-top: 1px solid rgba(30, 15, 8, 0.04);
+            padding: 5px 18px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: #1a0e0a;
+            letter-spacing: 0.5px;
+            font-family: "Consolas", "Monaco", monospace;
+            opacity: 0.15;
+        }
+
+        .status-bar .dot {
+            display: inline-block;
+            width: 4px;
+            height: 4px;
+            background: #3a1a12;
+            border-radius: 50%;
+            margin-right: 5px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.15; }
+            50% { opacity: 0.5; }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 16px 18px;
+                max-width: 92%;
+            }
+            .container .line {
+                font-size: 14px;
+                line-height: 2.4;
+                letter-spacing: 3px;
+            }
+            .container .line.system {
+                font-size: 12px;
+                letter-spacing: 2px;
+            }
+            .container .line.break {
+                height: 10px;
+            }
+            .container .code-display {
+                font-size: 18px;
+                padding: 6px 18px;
+                min-width: 160px;
+                letter-spacing: 2px;
+            }
+            .btn-forward {
+                font-size: 13px;
+                padding: 6px 28px;
+                letter-spacing: 4px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .container {
+                padding: 12px 12px;
+                max-width: 96%;
+            }
+            .container .line {
+                font-size: 13px;
+                line-height: 2.2;
+                letter-spacing: 2px;
+            }
+            .container .line.system {
+                font-size: 10px;
+            }
+            .container .line.break {
+                height: 6px;
+            }
+            .container .line.break-small {
+                height: 3px;
+            }
+            .container .code-display {
+                font-size: 15px;
+                padding: 4px 12px;
+                min-width: 120px;
+                letter-spacing: 1px;
+            }
+            .btn-forward {
+                font-size: 12px;
+                padding: 6px 20px;
+                letter-spacing: 3px;
+            }
+            .status-bar {
+                font-size: 8px;
+                padding: 3px 10px;
+                flex-wrap: wrap;
+                gap: 2px;
+            }
+        }
+
+        @media (max-height: 500px) {
+            .container {
+                padding: 10px 14px;
+                top: 48%;
+            }
+            .container .line {
+                font-size: 12px;
+                line-height: 2.0;
+            }
+            .container .line.break {
+                height: 4px;
+            }
+            .container .line.break-small {
+                height: 2px;
+            }
+            .container .code-display {
+                font-size: 15px;
+                padding: 4px 14px;
+                min-width: 120px;
+            }
+            .btn-forward {
+                margin-top: 12px;
+                padding: 4px 20px;
+                font-size: 12px;
+            }
+            .status-bar {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg"></div>
+
+    <div class="container">
+        <div class="line system">[ 灯 谱 回 响 ]</div>
+        <div class="line break"></div>
+
+        <div class="line">你的愿望已被记录。</div>
+        <div class="line break-small"></div>
+
+        <div class="line" style="font-size:13px; color:#6a3a2a; opacity:0.5; letter-spacing:2px;">灯谱编号</div>
+        <div class="code-display" id="contractCode">HX-2026-XXXX</div>
+        <div class="line break-small"></div>
+
+        <div class="save-hint">✧ 请截图保存此编号 ✧</div>
+        <div class="line break"></div>
+
+        <a href="page17.html" class="btn-forward">前 往 舆 图</a>
+    </div>
+
+    <div class="status-bar">
+        <div class="left">
+            <span><span class="dot"></span>契约状态 · 已绑定</span>
+            <span style="margin-left:12px;">灯谱 · 已收录</span>
+        </div>
+        <div class="right">
+            <span>检索者 · 第七位</span>
+        </div>
+    </div>
+
+    <script>
+        // =============================================================
+        // 生成随机编号（HX-2026-XXXX 格式，大写字母+数字混合）
+        // =============================================================
+        function generateCode() {
+            var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            var code = 'HX-2026-';
+            for (var i = 0; i < 4; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return code;
+        }
+
+        var code = generateCode();
+        document.getElementById('contractCode').textContent = code;
+
+        console.log('✦ 灯谱回响 · 愿已收录 ✦');
+        console.log('灯谱编号：' + code);
+        console.log('—— 点击"前往舆图"跳转 page17 ——');
+    </script>
+
+</body>
+</html>

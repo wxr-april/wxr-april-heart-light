@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>安溪生活圈 - 本地综合社区</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100vh;
+            background: #E8E3DB;
+            font-family: "Microsoft YaHei", Tahoma, "宋体", Arial, sans-serif;
+            font-size: 14px;
+            color: #222;
+            line-height: 1.6;
+        }
+
+        a {
+            color: #036;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        a:hover {
+            color: #F30;
+            text-decoration: underline;
+        }
+
+        .top-bar {
+            background: #F2EFEA;
+            border-bottom: 1px solid #CCC;
+            padding: 5px 24px;
+            font-size: 13px;
+            color: #666;
+        }
+        .top-bar .wrap {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .top-bar .wrap .left a {
+            margin-right: 16px;
+            color: #555;
+        }
+        .top-bar .wrap .left a:hover {
+            color: #036;
+        }
+        .top-bar .wrap .right {
+            color: #999;
+            font-size: 12px;
+        }
+
+        .header {
+            padding: 14px 24px 8px 24px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            border-bottom: 3px solid #036;
+            background: #F8F6F2;
+        }
+        .header .logo h1 {
+            font-size: 30px;
+            font-weight: 700;
+            color: #036;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+            letter-spacing: 1px;
+        }
+        .header .logo h1 span {
+            color: #999;
+            font-size: 16px;
+            font-weight: 400;
+            margin-left: 14px;
+        }
+        .header .logo .sub {
+            font-size: 13px;
+            color: #999;
+            margin-top: 2px;
+            letter-spacing: 1px;
+        }
+        .header .search-box {
+            background: #FFF;
+            border: 1px solid #BBB;
+            padding: 4px 8px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 4px;
+            border-radius: 3px;
+        }
+        .header .search-box input {
+            border: none;
+            outline: none;
+            width: 220px;
+            height: 28px;
+            font-size: 14px;
+            font-family: Tahoma, "宋体", sans-serif;
+            color: #333;
+            background: transparent;
+            padding: 0 6px;
+        }
+        .header .search-box button {
+            border: 1px solid #AAA;
+            background: #E5E0D8;
+            color: #333;
+            padding: 2px 18px;
+            font-size: 14px;
+            cursor: pointer;
+            font-family: "微软雅黑", sans-serif;
+            height: 28px;
+            border-radius: 3px;
+        }
+        .header .search-box button:hover {
+            background: #D5D0C8;
+        }
+
+        .nav {
+            background: #036;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            height: 38px;
+        }
+        .nav a {
+            color: #FFF;
+            padding: 0 22px;
+            font-size: 15px;
+            font-weight: 600;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+            cursor: pointer;
+            height: 38px;
+            line-height: 38px;
+            display: inline-block;
+        }
+        .nav a:hover {
+            background: #048;
+            text-decoration: none;
+            color: #FFF;
+        }
+        .nav a.current {
+            background: #048;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+            padding: 14px 24px 20px 24px;
+            background: #E8E3DB;
+        }
+
+        .main {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .announce {
+            background: #FFFDE6;
+            border: 1px solid #E0D5B0;
+            padding: 8px 16px;
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 14px;
+            border-radius: 2px;
+        }
+        .announce strong {
+            color: #C00;
+        }
+
+        .board-content {
+            display: none;
+            background: #FFF;
+            border: 1px solid #D0CBC4;
+            border-radius: 2px;
+            margin-bottom: 12px;
+        }
+        .board-content.active {
+            display: block;
+        }
+        .board-content .hd {
+            background: #EEEAE4;
+            padding: 6px 16px;
+            border-bottom: 1px solid #D0CBC4;
+            font-weight: 700;
+            font-size: 15px;
+            color: #036;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+        }
+        .board-content .bd {
+            padding: 4px 16px 8px 16px;
+        }
+        .board-content .bd .item {
+            padding: 5px 0;
+            border-bottom: 1px solid #EFECE8;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+        .board-content .bd .item:last-child {
+            border-bottom: none;
+        }
+        .board-content .bd .item .title {
+            flex: 1;
+            min-width: 0;
+        }
+        .board-content .bd .item .title a {
+            color: #036;
+            font-size: 14px;
+        }
+        .board-content .bd .item .title a.clickable {
+            font-weight: 600;
+        }
+        .board-content .bd .item .title a.clickable:hover {
+            color: #F30;
+            text-decoration: underline;
+        }
+        .board-content .bd .item .title a:visited {
+            color: #800080;
+        }
+        .board-content .bd .item .sticky-label {
+            color: #C00;
+            font-weight: 700;
+            font-size: 12px;
+            margin-right: 4px;
+        }
+        .board-content .bd .item .meta {
+            color: #999;
+            font-size: 12px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .board-content .bd .item .meta .author {
+            color: #666;
+        }
+
+        .sidebar {
+            width: 260px;
+            flex-shrink: 0;
+        }
+        .sidebar .block {
+            background: #FFF;
+            border: 1px solid #D0CBC4;
+            margin-bottom: 12px;
+            border-radius: 2px;
+        }
+        .sidebar .block .hd {
+            background: #EEEAE4;
+            padding: 6px 14px;
+            border-bottom: 1px solid #D0CBC4;
+            font-weight: 700;
+            font-size: 14px;
+            color: #333;
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+        }
+        .sidebar .block .bd {
+            padding: 8px 14px 10px 14px;
+            font-size: 13px;
+            color: #555;
+        }
+        .sidebar .block .bd .item {
+            padding: 4px 0;
+            border-bottom: 1px solid #F0EDE8;
+            font-size: 13px;
+        }
+        .sidebar .block .bd .item:last-child {
+            border-bottom: none;
+        }
+        .sidebar .block .bd .tel {
+            font-family: "Courier New", monospace;
+            color: #036;
+            font-size: 13px;
+        }
+
+        .footer {
+            padding: 6px 24px 14px 24px;
+            border-top: 1px solid #CCC;
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+            line-height: 1.6;
+            background: #F8F6F2;
+        }
+        .footer a {
+            color: #666;
+        }
+        .footer .powered {
+            font-family: Tahoma, Arial, sans-serif;
+            font-size: 12px;
+        }
+        .footer .powered b {
+            color: #036;
+        }
+        #hiddenEasterEgg {
+            display: inline-block;
+            margin-left: 6px;
+            font-size: 12px;
+            color: #E8E3DB;
+            user-select: none;
+            transition: color 10s ease;
+        }
+
+        @media (max-width: 768px) {
+            .top-bar .wrap {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 4px;
+                font-size: 12px;
+            }
+            .top-bar {
+                padding: 4px 14px;
+            }
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+                padding: 12px 14px 8px 14px;
+            }
+            .header .search-box {
+                width: 100%;
+            }
+            .header .search-box input {
+                width: 100%;
+            }
+            .header .logo h1 {
+                font-size: 24px;
+            }
+            .header .logo h1 span {
+                font-size: 13px;
+                display: inline;
+            }
+            .nav {
+                padding: 0 10px;
+                overflow-x: auto;
+                white-space: nowrap;
+                height: 36px;
+            }
+            .nav a {
+                padding: 0 14px;
+                font-size: 14px;
+                height: 36px;
+                line-height: 36px;
+            }
+            .container {
+                flex-direction: column;
+                padding: 10px 12px 16px 12px;
+                gap: 12px;
+            }
+            .sidebar {
+                width: 100%;
+            }
+            .board-content .bd .item {
+                flex-wrap: wrap;
+                gap: 2px;
+                padding: 5px 0;
+            }
+            .board-content .bd .item .meta {
+                white-space: normal;
+                font-size: 11px;
+            }
+            .board-content .bd {
+                padding: 4px 12px 8px 12px;
+            }
+            .board-content .hd {
+                font-size: 14px;
+                padding: 5px 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header .logo h1 {
+                font-size: 20px;
+            }
+            .header .logo h1 span {
+                font-size: 12px;
+                display: block;
+                margin-left: 0;
+            }
+            .nav a {
+                padding: 0 10px;
+                font-size: 13px;
+            }
+            .container {
+                padding: 8px 6px 12px 6px;
+            }
+            .board-content .bd .item .title a {
+                font-size: 13px;
+            }
+            .footer {
+                padding: 4px 14px 10px 14px;
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== 顶部工具条 ===== -->
+    <div class="top-bar">
+        <div class="wrap">
+            <div class="left">
+                <a href="#">登录</a>
+                <a href="#">注册</a>
+                <a href="#">我的</a>
+                <a href="#">消息</a>
+                <span style="color:#CCC;margin:0 4px;">|</span>
+                <a href="#">收藏本站</a>
+            </div>
+            <div class="right">
+                <span>安溪生活圈 · 本地综合社区</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 头部 ===== -->
+    <div class="header">
+        <div class="logo">
+            <h1>安溪生活圈 <span>本地 · 便民 · 邻里</span></h1>
+            <div class="sub">—— 安溪人自己的网上家园 ——</div>
+        </div>
+        <div class="search-box" id="topSearchBox">
+            <input type="text" id="searchInput" placeholder="输入关键词搜索帖子、用户..." />
+            <button id="searchBtn">搜索</button>
+        </div>
+    </div>
+
+    <!-- ===== 导航栏 ===== -->
+    <div class="nav" id="navBar">
+        <a href="#" class="current" data-board="zatan">安溪杂谈</a>
+        <a href="#" data-board="minsheng">民生求助</a>
+        <a href="#" data-board="campus">校园交流</a>
+        <a href="#" data-board="oldcity">老城旧事</a>
+        <a href="#" data-board="ershou">二手闲置</a>
+        <a href="#" data-board="marry">婚嫁亲子</a>
+    </div>
+
+    <!-- ===== 主内容 ===== -->
+    <div class="container">
+
+        <div class="main">
+
+            <!-- 公告 -->
+            <div class="announce">
+                <strong>📢 通知：</strong> 安溪县2026年秋季小学招生方案已公布，详见教育局官网。高考志愿填报咨询服务正在进行中。
+            </div>
+
+            <!-- ========================================================= -->
+            <!-- 板块：安溪杂谈（18条，默认显示） -->
+            <!-- ========================================================= -->
+            <div class="board-content active" id="board-zatan">
+                <div class="hd">安溪杂谈</div>
+                <div class="bd">
+                    <div class="item"><span class="title"><a href="#">今晚安溪大桥附近停水通知（7月28日）</a></span><span class="meta"><span class="author">安溪自来水公司</span> · 5分钟前</span></div>
+                    <div class="item"><span class="title"><a href="#">安溪本地新茶上市，老巷茶庄有优惠</a></span><span class="meta"><span class="author">老巷茶庄</span> · 1小时前</span></div>
+                    <div class="item"><span class="title"><a href="#">求问：县城哪家修电动车靠谱？</a></span><span class="meta"><span class="author">追剧不吃零食</span> · 3小时前</span></div>
+                    <div class="item"><span class="title"><a href="#">昨天在菜市场门口捡到一串钥匙，失主认领</a></span><span class="meta"><span class="author">阳台晒太阳发呆</span> · 4小时前</span></div>
+                    <div class="item"><span class="title"><a href="#">安溪到泉州的班车现在一天几趟？</a></span><span class="meta"><span class="author">小区遛弯大爷</span> · 5小时前</span></div>
+                    <div class="item"><span class="title"><a href="#">老城区最近晚上总闻到一股酥油味</a></span><span class="meta"><span class="author">阴天懒得出门</span> · 昨天 23:10</span></div>
+                    <div class="item"><span class="title"><a href="#">安溪哪里可以摘荔枝？求推荐</a></span><span class="meta"><span class="author">加班摸鱼打工人</span> · 昨天 22:00</span></div>
+                    <div class="item"><span class="title"><a href="#">隔壁装修从早吵到晚，有什么投诉渠道吗？</a></span><span class="meta"><span class="author">菜市场闲逛选手</span> · 昨天 20:30</span></div>
+                    <div class="item"><span class="title"><a href="#">安溪电影院最近有什么好看的？</a></span><span class="meta"><span class="author">晚高峰挤地铁</span> · 昨天 19:15</span></div>
+                    <div class="item"><span class="title"><a href="#">老巷那家面馆搬哪去了？</a></span><span class="meta"><span class="author">超市囤货爱好者</span> · 昨天 18:00</span></div>
+                    <div class="item"><span class="title"><a href="#">今天37度，大家注意防暑</a></span><span class="meta"><span class="author">冰镇绿豆汤</span> · 昨天 12:00</span></div>
+                    <div class="item"><span class="title"><a href="#">安溪哪里有修鞋的地方？</a></span><span class="meta"><span class="author">公交靠窗乘客</span> · 前天 16:30</span></div>
+                    <div class="item"><span class="title"><a href="#">安溪哪里有卖土鸡的？要散养的</a></span><span class="meta"><span class="author">楼下便利店常客</span> · 前天 14:00</span></div>
+                    <div class="item"><span class="title"><a href="#">今天去菜市场，猪肉又涨了两块</a></span><span class="meta"><span class="author">课间偷偷刷手机</span> · 前天 11:20</span></div>
+                    <div class="item"><span class="title"><a href="#">安溪哪里有24小时药店？</a></span><span class="meta"><span class="author">外卖一级鉴赏师</span> · 3天前 22:40</span></div>
+                    <div class="item"><span class="title"><a href="#">求推荐安溪好吃的外卖</a></span><span class="meta"><span class="author">h38392</span> · 3天前 18:10</span></div>
+                    <div class="item"><span class="title"><a href="#">老城那家理发店还在开吗？</a></span><span class="meta"><span class="author">发呆专业户</span> · 3天前 15:30</span></div>
+                    <div class="item"><span class="title"><a href="#">楼下烧烤店油烟扰民，该找哪个部门？</a></span><span class="meta"><span class="author">奶茶重度依赖</span> · 4天前 21:00</span></div>
+                </div>
+            </div>
+
+            <!-- ========================================================= -->
+            <!-- 板块：民生求助（14条） -->
+            <!-- ========================================================= -->
+            <div class="board-content" id="board-minsheng">
+                <div class="hd">民生求助</div>
+                <div class="bd">
+                    <div class="item"><span class="title"><a href="#">安溪三中附近有没有便宜点的午托班？</a></span><span class="meta"><span class="author">晚风寄书信</span> · 昨天 22:10</span></div>
+                    <div class="item"><span class="title"><a href="#">求推荐靠谱的家电维修师傅，冰箱不制冷了</a></span><span class="meta"><span class="author">云朵打盹了</span> · 昨天 20:45</span></div>
+                    <div class="item"><span class="title"><a href="#">孩子高三成绩波动大，求过来人支支招</a></span><span class="meta"><span class="author">月色落窗台</span> · 昨天 18:20</span></div>
+                    <div class="item"><span class="title"><a href="#">安溪哪里可以办健康证？具体流程？</a></span><span class="meta"><span class="author">山野藏晚风</span> · 昨天 16:00</span></div>
+                    <div class="item"><span class="title"><a href="#">老城区水压太低，热水器打不着火</a></span><span class="meta"><span class="author">半杯温茶</span> · 昨天 14:30</span></div>
+                    <div class="item"><span class="title"><a href="#">楼上小孩天天跑跳，沟通无效怎么办？</a></span><span class="meta"><span class="author">雾里看星星</span> · 前天 21:00</span></div>
+                    <div class="item"><span class="title"><a href="#">路边停车被贴单了，哪里交罚款？</a></span><span class="meta"><span class="author">拾一束晚风</span> · 前天 19:40</span></div>
+                    <div class="item"><span class="title"><a href="#">安溪有没有靠谱的搬家公司？</a></span><span class="meta"><span class="author">枕着星光入眠</span> · 前天 17:20</span></div>
+                    <div class="item"><span class="title"><a href="#">求推荐看颈椎好的地方</a></span><span class="meta"><span class="author">山野听蝉鸣</span> · 3天前 15:10</span></div>
+                    <div class="item"><span class="title"><a href="#">安溪哪里有靠谱的宠物医院？</a></span><span class="meta"><span class="author">秋风吹落叶</span> · 3天前 12:00</span></div>
+                    <div class="item"><span class="title"><a href="#">幼儿园入园体检在哪里做？</a></span><span class="meta"><span class="author">静水渡孤舟</span> · 4天前 10:30</span></div>
+                    <div class="item"><span class="title"><a href="#">求推荐好用的拖把</a></span><span class="meta"><span class="author">qz3201</span> · 4天前 09:00</span></div>
+                    <div class="item"><span class="title"><a href="#">安溪哪里有配钥匙的地方？</a></span><span class="meta"><span class="author">落日吻海平面</span> · 5天前 17:50</span></div>
+                    <div class="item"><span class="title"><a href="#">老巷那家修鞋摊搬哪去了？</a></span><span class="meta"><span class="author">攒一兜温柔</span> · 5天前 16:20</span></div>
+                </div>
+            </div>
+
+            <!-- ========================================================= -->
+            <!-- 板块：校园交流（14条） -->
+            <!-- ========================================================= -->
+            <div class="board-content" id="board-campus">
+                <div class="hd">校园交流</div>
+                <div class="bd">
+                    <div class="item">
+                        <span class="title">
+                            <span class="sticky-label">[置顶]</span>
+                            <a href="page2.html" class="clickable">关于做好普通高等学校招生考试报名工作的通知</a>
+                        </span>
+                        <span class="meta"><span class="author">安溪县教育局</span> · 置顶</span>
+                    </div>
+                    <div class="item"><span class="title"><a href="#">安溪三中今年模考成绩出来了？</a></span><span class="meta"><span class="author">晚风渡星河</span> · 昨天 16:08</span></div>
+                    <div class="item">
+                        <span class="title">
+                            <span class="sticky-label">[求助]</span>
+                            <a href="page3.html" style="color:#900;font-weight:600;">寻人：安溪三中高三男生，模考完失联</a>
+                        </span>
+                        <span class="meta"><span class="author">xm1987</span> · 3天前</span>
+                    </div>
+                    <div class="item"><span class="title"><a href="#">高三7班有个男生最近一直没来上课</a></span><span class="meta"><span class="author">星星掉进梦里</span> · 3天前</span></div>
+                    <div class="item"><span class="title"><a href="#">学校门口那个书店是不是要关门了？</a></span><span class="meta"><span class="author">橘子味汽水</span> · 4天前</span></div>
+                    <div class="item"><span class="title"><a href="#">高考报名照片有什么具体要求？</a></span><span class="meta"><span class="author">放学绕远路</span> · 4天前</span></div>
+                    <div class="item"><span class="title"><a href="#">三中附近有没有便宜点的学生公寓？</a></span><span class="meta"><span class="author">作业本写满心事</span> · 5天前</span></div>
+                    <div class="item"><span class="title"><a href="#">高三晚自习到几点？有家长知道吗？</a></span><span class="meta"><span class="author">山顶等落日</span> · 5天前</span></div>
+                    <div class="item"><span class="title"><a href="#">孩子说班里最近气氛有点怪</a></span><span class="meta"><span class="author">lxj1024</span> · 6天前</span></div>
+                    <div class="item"><span class="title"><a href="#">安溪三中今年招生计划出来了吗？</a></span><span class="meta"><span class="author">耳机分一半</span> · 6天前</span></div>
+                    <div class="item"><span class="title"><a href="#">一中那边的文具店搬到哪了？</a></span><span class="meta"><span class="author">迷路于人海</span> · 1周前</span></div>
+                    <div class="item"><span class="title"><a href="#">安溪哪里有比较好的补习班？</a></span><span class="meta"><span class="author">操场吹晚风</span> · 1周前</span></div>
+                    <div class="item"><span class="title"><a href="#">三中门口的早餐店哪家好吃？</a></span><span class="meta"><span class="author">小卖部买冰棍</span> · 1周前</span></div>
+                    <div class="item"><span class="title"><a href="#">安溪有没有适合高中生看的书展？</a></span><span class="meta"><span class="author">早读课打瞌睡</span> · 10天前</span></div>
+                </div>
+            </div>
+
+            <!-- ========================================================= -->
+            <!-- 板块：老城旧事（16条） -->
+            <!-- ========================================================= -->
+            <div class="board-content" id="board-oldcity">
+                <div class="hd">老城旧事</div>
+                <div class="bd">
+                    <div class="item">
+                        <span class="title">
+                            <span class="sticky-label">[置顶]</span>
+                            <a href="page10.html" class="clickable">安溪县数字档案馆——历史档案查询入口</a>
+                        </span>
+                        <span class="meta"><span class="author">档案局</span> · 置顶</span>
+                    </div>
+                    <div class="item"><span class="title"><a href="#">安溪老照片征集：80年代的县城</a></span><span class="meta"><span class="author">一纸旧通知书</span> · 7天前</span></div>
+                    <div class="item"><span class="title"><a href="#">老巷街坊聊聊过去那些事</a></span><span class="meta"><span class="author">半生安稳度日</span> · 8天前</span></div>
+                    <div class="item"><span class="title"><a href="#">民国时期安溪老地图，有谁见过？</a></span><span class="meta"><span class="author">夏日考场回忆</span> · 9天前</span></div>
+                    <div class="item"><span class="title"><a href="#">安溪老城墙是什么时候拆的？</a></span><span class="meta"><span class="author">平淡度日老张</span> · 10天前</span></div>
+                    <div class="item"><span class="title"><a href="#">老巷以前有个戏台，有谁记得？</a></span><span class="meta"><span class="author">晚风忆少年</span> · 11天前</span></div>
+                    <div class="item"><span class="title"><a href="#">谁有90年代安溪的老照片？</a></span><span class="meta"><span class="author">老式二八自行车</span> · 12天前</span></div>
+                    <div class="item"><span class="title"><a href="#">安溪老电影院现在还在吗？</a></span><span class="meta"><span class="author">旧黑白相册</span> · 2周前</span></div>
+                    <div class="item"><span class="title"><a href="#">老巷以前有家打铁铺，有谁记得？</a></span><span class="meta"><span class="author">院子里种月季</span> · 2周前</span></div>
+                    <div class="item"><span class="title"><a href="#">安溪老街的骑楼是哪年建的？</a></span><span class="meta"><span class="author">一壶浓茶度日常</span> · 2周前</span></div>
+                    <div class="item"><span class="title"><a href="#">老城区那口古井还在不在？</a></span><span class="meta"><span class="author">旧收音机听众</span> · 2周前</span></div>
+                    <div class="item"><span class="title"><a href="#">安溪以前有座塔，谁知道叫什么？</a></span><span class="meta"><span class="author">清溪客</span> · 3周前</span></div>
+                    <div class="item"><span class="title"><a href="#">老巷的青石板路是哪年铺的？</a></span><span class="meta"><span class="author">过客</span> · 3周前</span></div>
+                    <div class="item"><span class="title"><a href="#">80年代安溪的集市在哪个位置？</a></span><span class="meta"><span class="author">老安溪</span> · 3周前</span></div>
+                    <div class="item"><span class="title"><a href="#">安溪老汽车站以前不在现在这个位置吧？</a></span><span class="meta"><span class="author">秋叶</span> · 3周前</span></div>
+                    <div class="item"><span class="title"><a href="#">老巷以前有家照相馆，有人记得吗？</a></span><span class="meta"><span class="author">清溪</span> · 4周前</span></div>
+                    <div class="item"><span class="title"><a href="#">安溪最早的超市是哪家？</a></span><span class="meta"><span class="author">老顾客</span> · 4周前</span></div>
+                </div>
+            </div>
+
+            <!-- ========================================================= -->
+            <!-- 板块：二手闲置（16条） -->
+            <!-- ========================================================= -->
+            <div class="board-content" id="board-ershou">
+                <div class="hd">二手闲置</div>
+                <div class="bd">
+                    <div class="item"><span class="title"><a href="#">出一台九成新电动车</a></span><span class="meta"><span class="author">晚风骑行客</span> · 2天前</span></div>
+                    <div class="item"><span class="title"><a href="#">搬家出家具：沙发、茶几、衣柜</a></span><span class="meta"><span class="author">熬夜看球赛</span> · 4天前</span></div>
+                    <div class="item"><span class="title"><a href="#">老物件：铜灯一盏</a></span><span class="meta"><span class="author">徒步背包客</span> · 6天前</span></div>
+                    <div class="item"><span class="title"><a href="#">婴儿推车闲置，低价出</a></span><span class="meta"><span class="author">晚风过境</span> · 1周前</span></div>
+                    <div class="item"><span class="title"><a href="#">九成新婴儿床出售</a></span><span class="meta"><span class="author">街角便利店</span> · 1周前</span></div>
+                    <div class="item"><span class="title"><a href="#">搬家出冰箱洗衣机</a></span><span class="meta"><span class="author">独行看日落</span> · 10天前</span></div>
+                    <div class="item"><span class="title"><a href="#">出一台二手跑步机</a></span><span class="meta"><span class="author">篮球场常客</span> · 2周前</span></div>
+                    <div class="item"><span class="title"><a href="#">二手书桌一张，自提</a></span><span class="meta"><span class="author">自驾走长路</span> · 2周前</span></div>
+                    <div class="item"><span class="title"><a href="#">儿童自行车出售</a></span><span class="meta"><span class="author">车库听老歌</span> · 2周前</span></div>
+                    <div class="item"><span class="title"><a href="#">二手微波炉，功能正常</a></span><span class="meta"><span class="author">码头等轮渡</span> · 3周前</span></div>
+                    <div class="item"><span class="title"><a href="#">出一台电磁炉，九成新</a></span><span class="meta"><span class="author">理科笔记草稿</span> · 3周前</span></div>
+                    <div class="item"><span class="title"><a href="#">二手衣柜一个，自提</a></span><span class="meta"><span class="author">凌晨慢跑者</span> · 3周前</span></div>
+                    <div class="item"><span class="title"><a href="#">出一台二手电饭煲</a></span><span class="meta"><span class="author">瓶装冰可乐</span> · 4周前</span></div>
+                    <div class="item"><span class="title"><a href="#">婴儿摇椅闲置，低价出</a></span><span class="meta"><span class="author">anxi_2019</span> · 4周前</span></div>
+                    <div class="item"><span class="title"><a href="#">二手电风扇两台</a></span><span class="meta"><span class="author">linlin_99</span> · 4周前</span></div>
+                    <div class="item"><span class="title"><a href="#">出一套全新茶具</a></span><span class="meta"><span class="author">hello_anxi</span> · 4周前</span></div>
+                </div>
+            </div>
+
+            <!-- ========================================================= -->
+            <!-- 板块：婚嫁亲子（14条） -->
+            <!-- ========================================================= -->
+            <div class="board-content" id="board-marry">
+                <div class="hd">婚嫁亲子</div>
+                <div class="bd">
+                    <div class="item"><span class="title"><a href="#">安溪本地婚庆公司推荐？</a></span><span class="meta"><span class="author">心事压满纸张</span> · 3天前</span></div>
+                    <div class="item"><span class="title"><a href="#">宝宝辅食怎么添加？求宝妈群</a></span><span class="meta"><span class="author">路灯下独行</span> · 5天前</span></div>
+                    <div class="item"><span class="title"><a href="#">有没有周末亲子游的好去处？</a></span><span class="meta"><span class="author">无人回应留言</span> · 1周前</span></div>
+                    <div class="item"><span class="title"><a href="#">孩子满月酒安溪哪家酒店划算？</a></span><span class="meta"><span class="author">深夜未眠过客</span> · 2周前</span></div>
+                    <div class="item"><span class="title"><a href="#">安溪哪里有拍全家福的照相馆？</a></span><span class="meta"><span class="author">故事止于盛夏</span> · 2周前</span></div>
+                    <div class="item"><span class="title"><a href="#">孩子周岁照哪家拍得好？</a></span><span class="meta"><span class="author">慢慢熄灭灯火</span> · 2周前</span></div>
+                    <div class="item"><span class="title"><a href="#">安溪哪里有好的儿童摄影？</a></span><span class="meta"><span class="author">fj2020</span> · 3周前</span></div>
+                    <div class="item"><span class="title"><a href="#">安溪本地婚车租赁哪家便宜？</a></span><span class="meta"><span class="author">凌晨三点失眠</span> · 3周前</span></div>
+                    <div class="item"><span class="title"><a href="#">安溪哪里有月子中心？</a></span><span class="meta"><span class="author">旧信无人拆封</span> · 3周前</span></div>
+                    <div class="item"><span class="title"><a href="#">孩子上幼儿园要准备什么材料？</a></span><span class="meta"><span class="author">归途只剩自己</span> · 3周前</span></div>
+                    <div class="item"><span class="title"><a href="#">安溪哪家医院妇产科比较好？</a></span><span class="meta"><span class="author">热闹局外人</span> · 4周前</span></div>
+                    <div class="item"><span class="title"><a href="#">有没有宝妈一起拼单买尿不湿？</a></span><span class="meta"><span class="author">花期无人等候</span> · 4周前</span></div>
+                    <div class="item"><span class="title"><a href="#">安溪哪里可以买儿童绘本？</a></span><span class="meta"><span class="author">xiao_ming</span> · 4周前</span></div>
+                    <div class="item"><span class="title"><a href="#">安溪本地有没有亲子游泳班？</a></span><span class="meta"><span class="author">檐下听雨眠</span> · 4周前</span></div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ===== 侧边栏 ===== -->
+        <div class="sidebar">
+            <div class="block">
+                <div class="hd">热门板块</div>
+                <div class="bd">
+                    <div class="item"><a href="#" data-board="zatan">安溪杂谈</a> (1492)</div>
+                    <div class="item"><a href="#" data-board="minsheng">民生求助</a> (823)</div>
+                    <div class="item"><a href="#" data-board="campus"><strong>校园交流</strong></a> (654)</div>
+                    <div class="item"><a href="#" data-board="oldcity">老城旧事</a> (312)</div>
+                    <div class="item"><a href="#" data-board="ershou">二手闲置</a> (278)</div>
+                </div>
+            </div>
+            <div class="block">
+                <div class="hd">本地便民</div>
+                <div class="bd">
+                    <div class="item">· 安溪县教育局 <span class="tel">0595-2322-9876</span></div>
+                    <div class="item">· 安溪三中教务处 <span class="tel">0595-2325-5432</span></div>
+                    <div class="item">· 老巷社区服务中心</div>
+                </div>
+            </div>
+            <div class="block">
+                <div class="hd">推荐</div>
+                <div class="bd" style="color:#999; text-align:center; padding:14px 0; font-size:14px;">
+                    [ 本地家政服务 ]<br />
+                    [ 安溪铁观音春茶上市 ]
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 底部 ===== -->
+    <div class="footer">
+        <div class="powered">Powered by <b>Discuz!</b> X3.2 · 安溪生活圈</div>
+        <div style="font-size:11px; color:#BBB; margin-top:2px;">2008-2026 安溪生活圈 版权所有 闽ICP备20080123号</div>
+    </div>
+
+    <script>
+        // =============================================================
+        // 导航切换
+        // =============================================================
+        var navLinks = document.querySelectorAll('.nav a[data-board]');
+        var boardContents = document.querySelectorAll('.board-content');
+
+        function switchBoard(boardId) {
+            boardContents.forEach(function(el) {
+                el.classList.remove('active');
+            });
+            var target = document.getElementById('board-' + boardId);
+            if (target) target.classList.add('active');
+            navLinks.forEach(function(link) {
+                link.classList.remove('current');
+                if (link.dataset.board === boardId) link.classList.add('current');
+            });
+        }
+
+        navLinks.forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                switchBoard(this.dataset.board);
+            });
+        });
+
+        document.querySelectorAll('.sidebar .block .bd .item a[data-board]').forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                switchBoard(this.dataset.board);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+
+        // =============================================================
+        // 搜索框跳转逻辑
+        // =============================================================
+        var searchInput = document.getElementById('searchInput');
+        var searchBtn = document.getElementById('searchBtn');
+
+        function doSearch() {
+            var q = searchInput.value.trim();
+            if (!q) {
+                alert('请输入搜索关键词');
+                return;
+            }
+
+            var lowerQ = q.toLowerCase();
+
+            if (lowerQ === '李娟') {
+                window.location.href = 'page_lijuan.html';
+                return;
+            }
+
+            if (lowerQ === '张建军' || lowerQ === '张') {
+                window.location.href = 'page_zhang.html';
+                return;
+            }
+
+            if (lowerQ === '林野') {
+                window.location.href = 'page_linye.html';
+                return;
+            }
+
+            if (lowerQ === '老巷' || lowerQ === '陈记') {
+                window.location.href = 'page_laoxiang.html';
+                return;
+            }
+
+            alert('未找到相关结果');
+        }
+
+        searchBtn.addEventListener('click', doSearch);
+        searchInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                doSearch();
+            }
+        });
+
+        console.log('✦ 安溪生活圈 · 首页加载完毕 ✦');
+        console.log('提示：试试搜索"李娟"、"张建军"、"林野"或"老巷"');
+        console.log('可点击的帖子：高考报名→page2、寻人→page3、档案馆→page10');
+    </script>
+
+</body>
+</html>
